@@ -25,7 +25,7 @@ const server=http.createServer((req,res)=>{const file=path.join(base,decodeURICo
   }
   // Arraste na metade direita livre da interface realmente gira a câmera.
   const yaw=(await read()).camera.yaw;await page.mouse.move(1000,230);await page.mouse.down();await page.mouse.move(1100,240,{steps:4});await page.mouse.up();assert.ok(Math.abs((await read()).camera.yaw-yaw)>.1);
-  await page.locator('#pup-pad').click();await page.setViewportSize({width:600,height:900});await page.waitForTimeout(200);assert.equal(await page.locator('#rotate').isVisible(),true);
+  await page.locator('#pup-pad').click();await page.setViewportSize({width:600,height:900});await page.locator('#rotate').waitFor({state:'visible',timeout:15000});assert.equal(await page.locator('#rotate').isVisible(),true);
   assert.deepEqual(errors,[]);console.log('WebGL real: oito filhotes, malhas 3D, quatro áreas, analógico, veículo, turbo, câmera orbital, teleporte e paisagem aprovados.');
  }finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});
