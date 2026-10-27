@@ -269,6 +269,36 @@
       "id": "Zuma_pair",
       "speaker": "Zuma",
       "text": "Olhe os animais. Se forem diferentes, podemos tentar outras boias."
+    },
+    {
+      "id": "Rocky_repair",
+      "speaker": "Rocky",
+      "text": "Vamos reutilizar! Arraste a roda até o carrinho para consertar o brinquedo."
+    },
+    {
+      "id": "Rubble_count",
+      "speaker": "Rubble",
+      "text": "Agora vamos contar cinco pedrinhas. Toque no número um para começar."
+    },
+    {
+      "id": "Rubble_stone2",
+      "speaker": "Rubble",
+      "text": "Agora toque na pedrinha número 2."
+    },
+    {
+      "id": "Rubble_stone3",
+      "speaker": "Rubble",
+      "text": "Agora toque na pedrinha número 3."
+    },
+    {
+      "id": "Rubble_stone4",
+      "speaker": "Rubble",
+      "text": "Agora toque na pedrinha número 4."
+    },
+    {
+      "id": "Rubble_stone5",
+      "speaker": "Rubble",
+      "text": "Agora toque na pedrinha número 5."
     }
   ]
 }

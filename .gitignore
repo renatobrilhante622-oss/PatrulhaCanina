@@ -13,3 +13,10 @@
 __pycache__/
 
 build/
+.gradle/
+local.properties
+app/build/
+.android-sdk/
+
+node_modules/
+!Tools/debug.keystore

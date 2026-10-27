@@ -1,3 +1,5 @@
+> LEGADO: a arquitetura atual é Android Gradle + Canvas/WebView. Este guia descreve a versão Unity preservada; não é necessário Unity nem licença para compilar o app atual. Consulte GUIA_ANDROID.md.
+
 # PatrulhaCanina — construção automática
 
 O repositório é um projeto Unity 2022.3.62f1. Os arquivos de Packages e ProjectSettings, a cena MainGame, sete perfis PupData, sprites procedurais e **54 WAVs de fala sintética PT-BR** já estão salvos. Não é necessário montar Canvas, arrastar referências, criar personagens ou desenhar cenários.

@@ -1,0 +1,4 @@
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none; }
+html,body { margin:0; width:100%; height:100%; overflow:hidden; background:#91cfe7; font-family:Arial,sans-serif; touch-action:none; }
+canvas { display:block; width:100%; height:100%; touch-action:none; }
+#caption { position:fixed; left:10%; bottom:max(2%,env(safe-area-inset-bottom)); width:80%; padding:.45em 1em; border-radius:20px; background:rgba(255,255,255,.95); color:#183449; font-size:clamp(14px,2.5vw,28px); text-align:center; pointer-events:none; border-left:10px solid #306db0; }

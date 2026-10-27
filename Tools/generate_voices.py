@@ -40,6 +40,9 @@ def catalog():
  for vowel in 'AEIOU': add('Skye_'+vowel, 'Skye', f'Toque na vogal {vowel}.')
  add('Rubble_next', 'Rubble', 'Agora escolha o maior bloco que ainda está no chão.')
  add('Zuma_pair', 'Zuma', 'Olhe os animais. Se forem diferentes, podemos tentar outras boias.')
+ add('Rocky_repair', 'Rocky', 'Vamos reutilizar! Arraste a roda até o carrinho para consertar o brinquedo.')
+ add('Rubble_count', 'Rubble', 'Agora vamos contar cinco pedrinhas. Toque no número um para começar.')
+ for n in range(2,6): add(f'Rubble_stone{n}', 'Rubble', f'Agora toque na pedrinha número {n}.')
  return entries
 
 def main():
