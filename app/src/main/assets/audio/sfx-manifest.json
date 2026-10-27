@@ -2,51 +2,51 @@
   "bark": {
     "file": "sfx_bark.mp3",
     "source": "original procedural synthesis",
-    "sha256": "14eeb4220a409aa4c39fe6d9bf095c3f964e9385a459af5c975fe1868797ef9e"
+    "sha256": "87ba05878d8df3a586d1cc622ea1bbeb4c9b1b19926482b275a57ffa03db1183"
   },
   "siren": {
     "file": "sfx_siren.mp3",
     "source": "original procedural synthesis",
-    "sha256": "ac15a13cab4998cbb073e4e92096c18bd6a0d4a5b46460e4f1f31d09458334ac"
+    "sha256": "163d800f0306d4faafd621458831bf839e7876c45d5e8b8792fde75f8097cdf7"
   },
   "engine": {
     "file": "sfx_engine.mp3",
     "source": "original procedural synthesis",
-    "sha256": "989b347eeaa7687978a313a303d35b9366bc681622acb2631ea7be0909ef5c42"
+    "sha256": "1e4029f2663909d8b019c116492d78c87b7129a1fd24c47cffc4cc1857233793"
   },
   "whistle": {
     "file": "sfx_whistle.mp3",
     "source": "original procedural synthesis",
-    "sha256": "df818ee941573ed256eafa2eaa34a524c098956ac376a3e695886366941afb95"
+    "sha256": "fffdbb4e0287b1915fded3dd5aadbe4719f58a178c1aee743b18b5c3c08d1919"
   },
   "kick": {
     "file": "sfx_kick.mp3",
     "source": "original procedural synthesis",
-    "sha256": "767183f79f41d94ed0760bef733e75d62df3e65408535b468ce93721025c4740"
+    "sha256": "81d3e009ccd2ca8ccbb9ee12e312da2cb7a8864a9bc5078891929179729b48dd"
   },
   "crowd": {
     "file": "sfx_crowd.mp3",
     "source": "original procedural synthesis",
-    "sha256": "c38ee18f50c2d6711c4e52d185269cf64243523aa9deb9734fe3df79d0f2a0fc"
+    "sha256": "b419a0d5b6f930f22270b46e121591082cc394581b221da78df6f2093456f269"
   },
   "water": {
     "file": "sfx_water.mp3",
     "source": "original procedural synthesis",
-    "sha256": "168958ce9ef0357216a0c60118d16b98ffeca367089fadeea1771b112233cb9a"
+    "sha256": "c2aacc4b56f2c82a49b0dd0722d5f6c701f9eab1342314c64dc2d796cad51015"
   },
   "collect": {
     "file": "sfx_collect.mp3",
     "source": "original procedural synthesis",
-    "sha256": "4e022be2954f16ec34ca012d68822a6d72f8d516dea01e857f7876e137845ddd"
+    "sha256": "6d6397bcc441adcc27bc6200c01f8c44be488e3f8798ad5740c23d9c7c9950c5"
   },
   "jump": {
     "file": "sfx_jump.mp3",
     "source": "original procedural synthesis",
-    "sha256": "cc445c14197ee53e87623cd368b87aa7b545704ad495521d22ddfe4007035491"
+    "sha256": "1baccc9262cc4a4ff5b8eeffb60d8066ab6bde8a8d718fcfe13e17c29ed2e0f5"
   },
   "music": {
     "file": "sfx_music.mp3",
     "source": "original procedural synthesis",
-    "sha256": "648c3d94288528a6c5d0f80653bb77677b196bd94463ffd2d08c8995ddfc0469"
+    "sha256": "68f0928bda44cc12a95f9d8b95e6c5c0acc5a26f32f6c697e9b02e8ac60413cd"
   }
 }
