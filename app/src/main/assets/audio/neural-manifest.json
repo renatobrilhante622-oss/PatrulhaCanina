@@ -12,13 +12,13 @@
     },
     "Ryder_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-AntonioNeural",
       "requestedVoice": "pt-BR-AntonioNeural",
       "pitch": "+15Hz",
       "rate": "+5%",
-      "textSha256": "1f74bb35f9b77b464f78c3883ec08e29af87fece706e273db8282f20b97b1e6c",
-      "sha256": "2c457ee2b68a4b08e7a10f6fac61ed686b9e313d9e0098dd4a063f425edf5f19",
-      "processing": "gentle-character-v1"
+      "textSha256": "b3cc647e598c9051fcccc5e15a228d5da34e5d8fc0853d5205f7c7fa7e601392",
+      "sha256": "f95ddd6e1fab918cb7ab4370dc394ddf5c6ef3dfeb2e60ffbc1bc24b1fcc8d1e"
     },
     "Ryder_call": {
       "source": "Microsoft Edge neural TTS",
@@ -92,13 +92,13 @@
     },
     "Chase_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-AntonioNeural",
       "requestedVoice": "pt-BR-FabioNeural",
       "pitch": "+20Hz",
       "rate": "+8%",
-      "textSha256": "9a0edef8caf7d28770e435bec40b19f768ccc4c5f0eea83948272401f7fde25a",
-      "sha256": "f0850945a2b321481f38341ba48f74cb5c1c59c6f289a61b2331582f2bdf0cee",
-      "processing": "gentle-character-v1"
+      "textSha256": "3e3dfe089b76f962de1d270ffd3299c51647f3f588be012738a78b115a68e867",
+      "sha256": "df7ece213b8db585d5b547d06b716cf6231717a550b9af07b315892773cda8cf"
     },
     "Chase_motto": {
       "source": "Microsoft Edge neural TTS",
@@ -202,13 +202,13 @@
     },
     "Marshall_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-AntonioNeural",
       "requestedVoice": "pt-BR-JulioNeural",
       "pitch": "+25Hz",
       "rate": "+5%",
-      "textSha256": "527a8aec6a85870ebd24cfdc9c230f4b15f3f5d8db20f0e0efae9b8ca9f52fd1",
-      "sha256": "8fbf891148fac8eb7dc2328a219a9de6ceaba06f2e7c3a1e31433699c46831ba",
-      "processing": "gentle-character-v1"
+      "textSha256": "182943eeadd17b6edf4434d5d8cb075494e346b8c598a1355e8a303552993c9a",
+      "sha256": "b0124a27b6b4c12e7b347161640a714b4cbb5c320ec0d2c7b0d952813a60aa3a"
     },
     "Marshall_vehicle": {
       "source": "Microsoft Edge neural TTS",
@@ -262,13 +262,13 @@
     },
     "Skye_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-FranciscaNeural",
       "requestedVoice": "pt-BR-FranciscaNeural",
       "pitch": "+30Hz",
       "rate": "+8%",
-      "textSha256": "40a66780c4b7c03b93105a19467d97d738943156b9e40f0f1cdab54c2e7905b2",
-      "sha256": "2083d927076586ea5c35247b089c01d0cb73ee11e522a57409caf576a56d013f",
-      "processing": "gentle-character-v1"
+      "textSha256": "d6374c5e14047d1074ad2dc830f0b98e47fcb9b0186ccc76d29bfb00729e39a3",
+      "sha256": "1fbb4691e6d25a0728a71b2b2f2cdefd8e0a9b1cd1e9a3d1b8a6177dac4ed273"
     },
     "Skye_praise": {
       "source": "Microsoft Edge neural TTS",
@@ -342,13 +342,13 @@
     },
     "Rocky_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-AntonioNeural",
       "requestedVoice": "pt-BR-RodrigoNeural",
       "pitch": "+22Hz",
       "rate": "+6%",
-      "textSha256": "9553324629b4df1f3f68fc3e2ad10d90cbe47ddf13537c6402f8a1f8822d4af5",
-      "sha256": "031c50c09b84f4e3cc9451fbcdcea044b5d5ea0d60b0f5ba406401d17aabdc5c",
-      "processing": "gentle-character-v1"
+      "textSha256": "354ccfa55dff6a958dacb0d9081b1e7296482f845d11978dbd241eb9088c6d26",
+      "sha256": "58b250500af7af9d5120107d4a1fd2c35b3123b90ebb6f55ba64f28258be8d09"
     },
     "Rocky_praise": {
       "source": "Microsoft Edge neural TTS",
@@ -432,13 +432,13 @@
     },
     "Rubble_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-AntonioNeural",
       "requestedVoice": "pt-BR-HumbertoNeural",
       "pitch": "+18Hz",
       "rate": "+4%",
-      "textSha256": "de4e487c99236b58e640c4e706e447f49a02305c3fb4f8d668eb93ac9a7a184f",
-      "sha256": "3ee3c88579b256dbee37a84ac0b87ba9ff30cd50087fecda9809064c0fadac18",
-      "processing": "gentle-character-v1"
+      "textSha256": "5d6acba8c8e8f7f631fa0a8bff961ee6ef4a55e0272d57070c7e3bccbffc4603",
+      "sha256": "199358f293fafa65568991b164aaec341cb5fc8a1d6bb8c4da6a902b934c8708"
     },
     "Rubble_hint": {
       "source": "Microsoft Edge neural TTS",
@@ -502,13 +502,13 @@
     },
     "Zuma_instruction": {
       "source": "Microsoft Edge neural TTS",
+      "processing": "gentle-character-v1",
       "voice": "pt-BR-ThalitaMultilingualNeural",
       "requestedVoice": "pt-BR-ThalitaNeural",
       "pitch": "+15Hz",
       "rate": "+6%",
-      "textSha256": "4edea0b228fbc53ba0d53ce4a04999c6b1453e75780cf799d43138ce72142d3e",
-      "sha256": "8f676c6d7c26282076a40ed6bbbe0899f47699ec181f5644fe94c54be76964ea",
-      "processing": "gentle-character-v1"
+      "textSha256": "1808f022eb95bf4f01f11b1af055c014e3a64db8c0f2c81d4c7a3bc83922c842",
+      "sha256": "6d2cc6530a476238e93872adbc5152935d5f8a016c3b4fb5f4e086f168f22795"
     },
     "Zuma_praise": {
       "source": "Microsoft Edge neural TTS",
