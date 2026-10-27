@@ -8,6 +8,7 @@ for(const def of MISSIONS){
  while(c.phase==='play'&&guard++<60){const target=c.target(),before=c.index;assert.ok(target);
   if(def.id===1&&before===0){const wrong=w.objects.find(o=>o.mission===1&&o.stepIndex===9);w.player.x=wrong.x;w.player.z=wrong.z;w.time++;w.action();assert.equal(c.index,0,'Erro numérico não avança');}
   if(target.mode==='goal'){
+   w.player.x=0;w.player.z=0;const route=c.route();assert.equal(route.at(-1).x,w.ball.x);assert.equal(route.at(-1).z,w.ball.z,'Guia leva à bola antes da trave');
    const wrong=target.end==='north'?'south':'north';w.emit('goal',{number:1,end:wrong});assert.equal(c.index,before,'Gol na cor errada continua sem penalidade');
    w.player.x=0;w.goalCooldown=0;Object.assign(w.ball,{x:35,y:1,z:target.end==='north'?92.05:157.95,vx:0,vz:target.end==='north'?-6:6});w.update(.04);
   }else{

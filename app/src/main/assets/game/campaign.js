@@ -57,10 +57,10 @@ class Campaign{
  onWorldEvent(kind,data){if(!this.active||this.phase!=='play')return;if(kind==='goal'&&this.target()?.mode==='goal'){
  if(data.end===this.target().end)this.completeStep();else this.hint();}}
  update(dt){if(!this.active)return;if(this.phase==='departure'){this.elapsed+=dt;this.world.player.z+=dt*3;this.world.player.vz=3;
- if(this.elapsed>=2.5){this.phase='play';this.world.emit('voice',{id:this.instructionID()});this.world.emit('campaignUI');}return;}
+ if(this.elapsed>=2.5){this.phase='play';if(this.mission.id===11)this.world.emit('voice',{id:'Ryder_football'});this.world.emit('voice',{id:this.instructionID()});this.world.emit('campaignUI');}return;}
  const target=this.target();if(!target)return;const p=this.world.player;
  if(distance(target,p)<2.8&&this.validPup(target)&&((target.mode==='walk')||(target.mode==='drive'&&p.vehicle)||(target.mode==='fly'&&p.vehicle&&p.y>7)))this.completeStep();}
- route(){const target=this.target();if(!target)return [];const start=this.world.player;if(start.vehicle&&start.pup===3)return [{x:target.x,z:target.z}];const points=[];let a={x:start.x,z:start.z};const used=new Set();
+ route(){let target=this.target();if(!target)return [];const start=this.world.player;if(target.mode==='goal'&&distance(start,this.world.ball)>4.5)target=this.world.ball;if(start.vehicle&&start.pup===3)return [{x:target.x,z:target.z}];const points=[];let a={x:start.x,z:start.z};const used=new Set();
  for(let i=0;i<6;i++){const dx=target.x-a.x,dz=target.z-a.z,length=dx*dx+dz*dz;if(length<1)break;const obstacle=this.world.obstacles.find(o=>{if(used.has(o))return false;const t=((o.x-a.x)*dx+(o.z-a.z)*dz)/length;if(t<.02||t>.95)return false;return Math.hypot(a.x+dx*t-o.x,a.z+dz*t-o.z)<o.r+2;});if(!obstacle)break;used.add(obstacle);const l=Math.sqrt(length),r=obstacle.r+4;const candidates=[1,-1].map(side=>({x:obstacle.x-dz/l*r*side,z:obstacle.z+dx/l*r*side}));candidates.sort((p,q)=>(distance(a,p)+distance(p,target))-(distance(a,q)+distance(q,target)));a=candidates[0];points.push(a);}
  points.push({x:target.x,z:target.z});return points;}
  inspect(){return {active:this.active,phase:this.phase,id:this.mission?.id||null,index:this.index,carry:this.carry,target:this.target()?{...this.target()}:null};}
