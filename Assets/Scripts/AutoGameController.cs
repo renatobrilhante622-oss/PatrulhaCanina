@@ -73,7 +73,7 @@ namespace PatrulhaCanina
                 AudioListener.volume=AudioListener.volume>0?0:1;
                 soundButton.GetComponentInChildren<Text>().text=AudioListener.volume>0?"Som ligado":"Som desligado";
             });
-            content = U.Rect(screen,"Objetos da brincadeira",Vector2.zero,new Vector2(1920,1080));
+            content = U.Rect(screen,"Objetos da brincadeira",new Vector2(960,540),new Vector2(1920,1080));
             U.Art(screen,"round",new Vector2(960,100),new Vector2(1760,150),new Color(1,1,1,.95f));
             captionIcon = U.Art(screen,"star",new Vector2(155,100),Vector2.one*65,Theme);
             caption = U.Label(screen,"Vamos brincar com calma!",new Vector2(1010,100),new Vector2(1480,130),36);
