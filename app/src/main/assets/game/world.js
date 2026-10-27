@@ -15,6 +15,8 @@ class World{
   ['monkey','toucan','frog'].forEach((animal,i)=>add('animal',-150+i*24,-123,{pup:7,animal,order:i}));
   for(let i=0;i<8;i++)add('race',120+Math.sin(i*Math.PI/4)*36,-85+Math.cos(i*Math.PI/4)*27,{order:i,shape:['circle','square','triangle','star'][i%4]});
   for(let i=0;i<5;i++)add('boost',120+Math.sin(i*1.25)*36,-85+Math.cos(i*1.25)*27);
+  for(let i=0;i<4;i++)add('hydrant',-30+i*20,-25,{pup:2});
+  add('airRescue',20,-17,{pup:3});
   for(let i=0;i<5;i++)add('fire',-22+i*11,-35,{pup:2,order:i,number:i+1});
   ['papel','plastico','metal','vidro'].forEach((material,i)=>{add('waste',-25+i*8,18,{pup:4,material});add('bin',-24+i*8,32,{pup:4,material});});
   ['A','E','I','O','U'].forEach((letter,i)=>add('air',19+i*6,11,{pup:3,letter,order:i}));
@@ -35,6 +37,8 @@ class World{
   this.emit('tool',{pup:p.pup});
   const nearby=this.objects.filter(o=>!o.done&&dist(p,o)<5.5&&(o.pup===p.pup||o.type==='animal')).sort((a,b)=>dist(p,a)-dist(p,b));
   const o=nearby[0];if(!o){this.emit('voice',{id:this.instruction()});return;}
+  if(o.type==='hydrant'){this.emit('water',{x:o.x,z:o.z});this.emit('voice',{id:'Marshall_praise'});return;}
+  if(o.type==='airRescue'){if(!p.vehicle||p.y<6){this.emit('voice',{id:'Skye_vehicle'});return;}this.finish(o,'Skye_praise');return;}
   if(o.type==='fire'){
    this.emit('water',{x:o.x,z:o.z});if(o!==this.next('fire')){this.emit('voice',{id:'Marshall_hint'});return;}
    this.finish(o,'Marshall_step'+o.number);
@@ -60,7 +64,7 @@ class World{
   const flying=p.vehicle&&p.pup===3;
   const blocked=(x,z)=>!flying&&p.y<2&&this.obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.r+1.1);
   if(!blocked(nx,p.z))p.x=nx;if(!blocked(p.x,nz))p.z=nz;
-  p.ground=this.groundHeight(p.x,p.z);if(flying){p.y+=(4-p.y)*Math.min(1,dt*4);p.vy=0;}else{p.vy-=18*dt;p.y+=p.vy*dt;if(p.y<p.ground){p.y=p.ground;p.vy=0;}}
+  p.ground=this.groundHeight(p.x,p.z);if(flying){p.y+=(10-p.y)*Math.min(1,dt*4);p.vy=0;}else{p.vy-=18*dt;p.y+=p.vy*dt;if(p.y<p.ground){p.y=p.ground;p.vy=0;}}
   for(const o of this.objects){
    if(o.done)continue;
    if(['bone','race','cookie'].includes(o.type)&&dist(p,o)<2.5){

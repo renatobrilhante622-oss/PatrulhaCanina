@@ -91,6 +91,8 @@ for(let i=0;i<positions.count;i++){const face=Math.floor(i/3),color=new T.Color(
 ballGeometry.setAttribute('color',new T.Float32BufferAttribute(faceColors,3));const football=new T.Mesh(ballGeometry,new T.MeshStandardMaterial({vertexColors:true,roughness:.75}));football.castShadow=true;football.receiveShadow=true;scene.add(football);
 function makeObject(o){let g=new T.Group();
  if(o.type==='bone'){g.add(M.bone());const n=textSprite(String(o.number),'#755532',.6);n.position.y=1.1;g.add(n);}
+ if(o.type==='hydrant'){M.tube(g,0xc95f55,0,.8,0,.32,1.6);M.ball(g,0xd77562,0,1.6,0,.4,.25,.4);for(const side of [-1,1]){const cap=M.tube(g,0xb8cbc7,side*.4,1,0,.2,.5);cap.rotation.z=Math.PI/2;}}
+ if(o.type==='airRescue'){M.ball(g,0xd6af75,0,10.4,0,.55,.35,.45);M.ball(g,0xe5c392,0,10.8,.3,.33);for(const side of [-1,1]){M.mesh(new T.ConeGeometry(.15,.3,3),0xd7ad77,g,side*.2,11.1,.3);M.ball(g,0x3b504b,side*.13,10.86,.59,.04);}}
  if(o.type==='animal')g.add(M.animal(o.animal));
  if(o.type==='race')g.add(M.shapeMesh(o.shape,0xf0ce72));
  if(o.type==='boost'){const m=M.block(g,0x78cfd0,0,0,0,3,.12,3);m.material=new T.MeshStandardMaterial({color:0x62c7cd,emissive:0x23676e,emissiveIntensity:.6});}

@@ -7,6 +7,7 @@ w.switchPup(2);let wrong=w.objects.find(o=>o.type==='fire'&&o.number===5);w.play
 while(w.next('fire')){const o=w.next('fire');w.player.x=o.x;w.player.z=o.z;w.time++;w.action();}assert.equal(w.objects.filter(o=>o.type==='fire'&&o.done).length,5);
 w.switchPup(4);for(const waste of w.objects.filter(o=>o.type==='waste')){w.player.x=waste.x;w.player.z=waste.z;w.time++;w.action();assert.equal(w.carry,waste.material);const bin=w.objects.find(o=>o.type==='bin'&&o.material===waste.material);w.player.x=bin.x;w.player.z=bin.z;w.time++;w.action();assert.equal(w.carry,null);}
 w.switchPup(3);while(w.next('air')){const o=w.next('air');w.player.x=o.x;w.player.z=o.z;w.time++;w.action();}
+const rescue=w.next('airRescue');w.player.vehicle=true;w.player.y=10;w.player.x=rescue.x;w.player.z=rescue.z;w.time++;w.action();assert.equal(rescue.done,true);
 w.switchPup(8);while(w.next('snow')){const o=w.next('snow');w.player.x=o.x;w.player.z=o.z;w.time++;w.action();}
 const ballWorld=new World();ballWorld.teleport('futebol');Object.assign(ballWorld.player,{x:35,z:129,angle:Math.PI});ballWorld.action();assert.ok(ballWorld.ball.vz<0);assert.ok(ballWorld.ball.vy>0);let maxY=0;for(let i=0;i<120;i++){ballWorld.update(.016);maxY=Math.max(maxY,ballWorld.ball.y);}assert.ok(maxY>1);assert.ok(ballWorld.ball.y>=ballWorld.ball.r);
 Object.assign(ballWorld.ball,{x:35,y:1,z:157.9,vz:5,vx:0});ballWorld.goalCooldown=0;ballWorld.player.x=0;ballWorld.update(.04);assert.equal(ballWorld.goals,1);assert.equal(ballWorld.ball.z,125);assert.ok(ballWorld.events.some(e=>e.kind==='goal'));
