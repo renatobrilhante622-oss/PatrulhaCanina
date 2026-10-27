@@ -1,0 +1,274 @@
+{
+  "entries": [
+    {
+      "id": "Ryder_call",
+      "speaker": "Ryder",
+      "text": "Olá! Eu sou Ryder. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Ryder_motto",
+      "speaker": "Ryder",
+      "text": "Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!"
+    },
+    {
+      "id": "Ryder_instruction",
+      "speaker": "Ryder",
+      "text": "Escolha um amigo no distintivo. Vamos brincar com calma!"
+    },
+    {
+      "id": "Ryder_praise",
+      "speaker": "Ryder",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Ryder_hint",
+      "speaker": "Ryder",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Ryder_reward",
+      "speaker": "Ryder",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Chase_call",
+      "speaker": "Chase",
+      "text": "Olá! Eu sou Chase. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Chase_motto",
+      "speaker": "Chase",
+      "text": "Chase está no caso!"
+    },
+    {
+      "id": "Chase_instruction",
+      "speaker": "Chase",
+      "text": "Leve cada forma até a sombra igual. Você pode escolher por onde começar."
+    },
+    {
+      "id": "Chase_praise",
+      "speaker": "Chase",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Chase_hint",
+      "speaker": "Chase",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Chase_reward",
+      "speaker": "Chase",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Marshall_call",
+      "speaker": "Marshall",
+      "text": "Olá! Eu sou Marshall. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Marshall_motto",
+      "speaker": "Marshall",
+      "text": "Estou pronto para um resgate!"
+    },
+    {
+      "id": "Marshall_instruction",
+      "speaker": "Marshall",
+      "text": "Toque nas chamas na ordem dos números. Comece pelo número um."
+    },
+    {
+      "id": "Marshall_praise",
+      "speaker": "Marshall",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Marshall_hint",
+      "speaker": "Marshall",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Marshall_reward",
+      "speaker": "Marshall",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Skye_call",
+      "speaker": "Skye",
+      "text": "Olá! Eu sou Skye. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Skye_motto",
+      "speaker": "Skye",
+      "text": "Esse filhote vai voar!"
+    },
+    {
+      "id": "Skye_instruction",
+      "speaker": "Skye",
+      "text": "Vamos conhecer as vogais. Toque na letra que eu falar."
+    },
+    {
+      "id": "Skye_praise",
+      "speaker": "Skye",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Skye_hint",
+      "speaker": "Skye",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Skye_reward",
+      "speaker": "Skye",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Rocky_call",
+      "speaker": "Rocky",
+      "text": "Olá! Eu sou Rocky. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Rocky_motto",
+      "speaker": "Rocky",
+      "text": "Não perca, reutilize!"
+    },
+    {
+      "id": "Rocky_instruction",
+      "speaker": "Rocky",
+      "text": "Papel na lixeira azul. Plástico na vermelha. Metal na amarela."
+    },
+    {
+      "id": "Rocky_praise",
+      "speaker": "Rocky",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Rocky_hint",
+      "speaker": "Rocky",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Rocky_reward",
+      "speaker": "Rocky",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Rubble_call",
+      "speaker": "Rubble",
+      "text": "Olá! Eu sou Rubble. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Rubble_motto",
+      "speaker": "Rubble",
+      "text": "Rubble a toda!"
+    },
+    {
+      "id": "Rubble_instruction",
+      "speaker": "Rubble",
+      "text": "Leve os blocos até a pilha. Comece pelo maior e termine com o menor."
+    },
+    {
+      "id": "Rubble_praise",
+      "speaker": "Rubble",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Rubble_hint",
+      "speaker": "Rubble",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Rubble_reward",
+      "speaker": "Rubble",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Zuma_call",
+      "speaker": "Zuma",
+      "text": "Olá! Eu sou Zuma. Vamos ajudar nossos amigos na Baía da Aventura?"
+    },
+    {
+      "id": "Zuma_motto",
+      "speaker": "Zuma",
+      "text": "Vamos mergulhar!"
+    },
+    {
+      "id": "Zuma_instruction",
+      "speaker": "Zuma",
+      "text": "Toque em duas boias. Encontre os animais iguais, sem pressa."
+    },
+    {
+      "id": "Zuma_praise",
+      "speaker": "Zuma",
+      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+    },
+    {
+      "id": "Zuma_hint",
+      "speaker": "Zuma",
+      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+    },
+    {
+      "id": "Zuma_reward",
+      "speaker": "Zuma",
+      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+    },
+    {
+      "id": "Marshall_step1",
+      "speaker": "Marshall",
+      "text": "Agora toque na chama com o número 1."
+    },
+    {
+      "id": "Marshall_step2",
+      "speaker": "Marshall",
+      "text": "Agora toque na chama com o número 2."
+    },
+    {
+      "id": "Marshall_step3",
+      "speaker": "Marshall",
+      "text": "Agora toque na chama com o número 3."
+    },
+    {
+      "id": "Marshall_step4",
+      "speaker": "Marshall",
+      "text": "Agora toque na chama com o número 4."
+    },
+    {
+      "id": "Marshall_step5",
+      "speaker": "Marshall",
+      "text": "Agora toque na chama com o número 5."
+    },
+    {
+      "id": "Skye_A",
+      "speaker": "Skye",
+      "text": "Toque na vogal A."
+    },
+    {
+      "id": "Skye_E",
+      "speaker": "Skye",
+      "text": "Toque na vogal E."
+    },
+    {
+      "id": "Skye_I",
+      "speaker": "Skye",
+      "text": "Toque na vogal I."
+    },
+    {
+      "id": "Skye_O",
+      "speaker": "Skye",
+      "text": "Toque na vogal O."
+    },
+    {
+      "id": "Skye_U",
+      "speaker": "Skye",
+      "text": "Toque na vogal U."
+    },
+    {
+      "id": "Rubble_next",
+      "speaker": "Rubble",
+      "text": "Agora escolha o maior bloco que ainda está no chão."
+    },
+    {
+      "id": "Zuma_pair",
+      "speaker": "Zuma",
+      "text": "Olhe os animais. Se forem diferentes, podemos tentar outras boias."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6853a7d0ab44503590bd64308c2f9300, type: 3}
+  m_Name: Ryder
+  m_EditorClassIdentifier:
+  pupName: 0
+  themeColor: {r: 0.8, g: 0.22, b: 0.25, a: 1}
+  characterSprite: {fileID: 21300000, guid: 001df4bc31f3570aac04f092b82dc1af, type: 3}
+  badgeSprite: {fileID: 21300000, guid: d2f574e25d6f5041ac17244642afdde6, type: 3}
+  vehicleSprite: {fileID: 21300000, guid: d1235211879557569f8d0effbcdc549c, type: 3}
+  initialCalls:
+  - {fileID: 8300000, guid: 637e21b5218552a0a93ab1537d3643bf, type: 3}
+  correctPraise:
+  - {fileID: 8300000, guid: a3abac220c0356a1972a25a53c228e9a, type: 3}
+  gentleHints:
+  - {fileID: 8300000, guid: fee7b8d7d89b5d518291cda6690a05b2, type: 3}
+  cookieRewards:
+  - {fileID: 8300000, guid: a9a14ec3721456e09babd5cf745ae200, type: 3}

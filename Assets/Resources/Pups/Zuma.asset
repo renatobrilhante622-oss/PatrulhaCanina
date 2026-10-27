@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6853a7d0ab44503590bd64308c2f9300, type: 3}
+  m_Name: Zuma
+  m_EditorClassIdentifier:
+  pupName: 6
+  themeColor: {r: 0.96, g: 0.43, b: 0.16, a: 1}
+  characterSprite: {fileID: 21300000, guid: 001df4bc31f3570aac04f092b82dc1af, type: 3}
+  badgeSprite: {fileID: 21300000, guid: d2f574e25d6f5041ac17244642afdde6, type: 3}
+  vehicleSprite: {fileID: 21300000, guid: d1235211879557569f8d0effbcdc549c, type: 3}
+  initialCalls:
+  - {fileID: 8300000, guid: 704f2f62bc0b5b76a22733c1af993c2d, type: 3}
+  correctPraise:
+  - {fileID: 8300000, guid: 41ace02897d4587da74d68afd27e3350, type: 3}
+  gentleHints:
+  - {fileID: 8300000, guid: 06771fd336a257e7a8f557ef9ed81349, type: 3}
+  cookieRewards:
+  - {fileID: 8300000, guid: c93eba2bf1305dc6952087c77c49b4cf, type: 3}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6853a7d0ab44503590bd64308c2f9300, type: 3}
+  m_Name: Rocky
+  m_EditorClassIdentifier:
+  pupName: 4
+  themeColor: {r: 0.21, g: 0.55, b: 0.35, a: 1}
+  characterSprite: {fileID: 21300000, guid: 001df4bc31f3570aac04f092b82dc1af, type: 3}
+  badgeSprite: {fileID: 21300000, guid: d2f574e25d6f5041ac17244642afdde6, type: 3}
+  vehicleSprite: {fileID: 21300000, guid: d1235211879557569f8d0effbcdc549c, type: 3}
+  initialCalls:
+  - {fileID: 8300000, guid: a42d407af4e050f1b34e32edf6cf42dd, type: 3}
+  correctPraise:
+  - {fileID: 8300000, guid: e0f753e54019531caacbc452f2282d89, type: 3}
+  gentleHints:
+  - {fileID: 8300000, guid: 528d0c0a8b025227b326d28f5cb73e69, type: 3}
+  cookieRewards:
+  - {fileID: 8300000, guid: 69d5bf7acce8592199d9fe83e3fb3306, type: 3}

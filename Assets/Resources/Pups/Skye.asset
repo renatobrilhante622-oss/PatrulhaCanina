@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6853a7d0ab44503590bd64308c2f9300, type: 3}
+  m_Name: Skye
+  m_EditorClassIdentifier:
+  pupName: 3
+  themeColor: {r: 0.85, g: 0.35, b: 0.62, a: 1}
+  characterSprite: {fileID: 21300000, guid: 001df4bc31f3570aac04f092b82dc1af, type: 3}
+  badgeSprite: {fileID: 21300000, guid: d2f574e25d6f5041ac17244642afdde6, type: 3}
+  vehicleSprite: {fileID: 21300000, guid: d1235211879557569f8d0effbcdc549c, type: 3}
+  initialCalls:
+  - {fileID: 8300000, guid: 56dbca7cb66f586aa1d407991aaefd28, type: 3}
+  correctPraise:
+  - {fileID: 8300000, guid: 4e941e7527da54b8b59ebeccd6f00400, type: 3}
+  gentleHints:
+  - {fileID: 8300000, guid: 51ad21e214385fbb9bf03d82fc52a8c7, type: 3}
+  cookieRewards:
+  - {fileID: 8300000, guid: d68557ad0981528db863b6494253a1ca, type: 3}
