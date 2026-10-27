@@ -1,0 +1,52 @@
+{
+  "bark": {
+    "file": "sfx_bark.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "14eeb4220a409aa4c39fe6d9bf095c3f964e9385a459af5c975fe1868797ef9e"
+  },
+  "siren": {
+    "file": "sfx_siren.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "ac15a13cab4998cbb073e4e92096c18bd6a0d4a5b46460e4f1f31d09458334ac"
+  },
+  "engine": {
+    "file": "sfx_engine.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "989b347eeaa7687978a313a303d35b9366bc681622acb2631ea7be0909ef5c42"
+  },
+  "whistle": {
+    "file": "sfx_whistle.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "df818ee941573ed256eafa2eaa34a524c098956ac376a3e695886366941afb95"
+  },
+  "kick": {
+    "file": "sfx_kick.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "767183f79f41d94ed0760bef733e75d62df3e65408535b468ce93721025c4740"
+  },
+  "crowd": {
+    "file": "sfx_crowd.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "c38ee18f50c2d6711c4e52d185269cf64243523aa9deb9734fe3df79d0f2a0fc"
+  },
+  "water": {
+    "file": "sfx_water.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "168958ce9ef0357216a0c60118d16b98ffeca367089fadeea1771b112233cb9a"
+  },
+  "collect": {
+    "file": "sfx_collect.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "4e022be2954f16ec34ca012d68822a6d72f8d516dea01e857f7876e137845ddd"
+  },
+  "jump": {
+    "file": "sfx_jump.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "cc445c14197ee53e87623cd368b87aa7b545704ad495521d22ddfe4007035491"
+  },
+  "music": {
+    "file": "sfx_music.mp3",
+    "source": "original procedural synthesis",
+    "sha256": "648c3d94288528a6c5d0f80653bb77677b196bd94463ffd2d08c8995ddfc0469"
+  }
+}

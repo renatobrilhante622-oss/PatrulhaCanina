@@ -25,13 +25,14 @@ public final class MainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         game = new WebView(this);
         game.setBackgroundColor(0xff9cdaef);
+        game.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         WebSettings settings = game.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(false);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        settings.setMediaPlaybackRequiresUserGesture(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
         game.setWebViewClient(new WebViewClient() {
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return true; // Não abre links nem sai do jogo.
@@ -46,7 +47,7 @@ public final class MainActivity extends Activity {
                         path.endsWith(".css") ? "text/css" :
                         path.endsWith(".json") ? "application/json" :
                         path.endsWith(".mp3") ? "audio/mpeg" : "text/html";
-                try { return new WebResourceResponse(mime, "UTF-8", getAssets().open(path.startsWith("/audio/") ? path.substring(1) : "game" + path)); }
+                try { return new WebResourceResponse(mime, "UTF-8", getAssets().open((path.startsWith("/audio/") || path.startsWith("/js/")) ? path.substring(1) : "game" + path)); }
                 catch (IOException ignored) { return empty(); }
             }
             private WebResourceResponse empty() {

@@ -1,16 +1,15 @@
-# Patrulha Canina — Baía da Aventura
+# Patrulha Canina — Aventura 3D
 
-Exploração Android 2D top-down em um mundo de 3200 × 2400: analógico virtual, gamepad Bluetooth, veículos, ferramentas, seis zonas educativas, radar e recompensas sem punição. Tudo funciona offline depois de empacotado.
+Jogo Android offline em terceira pessoa, com Three.js/WebGL local, sombras, oito filhotes articulados, veículos e quatro áreas conectadas: Selva, Grand Prix, Estádio e Farol/Cidade.
 
-Versão 3.0.0: Java 17 + Android Gradle + Canvas/WebView. Sem Unity no build, anúncios ou permissão de Internet. Inclui 105 MP3s neurais PT-BR reais, gerados com edge-tts 7.3.1 e já versionados em app/src/main/assets/audio. O manifest registra as três vozes-base disponíveis e as variações de pitch/velocidade dos sete personagens. O CI verifica todos antes de publicar.
+Analógico virtual, câmera orbital, gamepad, pulo/turbo, ferramentas, teleporte e futebol com física, goleiro e contagem de gols. Sem anúncios, Game Over ou limite de tempo.
 
-[Guia de controles, missões, voz e build](Docs/GUIA_ANDROID.md).
+A versão 4.0 usa Java 17 + Android Gradle e Three.js 0.160.1 MIT embarcado. O catálogo contém 150 falas neurais PT-BR; os arquivos são validados e versionados pelo CI. Os efeitos e a música são originais sintetizados. Os modelos são procedurais estilizados e as vozes não são a dublagem oficial nem imitações idênticas dos atores.
 
-- Testes: `npm ci && npx playwright install chromium && npm test`
-- Build: `./gradlew :app:assembleDebug`
-- Voz neural: `python3 -m pip install -r Tools/requirements-voices.txt && python3 Tools/generate_voices.py`
-- Verificação estrita: `python3 Tools/validate_android.py`
+[Guia completo](Docs/GUIA_ANDROID.md) · [Baixar APK publicado](../../releases/latest/download/PatrulhaCanina.apk)
 
-Cada push na main executa o CI. Se a geração neural e as verificações passarem, o bot versiona os MP3s e a Release latest recebe o APK. A assinatura incluída é pública e de desenvolvimento; não serve para distribuição de produção.
+`npm ci && npx playwright install chromium && npm test`
 
-Os scripts Unity e as gravações antigas em Assets são históricos e não participam do novo jogo Android.
+`./gradlew --no-daemon :app:assembleDebug`
+
+Build automático na main, sem Unity ou secrets externos. A assinatura incluída é pública e de desenvolvimento. A Release só é atualizada depois da geração completa das vozes, testes e compilação.

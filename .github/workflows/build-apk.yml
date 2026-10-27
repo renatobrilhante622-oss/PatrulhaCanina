@@ -55,6 +55,8 @@ jobs:
         run: |
           python3 -m pip install -r Tools/requirements-voices.txt
           command -v ffprobe || { sudo apt-get update && sudo apt-get install -y ffmpeg; }
+      - name: Gerar efeitos originais locais
+        run: python3 Tools/generate_sfx.py
       - name: Gerar falas neurais PT-BR reais
         timeout-minutes: 18
         run: |

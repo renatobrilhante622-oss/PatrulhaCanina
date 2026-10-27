@@ -1,10 +1,9 @@
-# Validação da reformulação 3.0
+# Validação 4.0 — WebGL/Three.js
 
-- Simulação: seis missões completas aprovadas, incluindo ordens, reciclagem, roda do brinquedo, ponte, animais e ausência de penalidade por erro.
-- Chromium: joystick com dois toques reais simultâneos, veículo, turbo, gamepad, troca de personagem preservando posição e aviso de paisagem aprovados. Repetido após baixar os MP3s neurais reais.
-- Sintaxe JavaScript e workflow (actionlint) verificados.
-- Gradle/Java 17: APK de exploração compilado localmente com sucesso, recompilado com os 105 MP3s.
-- Geração neural: edge-tts 7.3.1 passou no GitHub Actions e o bot gravou 105 MP3s mais o manifest na main (f81b70d). Todos passaram novamente no validador estrito local (codec, duração e hashes).
-- O endpoint ofereceu Antonio, Francisca e Thalita Multilingual, usados com os pitch/rates pedidos. Não ofereceu todos os nomes de vozes originalmente solicitados. Veja a tabela no guia.
-- No CI, geração, testes, compilação, assinatura e upload do Artifact passaram. A publicação da Release é uma etapa separada, cujo resultado precisa ser confirmado na execução.
-- Não houve teste em aparelho Android nem medição de FPS. O conforto sensorial e a naturalidade devem ser avaliados ouvindo/jogando no celular.
+- Three.js local com licença MIT e SHA-256; sem CDN.
+- Testes da simulação 3D: movimento, câmera relativa, pulo, turbo, selva, ordens, animais, fogo, reciclagem, resgate aéreo, neve, ponte e física/gol aprovados.
+- Testes Chromium com WebGL/SwiftShader: oito modelos, quatro áreas, analógico, veículo, câmera orbital, teleporte e paisagem. Não é medição de desempenho no GPU Android.
+- Build Android real com Java 17/Gradle/SDK 35 executado localmente; compilação final e verificação de todos os 150 MP3s são repetidas após a geração no CI.
+- Primeiros 105 áudios neurais foram estilizados via ffmpeg. Os 45 novos dependem da geração Edge no CI porque o proxy local retorna HTTP 403 ao serviço. O workflow não publica um pacote com áudio incompleto.
+- Dez efeitos/música MP3 originais foram gerados e versionados. Não são gravações reais de animais, vozes dos atores ou tema oficial.
+- Ainda sem teste em aparelho Android e sem garantia de 60 FPS. Compare os resultados finais da execução do CI e teste o APK no celular.

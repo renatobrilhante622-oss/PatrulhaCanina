@@ -1,5 +1,5 @@
 """Roteiro de dublagem original para exploração, com explicações curtas em PT-BR."""
-NAMES=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma']
+NAMES=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma','Tracker','Everest']
 PROFILES={
  'Ryder':('pt-BR-AntonioNeural','+15Hz','+5%','Male'),
  'Chase':('pt-BR-FabioNeural','+20Hz','+8%','Male'),
@@ -7,7 +7,9 @@ PROFILES={
  'Skye':('pt-BR-FranciscaNeural','+30Hz','+8%','Female'),
  'Rocky':('pt-BR-RodrigoNeural','+22Hz','+6%','Male'),
  'Rubble':('pt-BR-HumbertoNeural','+18Hz','+4%','Male'),
- 'Zuma':('pt-BR-ThalitaNeural','+15Hz','+6%','Female')}
+ 'Zuma':('pt-BR-ThalitaNeural','+15Hz','+6%','Female'),
+ 'Tracker':('pt-BR-AntonioNeural','+24Hz','+5%','Male'),
+ 'Everest':('pt-BR-FranciscaNeural','+22Hz','+4%','Female')}
 def catalog():
  entries=[]
  def add(id,speaker,text):entries.append(dict(id=id,speaker=speaker,text=text,audio='/audio/'+id+'.mp3'))
@@ -18,9 +20,11 @@ def catalog():
   'Vamos passear no parque. Encontre os balões com as vogais. Aproxime-se e aperte A.',
   'Vamos limpar a praia. Pegue um material com A e leve até a lixeira da mesma cor.',
   'Vamos retirar pedras, construir uma ponte com formas e dar comida aos animais. Tudo com calma!',
-  'Vamos ajudar os animais marinhos. Encontre a tartaruga, depois o polvo e a estrela do mar.'
+  'Vamos ajudar os animais marinhos. Encontre a tartaruga, depois o polvo e a estrela do mar.',
+  'Vamos explorar a selva! Encontre os ossinhos na ordem dos números e chegue perto dos animais com a mochila.',
+  'Eu sou a Everest! Vamos limpar os montinhos de neve e cuidar dos nossos amigos.'
  ]
- mottos=['Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!','O Chase está no caso!','Estou pronto para um resgate!','Esse filhote vai voar!','Não perca, reutilize!','Rubble a toda!','Vamos mergulhar!']
+ mottos=['Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!','O Chase está no caso!','Estou pronto para um resgate!','Esse filhote vai voar!','Não perca, reutilize!','Rubble a toda!','Vamos mergulhar!','Estou todo ouvidos!','Gelo ou neve, estou pronta!']
  for i,name in enumerate(NAMES):
   add(name+'_call',name,f'Olá! Eu sou {name}. Que bom passear com você na Baía da Aventura!')
   add(name+'_motto',name,mottos[i]);add(name+'_instruction',name,instructions[i])
@@ -45,4 +49,11 @@ def catalog():
   ('Ryder_slide','Iupi! Vamos descer pelo escorregador. Que passeio divertido!'),('Ryder_food','Nosso amigo recebeu um biscoito. Obrigado pelo carinho!'),('Ryder_near','Chegue um pouquinho mais perto e aperte A. A seta ajuda você.'),
   ('Ryder_switch','Escolha um amigo. Você continua no mesmo lugar do mapa.'),('Ryder_jump','Um pulinho alegre! Vamos brincar sem pressa.'),('Ryder_map','A estrela do radar mostra a próxima brincadeira. O farol fica no centro.'),
   ('Ryder_finish','Você conheceu todas as brincadeiras! Podemos continuar passeando e cuidando da Baía.'),('Rocky_full','Você já está levando um material. Vamos primeiro até a lixeira da mesma cor.'),('Ryder_star','Uma estrela do saber! Você encontrou uma surpresa pelo caminho.')]:add(name,name.split('_')[0],text)
+ for n in range(1,11):
+  add('Ryder_goal'+str(n),'Ryder',f'Goooool! Gol número {n}! Que chute legal! Vamos chutar a bola '+['azul','vermelha','amarela'][n%3]+' agora!')
+  add('Tracker_bone'+str(n),'Tracker',f'Ossinho número {n}! Muito bem! Vamos explorar mais um pouquinho.')
+ for animal,text in [('monkey','Um macaquinho! Ele gosta de subir nas árvores. Vamos cuidar da floresta.'),('toucan','Um tucano! Olhe o bico amarelo e as penas escuras. Que ave bonita!'),('frog','Um sapinho verde! Ele pula e gosta de lugares úmidos. Você consegue dar um pulinho?')]:add('Tracker_'+animal,'Tracker',text)
+ add('Ryder_football','Ryder','Vamos brincar de futebol! Aproxime-se da bola e aperte o botão da mochila para chutar. Não tem pressa para fazer gol!')
+ add('Ryder_race','Ryder','Vamos dirigir no circuito! Use o analógico, passe pelos aceleradores e encontre círculos, quadrados, triângulos e estrelas!')
+ for area,text in [('selva','Chegamos à selva tropical. Vamos encontrar animais e ossinhos numerados!'),('pista','Bem-vindo ao circuito da Baía! Escolha seu veículo e vamos passear na pista!'),('futebol','Chegamos ao estádio! A bola está no meio do campo. Vamos chutar e contar os gols!'),('farol','Voltamos ao Farol! Aqui estão nossos amigos e as missões de resgate.')]:add('Ryder_area_'+area,'Ryder',text)
  return entries

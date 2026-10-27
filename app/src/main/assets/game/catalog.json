@@ -337,6 +337,102 @@
       "audio": "/audio/Zuma_walk.mp3"
     },
     {
+      "id": "Tracker_call",
+      "speaker": "Tracker",
+      "text": "Olá! Eu sou Tracker. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Tracker_call.mp3"
+    },
+    {
+      "id": "Tracker_motto",
+      "speaker": "Tracker",
+      "text": "Estou todo ouvidos!",
+      "audio": "/audio/Tracker_motto.mp3"
+    },
+    {
+      "id": "Tracker_instruction",
+      "speaker": "Tracker",
+      "text": "Vamos explorar a selva! Encontre os ossinhos na ordem dos números e chegue perto dos animais com a mochila.",
+      "audio": "/audio/Tracker_instruction.mp3"
+    },
+    {
+      "id": "Tracker_praise",
+      "speaker": "Tracker",
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Tracker_praise.mp3"
+    },
+    {
+      "id": "Tracker_hint",
+      "speaker": "Tracker",
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Tracker_hint.mp3"
+    },
+    {
+      "id": "Tracker_reward",
+      "speaker": "Tracker",
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Tracker_reward.mp3"
+    },
+    {
+      "id": "Tracker_vehicle",
+      "speaker": "Tracker",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Tracker_vehicle.mp3"
+    },
+    {
+      "id": "Tracker_walk",
+      "speaker": "Tracker",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Tracker_walk.mp3"
+    },
+    {
+      "id": "Everest_call",
+      "speaker": "Everest",
+      "text": "Olá! Eu sou Everest. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Everest_call.mp3"
+    },
+    {
+      "id": "Everest_motto",
+      "speaker": "Everest",
+      "text": "Gelo ou neve, estou pronta!",
+      "audio": "/audio/Everest_motto.mp3"
+    },
+    {
+      "id": "Everest_instruction",
+      "speaker": "Everest",
+      "text": "Eu sou a Everest! Vamos limpar os montinhos de neve e cuidar dos nossos amigos.",
+      "audio": "/audio/Everest_instruction.mp3"
+    },
+    {
+      "id": "Everest_praise",
+      "speaker": "Everest",
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Everest_praise.mp3"
+    },
+    {
+      "id": "Everest_hint",
+      "speaker": "Everest",
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Everest_hint.mp3"
+    },
+    {
+      "id": "Everest_reward",
+      "speaker": "Everest",
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Everest_reward.mp3"
+    },
+    {
+      "id": "Everest_vehicle",
+      "speaker": "Everest",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Everest_vehicle.mp3"
+    },
+    {
+      "id": "Everest_walk",
+      "speaker": "Everest",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Everest_walk.mp3"
+    },
+    {
       "id": "Marshall_step1",
       "speaker": "Marshall",
       "text": "Agora vamos apagar a chama com o número 1. Aponte a água e aperte A.",
@@ -629,6 +725,180 @@
       "speaker": "Ryder",
       "text": "Uma estrela do saber! Você encontrou uma surpresa pelo caminho.",
       "audio": "/audio/Ryder_star.mp3"
+    },
+    {
+      "id": "Ryder_goal1",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 1! Que chute legal! Vamos chutar a bola vermelha agora!",
+      "audio": "/audio/Ryder_goal1.mp3"
+    },
+    {
+      "id": "Tracker_bone1",
+      "speaker": "Tracker",
+      "text": "Ossinho número 1! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone1.mp3"
+    },
+    {
+      "id": "Ryder_goal2",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 2! Que chute legal! Vamos chutar a bola amarela agora!",
+      "audio": "/audio/Ryder_goal2.mp3"
+    },
+    {
+      "id": "Tracker_bone2",
+      "speaker": "Tracker",
+      "text": "Ossinho número 2! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone2.mp3"
+    },
+    {
+      "id": "Ryder_goal3",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 3! Que chute legal! Vamos chutar a bola azul agora!",
+      "audio": "/audio/Ryder_goal3.mp3"
+    },
+    {
+      "id": "Tracker_bone3",
+      "speaker": "Tracker",
+      "text": "Ossinho número 3! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone3.mp3"
+    },
+    {
+      "id": "Ryder_goal4",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 4! Que chute legal! Vamos chutar a bola vermelha agora!",
+      "audio": "/audio/Ryder_goal4.mp3"
+    },
+    {
+      "id": "Tracker_bone4",
+      "speaker": "Tracker",
+      "text": "Ossinho número 4! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone4.mp3"
+    },
+    {
+      "id": "Ryder_goal5",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 5! Que chute legal! Vamos chutar a bola amarela agora!",
+      "audio": "/audio/Ryder_goal5.mp3"
+    },
+    {
+      "id": "Tracker_bone5",
+      "speaker": "Tracker",
+      "text": "Ossinho número 5! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone5.mp3"
+    },
+    {
+      "id": "Ryder_goal6",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 6! Que chute legal! Vamos chutar a bola azul agora!",
+      "audio": "/audio/Ryder_goal6.mp3"
+    },
+    {
+      "id": "Tracker_bone6",
+      "speaker": "Tracker",
+      "text": "Ossinho número 6! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone6.mp3"
+    },
+    {
+      "id": "Ryder_goal7",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 7! Que chute legal! Vamos chutar a bola vermelha agora!",
+      "audio": "/audio/Ryder_goal7.mp3"
+    },
+    {
+      "id": "Tracker_bone7",
+      "speaker": "Tracker",
+      "text": "Ossinho número 7! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone7.mp3"
+    },
+    {
+      "id": "Ryder_goal8",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 8! Que chute legal! Vamos chutar a bola amarela agora!",
+      "audio": "/audio/Ryder_goal8.mp3"
+    },
+    {
+      "id": "Tracker_bone8",
+      "speaker": "Tracker",
+      "text": "Ossinho número 8! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone8.mp3"
+    },
+    {
+      "id": "Ryder_goal9",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 9! Que chute legal! Vamos chutar a bola azul agora!",
+      "audio": "/audio/Ryder_goal9.mp3"
+    },
+    {
+      "id": "Tracker_bone9",
+      "speaker": "Tracker",
+      "text": "Ossinho número 9! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone9.mp3"
+    },
+    {
+      "id": "Ryder_goal10",
+      "speaker": "Ryder",
+      "text": "Goooool! Gol número 10! Que chute legal! Vamos chutar a bola vermelha agora!",
+      "audio": "/audio/Ryder_goal10.mp3"
+    },
+    {
+      "id": "Tracker_bone10",
+      "speaker": "Tracker",
+      "text": "Ossinho número 10! Muito bem! Vamos explorar mais um pouquinho.",
+      "audio": "/audio/Tracker_bone10.mp3"
+    },
+    {
+      "id": "Tracker_monkey",
+      "speaker": "Tracker",
+      "text": "Um macaquinho! Ele gosta de subir nas árvores. Vamos cuidar da floresta.",
+      "audio": "/audio/Tracker_monkey.mp3"
+    },
+    {
+      "id": "Tracker_toucan",
+      "speaker": "Tracker",
+      "text": "Um tucano! Olhe o bico amarelo e as penas escuras. Que ave bonita!",
+      "audio": "/audio/Tracker_toucan.mp3"
+    },
+    {
+      "id": "Tracker_frog",
+      "speaker": "Tracker",
+      "text": "Um sapinho verde! Ele pula e gosta de lugares úmidos. Você consegue dar um pulinho?",
+      "audio": "/audio/Tracker_frog.mp3"
+    },
+    {
+      "id": "Ryder_football",
+      "speaker": "Ryder",
+      "text": "Vamos brincar de futebol! Aproxime-se da bola e aperte o botão da mochila para chutar. Não tem pressa para fazer gol!",
+      "audio": "/audio/Ryder_football.mp3"
+    },
+    {
+      "id": "Ryder_race",
+      "speaker": "Ryder",
+      "text": "Vamos dirigir no circuito! Use o analógico, passe pelos aceleradores e encontre círculos, quadrados, triângulos e estrelas!",
+      "audio": "/audio/Ryder_race.mp3"
+    },
+    {
+      "id": "Ryder_area_selva",
+      "speaker": "Ryder",
+      "text": "Chegamos à selva tropical. Vamos encontrar animais e ossinhos numerados!",
+      "audio": "/audio/Ryder_area_selva.mp3"
+    },
+    {
+      "id": "Ryder_area_pista",
+      "speaker": "Ryder",
+      "text": "Bem-vindo ao circuito da Baía! Escolha seu veículo e vamos passear na pista!",
+      "audio": "/audio/Ryder_area_pista.mp3"
+    },
+    {
+      "id": "Ryder_area_futebol",
+      "speaker": "Ryder",
+      "text": "Chegamos ao estádio! A bola está no meio do campo. Vamos chutar e contar os gols!",
+      "audio": "/audio/Ryder_area_futebol.mp3"
+    },
+    {
+      "id": "Ryder_area_farol",
+      "speaker": "Ryder",
+      "text": "Voltamos ao Farol! Aqui estão nossos amigos e as missões de resgate.",
+      "audio": "/audio/Ryder_area_farol.mp3"
     }
   ]
 }

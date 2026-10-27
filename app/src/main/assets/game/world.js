@@ -1,123 +1,92 @@
-/* Simulação independente do desenho: movimento, objetivos, colisões e interações. */
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.AdventureWorld=factory();})(typeof globalThis!=='undefined'?globalThis:this,()=>{
+/* Simulação 3D determinística. Unidades em metros; sem dependência do renderizador. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.Adventure3D=factory();})(globalThis,()=>{
 'use strict';
-const WIDTH=3200,HEIGHT=2400,NAMES=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma'];
-const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-class World {
+const AREAS={farol:{x:0,z:0,label:'Farol e cidade'},selva:{x:-125,z:-100,label:'Selva do Tracker'},pista:{x:120,z:-85,label:'Grand Prix'},futebol:{x:35,z:125,label:'Estádio da Baía'}};
+const NAMES=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma','Tracker','Everest'];
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+class World{
  constructor(){
-  this.player={x:1600,y:1140,vx:0,vy:0,angle:0,pup:0,vehicle:false,jump:0,turbo:0,carrying:null};
-  this.objects=[];this.events=[];this.time=0;this.stars=0;this.cookies=0;this.complete=new Set();this.reward=null;this.traffic=0;this.bridge=0;this.slide=0;this.lastHint=0;
-  this.obstacles=[{x:1490,y:800,w:220,h:225},{x:280,y:120,w:250,h:190},{x:810,y:110,w:260,h:190},{x:1210,y:110,w:220,h:190},{x:2450,y:1370,w:200,h:160}];
-  const add=(type,x,y,extra={})=>{const o={id:type+'-'+this.objects.length,type,x,y,done:false,...extra};this.objects.push(o);return o;};
-  add('board',1600,1080,{pup:0});add('slide',1790,1010);add('food',1410,1130);
-  for(let i=0;i<10;i++)add('fire',240+i%5*290,395+Math.floor(i/5)*240,{pup:2,order:i,number:i+1});
-  ['red','yellow','green'].forEach((color,i)=>add('traffic',250+i*230,970,{pup:1,order:i,color}));
-  ['circle','square','triangle','star'].forEach((shape,i)=>add('cat',270+i*280,1230,{pup:1,order:i+3,shape}));
-  ['papel','plastico','metal','vidro'].forEach((material,i)=>{add('waste',1940+i*270,1940,{pup:4,material,order:i});add('bin',1950+i*270,1660,{pup:4,material});});
-  add('wheel',2180,2110,{pup:4});add('toy',2510,2110,{pup:4});
-  ['turtle','octopus','starfish'].forEach((animal,i)=>add('marine',2390+i*230,2280,{pup:6,order:i,animal}));
-  [...'AEIOU'].forEach((letter,i)=>add('vowel',2080+i%3*370,410+Math.floor(i/3)*390,{pup:3,order:i,letter}));
-  for(let i=0;i<4;i++)add('rock',220+i*255,1690,{pup:5,order:i,number:4-i,size:100-i*17});
-  ['circle','square','triangle','star'].forEach((shape,i)=>{add('piece',200+i*250,1980,{pup:5,shape,order:i});add('socket',300+i*150,2240,{pup:5,shape,order:i});});
-  ['cow','pig','sheep'].forEach((animal,i)=>add('farm',1190,1650+i*240,{pup:5,order:i,animal}));
-  ['azul','vermelha','amarela','verde'].forEach((color,i)=>add('seed',1210+i*95,760,{pup:2,color}));
-  for(let i=0;i<5;i++)add('footprint',850+i*110,1360+Math.sin(i)*90,{pup:1,order:i});
-  add('chest',1430,1320,{pup:1});
-  for(let i=0;i<18;i++)add(i%3===0?'bone':'cookie',180+(i*193)%2850,760+(i*149)%1450);
-  for(let i=0;i<22;i++)add('flower',170+(i*389)%2870,850+(i*229)%1350,{bloom:0});
-  for(let i=0;i<8;i++)add('hydrant',140+i*200,760);
+  this.player={x:0,y:0,z:16,vx:0,vz:0,vy:0,angle:Math.PI,pup:2,vehicle:false,turbo:0,ground:0};
+  this.ball={x:35,y:.8,z:125,vx:0,vy:0,vz:0,r:.8};
+  this.objects=[];this.events=[];this.bones=0;this.stars=0;this.goals=0;this.time=0;this.lastAction=-10;this.goalCooldown=0;this.carry=null;this.done=new Set();
+  this.obstacles=[{x:0,z:-7,r:5},{x:-131,z:-122,r:9},{x:20,z:-17,r:5},{x:-20,z:-19,r:5},{x:137,z:-110,r:6}];
+  const add=(type,x,z,data={})=>this.objects.push({id:type+'-'+this.objects.length,type,x,z,done:false,...data});
+  for(let i=0;i<10;i++)add('bone',-125+Math.sin(i*.7)*24,-80-i*3,{pup:7,order:i,number:i+1});
+  ['monkey','toucan','frog'].forEach((animal,i)=>add('animal',-150+i*24,-123,{pup:7,animal,order:i}));
+  for(let i=0;i<8;i++)add('race',120+Math.sin(i*Math.PI/4)*36,-85+Math.cos(i*Math.PI/4)*27,{order:i,shape:['circle','square','triangle','star'][i%4]});
+  for(let i=0;i<5;i++)add('boost',120+Math.sin(i*1.25)*36,-85+Math.cos(i*1.25)*27);
+  for(let i=0;i<5;i++)add('fire',-22+i*11,-35,{pup:2,order:i,number:i+1});
+  ['papel','plastico','metal','vidro'].forEach((material,i)=>{add('waste',-25+i*8,18,{pup:4,material});add('bin',-24+i*8,32,{pup:4,material});});
+  ['A','E','I','O','U'].forEach((letter,i)=>add('air',19+i*6,11,{pup:3,letter,order:i}));
+  for(let i=0;i<4;i++)add('snow',-57+i*8,-13,{pup:8,order:i});
+  for(let i=0;i<12;i++)add('cookie',-60+i*10,53+Math.sin(i)*5);
  }
- emit(kind,id,extra={}){this.events.push({kind,id,...extra});}
- say(id){this.emit('voice',id);}
- switchPup(pup){if(pup<0||pup>6)return;this.player.pup=pup;this.player.vehicle=false;this.say(NAMES[pup]+'_call');}
- toggleVehicle(){this.player.vehicle=!this.player.vehicle;this.emit('vehicle','enter');this.say(NAMES[this.player.pup]+(this.player.vehicle?'_vehicle':'_walk'));}
- jump(){if(this.player.vehicle){this.player.turbo=1.3;this.emit('turbo','turbo');}else if(this.player.jump<=0){this.player.jump=.65;this.emit('jump','jump');}}
- pending(pup=this.player.pup){
-  const by=t=>this.objects.filter(o=>o.type===t&&!o.done);
-  if(pup===2)return by('fire')[0]||by('seed')[0];
-  if(pup===1)return this.objects.find(o=>['traffic','cat'].includes(o.type)&&!o.done)||by('footprint')[0]||by('chest')[0];
-  if(pup===3)return by('vowel')[0];
-  if(pup===4){if(this.player.carrying)return this.objects.find(o=>o.type===(this.player.carrying==='wheel'?'toy':'bin')&&(o.material===this.player.carrying||this.player.carrying==='wheel'));return by('waste')[0]||(!this.objects.find(o=>o.type==='toy').done?by('wheel')[0]||this.objects.find(o=>o.type==='toy'):null);}
-  if(pup===5)return by('rock')[0]||(this.player.carrying?this.objects.find(o=>o.type==='socket'&&o.shape===this.player.carrying&&!o.done):by('piece')[0])||by('farm')[0];
-  if(pup===6)return by('marine')[0];
-  return this.objects.find(o=>o.type==='board');
- }
- instruction(){const goal=this.pending();if(!goal)return NAMES[this.player.pup]+'_instruction';if(goal.type==='seed')return 'flower_'+goal.color;if(goal.type==='fire')return 'Marshall_step'+goal.number;if(goal.type==='vowel')return 'Skye_'+goal.letter;if(goal.type==='bin')return 'Rocky_'+goal.material;if(goal.type==='toy'||goal.type==='wheel')return 'Rocky_repair';if(goal.type==='traffic')return 'Chase_'+goal.color;if(goal.type==='cat')return 'Chase_'+goal.shape;if(goal.type==='rock')return 'Rubble_next';if(['piece','socket'].includes(goal.type))return 'Rubble_bridge';if(goal.type==='farm')return 'Rubble_'+goal.animal;if(goal.type==='marine')return 'Zuma_'+goal.animal;return NAMES[this.player.pup]+'_instruction';}
- hint(){if(this.time-this.lastHint<2)return;this.lastHint=this.time;this.say(this.instruction());}
- finish(o,line){o.done=true;this.stars++;this.emit('success',o.id,{x:o.x,y:o.y});this.say(line||NAMES[this.player.pup]+'_praise');this.checkComplete();}
- checkComplete(){
-  const p=this.player.pup,types={1:['traffic','cat'],2:['fire'],3:['vowel'],4:['waste','toy'],5:['rock','socket','farm'],6:['marine']}[p];
-  if(types&&!this.complete.has(p)&&this.objects.filter(o=>types.includes(o.type)).every(o=>o.done)){
-   this.complete.add(p);this.reward=p;this.emit('reward',NAMES[p]+'_reward');
-  }
- }
- feed(){this.cookies=Math.max(0,this.cookies-1);this.emit('eat','eat');this.say('Ryder_food');this.reward=null;}
+ emit(kind,data={}){this.events.push({kind,...data});}
+ switchPup(id){if(id<1||id>8)return;this.player.pup=id;this.player.vehicle=false;this.emit('voice',{id:NAMES[id]+'_call'});}
+ teleport(area){const a=AREAS[area];if(!a)return;Object.assign(this.player,{x:a.x,z:a.z+16,y:0,vy:0,vx:0,vz:0,angle:Math.PI});this.emit('voice',{id:'Ryder_area_'+area});}
+ toggleVehicle(){this.player.vehicle=!this.player.vehicle;this.emit('sfx',{id:'siren'});this.emit('voice',{id:NAMES[this.player.pup]+(this.player.vehicle?'_vehicle':'_walk')});}
+ jump(){const p=this.player;if(p.vehicle){p.turbo=2;this.emit('sfx',{id:'engine'});}else if(p.y<=p.ground+.05){p.vy=7;this.emit('sfx',{id:'bark'});}}
+ next(type){return this.objects.find(o=>o.type===type&&!o.done);}
+ instruction(){const p=this.player;if(dist(p,AREAS.futebol)<65)return 'Ryder_football';if(dist(p,AREAS.pista)<60)return 'Ryder_race';if(dist(p,AREAS.selva)<60)return 'Tracker_instruction';return NAMES[p.pup]+'_instruction';}
+ finish(o,id){o.done=true;this.stars++;this.emit('voice',{id});this.emit('spark',{x:o.x,y:1,z:o.z});}
  action(){
-  const p=this.player;this.emit('tool','tool',{x:p.x,y:p.y,angle:p.angle,pup:p.pup});
-  const near=this.objects.filter(o=>!o.done&&distance(p,o)<145).sort((a,b)=>distance(p,a)-distance(p,b));
-  // Coisas livres só tomam prioridade quando estão claramente mais perto.
-  const compatible=near.filter(o=>o.pup===p.pup||['board','slide','food','hydrant','flower'].includes(o.type));
-  compatible.sort((a,b)=>(distance(p,a)+(a.type==='flower'?500:a.type==='hydrant'?180:0))-(distance(p,b)+(b.type==='flower'?500:b.type==='hydrant'?180:0)));
-  const o=compatible[0];if(!o){this.hint();return;}
-  if(o.type==='board'){this.say(NAMES[p.pup]+'_instruction');return;}
-  if(o.type==='food'){this.feed();return;}
-  if(o.type==='slide'){this.slide=1;p.jump=.65;p.x=1810;p.y=1130;this.say('Ryder_slide');this.emit('slide','slide');return;}
-  if(o.type==='hydrant'){if(p.pup===2){this.emit('water','water',{x:o.x,y:o.y});this.say('Marshall_instruction');}else this.hint();return;}
-  if(o.type==='flower'){o.bloom=1;this.say('Ryder_star');return;}
+  if(this.time-this.lastAction<.45)return;this.lastAction=this.time;const p=this.player;
+  if(dist(p,this.ball)<5){this.kick();return;}
+  this.emit('tool',{pup:p.pup});
+  const nearby=this.objects.filter(o=>!o.done&&dist(p,o)<5.5&&(o.pup===p.pup||o.type==='animal')).sort((a,b)=>dist(p,a)-dist(p,b));
+  const o=nearby[0];if(!o){this.emit('voice',{id:this.instruction()});return;}
   if(o.type==='fire'){
-   const aim=Math.cos(Math.atan2(o.y-p.y,o.x-p.x)-p.angle);
-   this.emit('water','water',{x:o.x,y:o.y});
-   if(o!==this.pending()||aim<.25){this.hint();return;}this.finish(o,'Marshall_praise');if(!this.complete.has(2))this.say(this.instruction());return;
-  }
-  if(o.type==='seed'){o.bloom=1;this.finish(o,'flower_'+o.color);this.emit('water','water',{x:o.x,y:o.y});return;}
-  if(['traffic','cat','vowel','marine','rock'].includes(o.type)){
-   if(o!==this.pending()){this.hint();return;}
-   if(o.type==='traffic'){this.traffic++;this.finish(o,'Chase_'+o.color);}
-   if(o.type==='cat')this.finish(o,'Chase_'+o.shape);
-   if(o.type==='vowel')this.finish(o,'Skye_'+o.letter);
-   if(o.type==='marine')this.finish(o,'Zuma_'+o.animal);
-   if(o.type==='rock'){this.finish(o,'Rubble_next');this.emit('dig','dig',{x:o.x,y:o.y});}
-   return;
-  }
-  if(o.type==='waste'||o.type==='wheel'){
-   if(p.carrying){this.say('Rocky_full');return;}
-   if(o.type==='wheel'&&this.objects.some(k=>k.type==='waste'&&!k.done)){this.hint();return;}
-   p.carrying=o.type==='wheel'?'wheel':o.material;o.done=true;this.say(o.type==='wheel'?'Rocky_repair':'Rocky_'+o.material);return;
-  }
-  if(o.type==='bin'){
-   if(p.carrying!==o.material){this.hint();return;}p.carrying=null;this.stars++;this.emit('success',o.id,{x:o.x,y:o.y});this.say('Rocky_'+o.material);return;
-  }
-  if(o.type==='toy'){if(p.carrying!=='wheel'){this.hint();return;}p.carrying=null;this.finish(o,'Rocky_praise');return;}
-  if(o.type==='piece'){
-   if(p.carrying||this.objects.some(k=>k.type==='rock'&&!k.done)){this.hint();return;}p.carrying=o.shape;o.done=true;this.say('Rubble_bridge');return;
-  }
-  if(o.type==='socket'){
-   if(p.carrying!==o.shape){this.hint();return;}p.carrying=null;this.bridge++;this.finish(o,'Chase_'+o.shape);return;
-  }
-  if(o.type==='farm'){
-   if(this.objects.some(k=>k.type==='socket'&&!k.done)){this.hint();return;}this.finish(o,'Rubble_'+o.animal);this.emit('animal',o.animal);return;
-  }
-  if(o.type==='footprint'){
-   const first=this.objects.find(k=>k.type==='footprint'&&!k.done);if(o!==first){this.hint();return;}this.finish(o,'Chase_praise');return;
-  }
-  if(o.type==='chest'){if(this.objects.some(k=>k.type==='footprint'&&!k.done)){this.hint();return;}this.cookies+=5;this.finish(o,'Chase_treasure');}
+   this.emit('water',{x:o.x,z:o.z});if(o!==this.next('fire')){this.emit('voice',{id:'Marshall_hint'});return;}
+   this.finish(o,'Marshall_step'+o.number);
+  }else if(o.type==='waste'){
+   if(this.carry){this.emit('voice',{id:'Rocky_full'});return;}o.done=true;this.carry=o.material;this.emit('voice',{id:'Rocky_'+o.material});
+  }else if(o.type==='bin'){
+   if(this.carry!==o.material){this.emit('voice',{id:'Rocky_hint'});return;}this.carry=null;this.stars++;this.emit('voice',{id:'Rocky_'+o.material});this.emit('spark',{x:o.x,y:2,z:o.z});
+  }else if(o.type==='air'){
+   if(o!==this.next('air')){this.emit('voice',{id:'Skye_hint'});return;}this.finish(o,'Skye_'+o.letter);
+  }else if(o.type==='animal')this.finish(o,'Tracker_'+o.animal);
+  else if(o.type==='snow')this.finish(o,'Everest_instruction');
  }
- update(dt,axes){
-  dt=Math.min(.05,Math.max(0,dt));this.time+=dt;const p=this.player;
-  p.jump=Math.max(0,p.jump-dt);p.turbo=Math.max(0,p.turbo-dt);this.slide=Math.max(0,this.slide-dt);
-  const len=Math.hypot(axes.x,axes.y),m=Math.min(1,len),speed=(p.vehicle?520:245)*(p.turbo>0?1.5:1);
-  const dx=len>.1?axes.x/len*m*speed:0,dy=len>.1?axes.y/len*m*speed:0;
-  const blend=1-Math.exp(-dt*12);p.vx+=(dx-p.vx)*blend;p.vy+=(dy-p.vy)*blend;
-  if(Math.hypot(p.vx,p.vy)>8)p.angle=Math.atan2(p.vy,p.vx);
-  const blocked=(x,y)=>this.obstacles.some(r=>x>r.x-20&&x<r.x+r.w+20&&y>r.y-20&&y<r.y+r.h+20);
-  let x=Math.max(45,Math.min(WIDTH-45,p.x+p.vx*dt)),y=Math.max(45,Math.min(HEIGHT-45,p.y+p.vy*dt));
-  if(p.jump>0||p.pup===3&&p.vehicle||!blocked(x,p.y))p.x=x;
-  if(p.jump>0||p.pup===3&&p.vehicle||!blocked(p.x,y))p.y=y;
+ kick(){const p=this.player,b=this.ball;let dx=b.x-p.x,dz=b.z-p.z,l=Math.hypot(dx,dz);if(l<.1){dx=Math.sin(p.angle);dz=Math.cos(p.angle);l=1;}b.vx=dx/l*19;b.vz=dz/l*19;b.vy=6;this.emit('sfx',{id:'kick'});}
+ groundHeight(x,z){if(Math.abs(x-120)>6)return 0;if(z>=-121.5&&z<=-104.5)return 1.8;if(z>-127.5&&z<-121.5)return (z+127.5)/6*1.8;if(z>-104.5&&z<-99.5)return (-99.5-z)/5*1.8;return 0;}
+ update(dt,input={x:0,z:0},cameraYaw=0){
+  dt=Math.max(0,Math.min(.04,dt));this.time+=dt;this.goalCooldown=Math.max(0,this.goalCooldown-dt);const p=this.player;
+  const len=Math.hypot(input.x,input.z),m=Math.min(1,len),speed=(p.vehicle?18:7)*(p.turbo>0?1.55:1);p.turbo=Math.max(0,p.turbo-dt);
+  const ix=len>.12?input.x/len*m:0,iz=len>.12?input.z/len*m:0;
+  const dx=(ix*Math.cos(cameraYaw)+iz*Math.sin(cameraYaw))*speed,dz=(-ix*Math.sin(cameraYaw)+iz*Math.cos(cameraYaw))*speed;
+  const blend=1-Math.exp(-dt*8);p.vx+=(dx-p.vx)*blend;p.vz+=(dz-p.vz)*blend;
+  if(Math.hypot(p.vx,p.vz)>.25){const target=Math.atan2(p.vx,p.vz);let delta=Math.atan2(Math.sin(target-p.angle),Math.cos(target-p.angle));p.angle+=delta*Math.min(1,dt*10);}
+  const nx=Math.max(-195,Math.min(195,p.x+p.vx*dt)),nz=Math.max(-175,Math.min(190,p.z+p.vz*dt));
+  const flying=p.vehicle&&p.pup===3;
+  const blocked=(x,z)=>!flying&&p.y<2&&this.obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.r+1.1);
+  if(!blocked(nx,p.z))p.x=nx;if(!blocked(p.x,nz))p.z=nz;
+  p.ground=this.groundHeight(p.x,p.z);if(flying){p.y+=(4-p.y)*Math.min(1,dt*4);p.vy=0;}else{p.vy-=18*dt;p.y+=p.vy*dt;if(p.y<p.ground){p.y=p.ground;p.vy=0;}}
   for(const o of this.objects){
-   if(!o.done&&['cookie','bone'].includes(o.type)&&distance(p,o)<55){o.done=true;this.cookies++;this.emit('collect',o.id);}
-   if(o.type==='flower')o.bloom+=(distance(p,o)<140?1-o.bloom:-o.bloom)*Math.min(1,dt*2);
+   if(o.done)continue;
+   if(['bone','race','cookie'].includes(o.type)&&dist(p,o)<2.5){
+    if(o.type==='bone'&&o!==this.next('bone'))continue;
+    if(o.type==='race'&&!p.vehicle)continue;
+    o.done=true;if(o.type==='bone'){this.bones++;this.emit('voice',{id:'Tracker_bone'+o.number});}else if(o.type==='race'){this.stars++;this.emit('voice',{id:'Chase_'+o.shape});}else this.bones++;
+    this.emit('sfx',{id:'collect'});this.emit('spark',{x:o.x,y:2,z:o.z});
+   }
+   if(o.type==='boost'&&p.vehicle&&dist(p,o)<2.8)p.turbo=1.5;
+  }
+  this.updateBall(dt);
+ }
+ updateBall(dt){
+  const b=this.ball,p=this.player;
+  if(dist(p,b)<b.r+1.1&&p.y<1.5){let dx=b.x-p.x,dz=b.z-p.z,l=Math.max(.01,Math.hypot(dx,dz));if(l<.02){dx=Math.sin(p.angle);dz=Math.cos(p.angle);l=1;}b.x=p.x+dx/l*2;b.z=p.z+dz/l*2;b.vx=dx/l*(p.vehicle?12:5)+p.vx*.5;b.vz=dz/l*(p.vehicle?12:5)+p.vz*.5;}
+  b.vy-=12*dt;b.x+=b.vx*dt;b.z+=b.vz*dt;b.y+=b.vy*dt;
+  if(b.y<b.r){b.y=b.r;if(b.vy<-.7)b.vy=-b.vy*.55;else b.vy=0;}
+  const friction=Math.exp(-dt*(b.y<=b.r+.1?1.05:.14));b.vx*=friction;b.vz*=friction;
+  // Estádio: limites laterais e gols com boca de 12 metros.
+  if(b.x<12||b.x>58){b.x=Math.max(12,Math.min(58,b.x));b.vx*=-.65;}
+  if(b.z<92||b.z>158){
+   if(Math.abs(b.x-35)<6&&b.y<4.6&&this.goalCooldown===0){
+    this.goals++;this.goalCooldown=2.5;this.emit('goal',{number:this.goals});this.emit('voice',{id:this.goals<=10?'Ryder_goal'+this.goals:'Ryder_praise'});this.emit('sfx',{id:'crowd'});Object.assign(b,{x:35,y:2,z:125,vx:0,vy:0,vz:0});
+   }else{b.z=Math.max(92,Math.min(158,b.z));b.vz*=-.6;}
   }
  }
 }
-return {World,WIDTH,HEIGHT,NAMES,distance};
+return {World,AREAS,NAMES,dist};
 });

@@ -1,82 +1,69 @@
-# Baía da Aventura — exploração Android 3.0
+# Patrulha Canina — Aventura 3D (Android 4.0)
 
-## Controles e mundo
+## Arquitetura offline
 
-O jogo atual é um mundo top-down de **3200 × 2400**, desenhado em Canvas e empacotado em Android WebView local. Não há troca para telas estáticas de minigame: os objetivos ficam distribuídos pelo mapa, com câmera suave, radar, seta no chão, caminhada animada, pulo e veículos.
+Java 17 + Android Gradle Plugin 8.7.3 + Gradle 8.9 + SDK 35. Aplicativo com.t4b.patrulhacanina, versão 4.0.0/versionCode 4. Android mínimo 23, com WebView atualizado e suporte a WebGL/GLES 2. A atividade força sensorLandscape e LAYER_TYPE_HARDWARE, modo imersivo e área segura. O manifesto continua sem INTERNET.
 
-- Analógico esquerdo: movimento em 360 graus com aceleração, frenagem e zona morta. É possível usar outro dedo para apertar um botão ao mesmo tempo.
-- A: ferramenta da mochila e interação com o objeto próximo. Segurar repete a ação com intervalo. Marshall precisa estar apontando para a chama; não basta apertar longe dela.
-- B: pulo a pé ou turbo temporário dirigindo.
-- X: chama/entra/sai do veículo, com sinal sonoro suave e animação de chegada.
-- Y: abre seleção rápida dos sete personagens. A troca mantém a posição e o progresso do mapa.
-- Pup-Pad: interrompe a fala anterior, repete a dica do objetivo atual e destaca a seta.
-- Som: permite silenciar música, vozes e efeitos mantendo as legendas.
-- Gamepad externo: analógico esquerdo ou direcional, botões padrão A/B/X/Y. O navegador precisa expor o controle por navigator.getGamepads; a compatibilidade de mapeamento depende do gamepad/WebView.
-- Teclado para desenvolvimento: WASD/setas; J=A, Espaço=B, K=X, L=Y.
+Three.js **0.160.1**, licença MIT, está versionado em app/src/main/assets/js/three.min.js com licença e SHA-256. Não usa CDN, GLBs externos, fontes remotas ou downloads em execução. MainActivity serve /js e /audio diretamente dos assets por uma origem virtual HTTPS; os demais links são bloqueados.
 
-O HUD mostra biscoitos e estrelas. O radar mostra o jogador, o Farol e objetivos. A seta usa o objetivo do personagem atual; Ryder orienta junto ao painel central. Não há pontuação negativa, cronômetro, vida ou Game Over.
+Arquivos do jogo:
 
-## Atividades completas
+- world.js: simulação 3D, colisões, pulo, movimento, objetivos, bola e gols. Independente de Three.js para testes de física.
+- models.js: oito filhotes originais articulados e oito veículos, criados com malhas tridimensionais.
+- game.js: mundo, WebGLRenderer com antialias, PCFSoftShadowMap, iluminação Hemisphere/Directional, skybox procedural, FogExp2, câmeras, interface e animação.
+- audio.js: fila de vozes, decodificação dos MP3s locais, música, motor, efeitos e ducking.
 
-1. Farol central: painel do Ryder, escorregador e comedouro. O escorregador funciona com A; o comedouro permite dar carinho/biscoito.
-2. Cidade: dez chamas numeradas em ordem para Marshall, água com trajetória animada, três cores do semáforo e quatro gatinhos com pistas de formas para Chase.
-3. Praia/píer: Rocky coleta papel, plástico, metal e vidro e leva cada um à lixeira correta; depois leva uma roda ao brinquedo. Zuma resgata tartaruga, polvo e estrela do mar, em sequência com contagem e explicações.
-4. Parque/pomar: Skye encontra as cinco vogais em balões, com exemplos de palavras; helicóptero disponível pelo X.
-5. Fazenda/obras: Rubble retira quatro pedras do maior para o menor, leva quatro peças de formas à ponte e alimenta vaquinha, porquinho e ovelha.
-6. Atividades livres: sementes que viram flores com água do Marshall, hidrantes, flores que abrem por proximidade, cinco pegadas em sequência até um baú, biscoitos e ossinhos coletáveis pelo caminho.
+Não se trata de um Canvas 2D imitando perspectiva: as malhas são renderizadas pelo WebGL, com teste de profundidade, sombras, câmera PerspectiveCamera e um minimapa da própria cena por câmera OrthographicCamera/RenderTarget. O minimapa atualiza em cadência reduzida e é composto sobre a tela para limitar custo. O renderizador limita DPR a 1,5, usa distância de exibição por grupo e compartilha geometria/material; o desempenho real depende do GPU/aparelho. Não há promessa de 60 FPS sem medição física.
 
-Cada missão principal concede estrelas e abre uma recompensa com estrelas suaves e biscoito. A conclusão não apaga o mapa nem bloqueia atividades livres. O progresso é da sessão; não há armazenamento de dados pessoais. A arte dos personagens é estilizada e original, sem sprites oficiais. O motor trabalha com requestAnimationFrame e culling; 60 FPS é uma meta, não uma medição garantida em todos os celulares.
+## Controles
 
-## Paisagem e Android
+Analógico esquerdo: anda/dirige relativo à direção da câmera. Arraste na parte direita livre: gira a câmera; após alguns segundos andando, o acompanhamento volta gradualmente para trás do personagem. A câmera evita atravessar os prédios registrados para colisão. Teleportes reposicionam a câmera imediatamente para evitar atravessar o mundo em um voo involuntário.
 
-Manifesto: sensorLandscape e configChanges orientation|screenSize|keyboardHidden. MainActivity também chama setRequestedOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE), aplica IMMERSIVE_STICKY e respeita recortes. O Canvas preserva 16:9 com ajuste fluido e mostra aviso quando a viewport estiver em retrato. O modo imersivo não é quiosque: o Android permite revelar barras por gestos do sistema.
+Cinco botões grandes: Pular/Turbo, Dirigir veículo, Mochila/Chute, Trocar amigo e Viajar. Há Pup-Pad, botão de som, contador de ossinhos/estrelas/gols e minimapa. Suporta simultaneamente movimento e outro dedo em botão. Gamepad padrão: A=ferramenta, B=pulo, X=veículo, Y=amigos e botão superior=áreas; analógico direito gira a câmera. Teclado: WASD/setas, J=ferramenta, Espaço=pulo, K=veículo, L=amigos, M=áreas.
 
-Identificador: com.t4b.patrulhacanina. Versão 3.0.0, versionCode 3. Java 17, Gradle 8.9, AGP 8.7.3, SDK 35 e mínimo 23. É necessário Android System WebView atualizado para Canvas, Pointer Events, Web Audio e JavaScript moderno.
+## Personagens e veículos
 
-Não há permissão INTERNET no APK. HTTPS game.local é uma origem virtual: MainActivity intercepta e serve somente arquivos de assets, inclusive /audio/*.mp3. A geração de áudio acontece antes de empacotar; o jogo instalado não consulta Microsoft, Unity ou qualquer servidor.
+Chase, Marshall, Skye, Rocky, Rubble, Zuma, Tracker e Everest podem ser trocados sem perder a posição. Ryder aparece como personagem humano no Farol e orienta por voz. Os filhotes têm cabeça/focinho/olhos, orelhas articuladas, patinhas com ciclo de caminhada, rabo, mochila e chapéu/capacete. Incluem manchas do Marshall, cachos/óculos da Skye, focinho do Rubble e máscaras claras do Tracker/Everest.
 
-## Dublagem neural: procedência e limitações reais
+Veículos têm rodas com rotação, cabine e faróis. Há escada e tanques do Marshall, luzes de sinalização em variação lenta, hélice do helicóptero, caçamba do Rocky, pá do Rubble, hovercraft do Zuma, jipe branco listrado do Tracker e pá de neve da Everest. São modelos procedurais estilizados, não os modelos comerciais de PAW Patrol World/Grand Prix.
 
-Tools/voice_catalog.py contém **105 falas** de saudações, bordões, números, cores, formas, vogais, materiais e animais. Tools/generate_voices.py usa edge-tts 7.3.1 e grava **MP3s reais** em app/src/main/assets/audio. Não usa eSpeak, conversão de WAV antigo, clonagem de ator ou bipes como se fossem fala. Os WAVs históricos permanecem em Assets/Resources apenas como legado; foram removidos do pacote Android.
+## Áreas conectadas
 
-O gerador consulta as vozes PT-BR anunciadas pelo próprio serviço. Solicita Antonio, Fabio, Julio, Francisca, Rodrigo, Humberto e Thalita, com os pitch/rates pedidos. **A existência de uma voz no catálogo Azure não garante que o endpoint Edge a ofereça.** Quando a solicitada não está disponível, usa uma voz PT-BR anunciada com o mesmo gênero, preserva pitch/rate e registra requestedVoice e voice usados no manifest. Assim, a configuração não inventa sete vozes distintas quando o serviço oferece menos.
+1. **Selva (-125, -100)**: trilha de lajes, 28 palmeiras com sombras e balanço, vegetação tropical, paredão, barris, templo e dez ossinhos numerados. Macaco, tucano e sapo têm explicações por voz. Ossinhos fora de sequência permanecem disponíveis, sem punição.
+2. **Grand Prix (120, -85)**: circuito oval pavimentado, muretas/cores, bandeiras com coroas, pinheiros, torre de relógio, ponte sobre água e rampas. Veículos recebem turbo nos boosters; formas coletáveis apresentam círculo/quadrado/triângulo/estrela. A corrida é livre, sem cronômetro ou derrota.
+3. **Estádio (35, 125)**: gramado listrado, linhas, círculo central, áreas, pista de atletismo, cercas, arquibancadas com público instanciado e duas traves com redes de geometria real. Bola tem gravidade, velocidade, rotação, amortecimento, atrito e colisões. O contato empurra; a mochila chuta com arco. Zuma é goleiro amistoso que alcança apenas bolas baixas. Gols geram partículas 3D e narração de 1 a 10; após 10, continuam contando no placar com elogio genérico. A cor da bola muda junto à fala educativa.
+4. **Farol/cidade (0, 0)**: torre, Ryder, veículos estacionados, prédios, resgates de cinco chamas numeradas pelo Marshall, lixeiras e materiais de quatro categorias para Rocky, vogais/resgate aéreo com Skye e montinhos de neve para Everest.
 
-neural-manifest.json registra origem, voz, parâmetros, hash de texto e SHA-256 do MP3. ffprobe exige codec MP3 e duração de fala; o validador compara hashes e exige todos os arquivos em CI. Isso verifica formato/integridade/procedência declarada pelo gerador, mas ouvir as falas continua necessário para avaliar naturalidade e conforto. Não há promessa de que um serviço gratuito e não contratado permaneça disponível indefinidamente.
+As áreas podem ser alcançadas andando/dirigindo ou pelo botão Viajar. Árvores, montanhas, nuvens volumétricas e dirigível roxo completam o horizonte. Não há Game Over, dano, punição por erro ou limite de tempo. O progresso permanece durante a sessão.
 
-A primeira tentativa local recebeu HTTP 403 do proxy e o primeiro cliente 7.2.8 falhou no CI. Após atualizar para 7.3.1, o serviço funcionou no GitHub Actions: **105 MP3s foram gerados e versionados no commit f81b70d**. Os arquivos foram baixados de volta e passaram na verificação estrita local. O APK local foi recompilado com todos os MP3s. A reprodução mantém legendas se um arquivo ficar indisponível, sem voltar a WAVs robotizados.
+## Vozes e sons: o que é realmente fornecido
 
-Vozes efetivamente fornecidas pelo endpoint Edge nesta geração:
+O roteiro foi ampliado para **150 falas PT-BR**, incluindo Tracker, Everest, gols e apresentação das áreas. Edge TTS 7.3.1 gera arquivos reais com voz neural. Em seguida ffmpeg aplica uma estilização leve usando asetrate/aresample, atempo, equalizer e chorus, com limitador. O manifest registra processamento, voz-base, parâmetros, texto e hashes. O CI exige o conjunto completo antes de publicar.
 
-| Personagem | Voz-base neural usada | Pitch | Rate |
-| --- | --- | --- | --- |
-| Ryder | pt-BR-AntonioNeural | +15Hz | +5% |
-| Chase | pt-BR-AntonioNeural | +20Hz | +8% |
-| Marshall | pt-BR-AntonioNeural | +25Hz | +5% |
-| Skye | pt-BR-FranciscaNeural | +30Hz | +8% |
-| Rocky | pt-BR-AntonioNeural | +22Hz | +6% |
-| Rubble | pt-BR-AntonioNeural | +18Hz | +4% |
-| Zuma | pt-BR-ThalitaMultilingualNeural | +15Hz | +6% |
+**Não há clonagem nem identidade vocal dos atores originais.** Processar uma voz-base não a torna idêntica à dublagem brasileira. Não foram fornecidas amostras de atores com autorização/licença para integração; não baixamos bordões de vídeos para apresentá-los como material livre. O serviço Edge não anuncia todas as vozes Azure originalmente pedidas: usa vozes PT-BR disponíveis do mesmo gênero e documenta os nomes reais no manifest. Tracker usa Antonio e Everest usa Francisca como preferências.
 
-Fabio, Julio, Rodrigo e Humberto não foram anunciados pelo serviço Edge nessa execução. O projeto não alega ter criado essas vozes ou sete locutores diferentes.
+Tools/generate_sfx.py gera dez MP3s **originais sintetizados**: latido estilizado, sirene suave, motor, apito, chute, textura de torcida, água, coleta, pulo e uma composição instrumental própria em loop. Eles não são gravações reais de animais/público nem o tema oficial da série. Música abaixa durante as falas; motor varia a velocidade de reprodução conforme a condução.
 
-## CI e commit automático dos MP3s
+Os 105 arquivos anteriores são processados localmente quando compatíveis e os 45 novos são gerados em CI se o proxy local bloquear o Edge. Depois que todos estão versionados, o gerador verifica hashes sem depender da rede de voz para todo build. Áudio e jogo funcionam offline depois da instalação.
 
-O workflow instala edge-tts e ffprobe, gera MP3s faltantes e valida todos. Em push para main, grava os MP3s e o manifest em um commit bot (`[skip ci]`), usando apenas o GITHUB_TOKEN automático com contents:write. Assets já completos e com hash correto são reaproveitados sem consultar o serviço. A revisão compilada, incluindo o commit de áudio, é passada ao job da Release latest. Não são necessários secrets de Unity ou API keys.
+## Build e publicação
 
-Se o serviço de voz estiver indisponível também no runner, a etapa neural falha explicitamente e preserva a Release anterior. Esse é um bloqueio externo de geração, não um erro de Gradle nem autorização para fabricar áudios. Consulte a etapa **Gerar falas neurais PT-BR reais** no Actions e o manifest antes de afirmar que o novo APK está dublado.
+O workflow único .github/workflows/build-apk.yml usa Ubuntu 24.04, Java 17, Python 3.11 e SDK do runner. Instala ffmpeg/edge-tts, gera efeitos e falas faltantes, valida hashes/codec/duração, testa simulação e WebGL no Chromium, compila e verifica a assinatura. Em main o bot versiona os áudios com [skip ci] e publica o APK na Release latest usando o GITHUB_TOKEN automático, sem licença Unity ou secrets externos.
 
-## Comandos e verificações
+Comandos:
 
-- Instalar gerador: python3 -m pip install -r Tools/requirements-voices.txt
-- Gerar MP3s em rede com acesso ao serviço: python3 Tools/generate_voices.py
-- Gerar apenas roteiro/legendas, sem alegar voz pronta: python3 Tools/generate_voices.py --catalog-only
-- Verificação estrita de áudio e projeto: python3 Tools/validate_android.py
-- Verificação local explícita com áudio ainda ausente: python3 Tools/validate_android.py --allow-missing-audio
-- Testes: npm ci; npx playwright install chromium; npm test
-- APK: ./gradlew --no-daemon :app:assembleDebug
+- npm ci
+- python3 -m pip install -r Tools/requirements-voices.txt
+- python3 Tools/generate_sfx.py
+- python3 Tools/generate_voices.py
+- python3 Tools/validate_android.py
+- CHROMIUM_PATH=/usr/bin/chromium npm test (ou npx playwright install --with-deps chromium e npm test)
+- ./gradlew --no-daemon :app:assembleDebug
 
-A suíte de simulação resolve as seis missões, testando ordens, erros gentis, transporte de materiais, ponte e troca de personagem. A suíte Chromium usa dois toques reais simultâneos via CDP, veículo, turbo, gamepad, posição preservada e aviso de orientação. Esses testes não substituem teste em aparelho Android, escuta das vozes neurais nem medição de FPS.
+APK em app/build/outputs/apk/debug/app-debug.apk. A chave incluída é pública, de desenvolvimento, e não serve como assinatura privada de produção. Modo imersivo não é quiosque: Android permite gestos do sistema para sair/revelar barras.
 
-A assinatura continua pública e exclusiva de desenvolvimento, em Tools/debug.keystore. Não é uma chave de produção. O APK fica no Artifact PatrulhaCanina-APK e, após sucesso completo em main, em releases/latest/download/PatrulhaCanina.apk. O Android pode exigir autorização para instalar APKs pelo navegador.
+## Validação e limites
 
-O cliente Edge TTS foi atualizado para 7.3.1 após a primeira falha de geração no CI. Falhas novas expõem etapa, tipo de exceção e status HTTP nas annotations, sem imprimir URLs ou credenciais.
+A suíte de simulação exercita movimento relativo à câmera, pulo/aterrissagem, turbo, personagens, ossinhos ordenados, animais, fogo, reciclagem, voo, neve, altura da ponte, chute, quique e gol. Chromium executa **WebGL real**, por SwiftShader em CI, para verificar oito modelos, quatro áreas, teleporte, câmera orbital, veículo, turbo e paisagem. Isso não mede aceleração de GPU Android nem substitui jogar no celular.
+
+O APK deve ser testado em aparelho real: performance térmica, legibilidade dos números, conforto sensorial, áudio no volume normal, multitouch e diferentes gamepads. A qualidade é procedural e original; não alegamos equivalência visual ao produto comercial nem dublagem oficial.

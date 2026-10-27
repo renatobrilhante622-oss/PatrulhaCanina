@@ -14,6 +14,13 @@ def probe(path):
  data=json.loads(result.stdout)
  if not any(s.get('codec_name')=='mp3' for s in data.get('streams',[])) or float(data.get('format',{}).get('duration',0))<.3:raise ValueError('MP3 de fala inválido: '+str(path))
 
+def process_character(path):
+ # Estilização leve; não reproduz a identidade vocal de atores da dublagem.
+ temporary=path.with_suffix('.processed.mp3')
+ filters='asetrate=24000*1.02,aresample=24000,atempo=0.980392,equalizer=f=2200:t=q:w=1:g=1.5,chorus=0.5:0.6:12:0.04:0.3:0.2,alimiter=limit=0.85'
+ subprocess.run(['ffmpeg','-v','error','-y','-i',str(path),'-af',filters,'-codec:a','libmp3lame','-b:a','96k',str(temporary)],check=True)
+ probe(temporary);temporary.replace(path)
+
 def write_catalog():
  CATALOG.write_text(json.dumps({'entries':catalog()},ensure_ascii=False,indent=2)+'\n')
 
@@ -27,8 +34,12 @@ async def generate(args):
  for entry in catalog():
   p=DEST/(entry['id']+'.mp3');record=old['entries'].get(entry['id'],{})
   expected=hashlib.sha256(entry['text'].encode()).hexdigest()
-  if not args.force and p.exists() and record.get('textSha256')==expected and record.get('requestedVoice')==PROFILES[entry['speaker']][0] and record.get('pitch')==PROFILES[entry['speaker']][1] and record.get('rate')==PROFILES[entry['speaker']][2] and record.get('sha256')==hashlib.sha256(p.read_bytes()).hexdigest():probe(p)
+  if not args.force and p.exists() and record.get('textSha256')==expected and record.get('requestedVoice')==PROFILES[entry['speaker']][0] and record.get('pitch')==PROFILES[entry['speaker']][1] and record.get('rate')==PROFILES[entry['speaker']][2] and record.get('sha256')==hashlib.sha256(p.read_bytes()).hexdigest():
+   if record.get('processing')!='gentle-character-v1':
+    process_character(p);record['sha256']=hashlib.sha256(p.read_bytes()).hexdigest();record['processing']='gentle-character-v1'
+   probe(p)
   else:todo.append(entry)
+ if old['entries']:MANIFEST.write_text(json.dumps(old,ensure_ascii=False,indent=2)+'\n')
  if not todo:write_catalog();print('Todos os MP3s neurais estão completos e verificados.');return
  proxy=os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
  STAGE='list_voices'
@@ -49,8 +60,8 @@ async def generate(args):
    for attempt in range(3):
     try:
      await asyncio.wait_for(edge_tts.Communicate(entry['text'],voice,rate=rate,pitch=pitch,proxy=proxy).save(str(tmp)),75)
-     probe(tmp);tmp.replace(path)
-     old['entries'][entry['id']]={'source':'Microsoft Edge neural TTS','voice':voice,'requestedVoice':PROFILES[entry['speaker']][0],'pitch':pitch,'rate':rate,'textSha256':hashlib.sha256(entry['text'].encode()).hexdigest(),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+     probe(tmp);process_character(tmp);tmp.replace(path)
+     old['entries'][entry['id']]={'source':'Microsoft Edge neural TTS','processing':'gentle-character-v1','voice':voice,'requestedVoice':PROFILES[entry['speaker']][0],'pitch':pitch,'rate':rate,'textSha256':hashlib.sha256(entry['text'].encode()).hexdigest(),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
      # Atualização atômica por evento: sem await durante a escrita.
      MANIFEST.write_text(json.dumps(old,ensure_ascii=False,indent=2)+'\n')
      print('Gerado:',entry['id'],flush=True);return
