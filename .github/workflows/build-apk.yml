@@ -11,19 +11,39 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    # Imagem estável com Android SDK; evita a migração de ubuntu-latest para 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: '17'
-      - uses: android-actions/setup-android@v3
+      - uses: actions/setup-python@v5
         with:
-          cmdline-tools-version: '13114758'
-      - name: SDK e Build Tools
-        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          python-version: '3.11'
+      - name: Verificar Wrapper versionado
+        shell: bash
+        run: |
+          set -euo pipefail
+          git ls-files --error-unmatch gradlew gradle/wrapper/gradle-wrapper.jar
+          test -s gradle/wrapper/gradle-wrapper.jar
+          chmod +x gradlew
+          cd gradle/wrapper
+          printf '%s  gradle-wrapper.jar\n' "$(cat gradle-wrapper.jar.sha256)" | sha256sum --check
+      - name: Preparar SDK Android do runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+          test -n "$SDK_ROOT"
+          SDK_MANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$SDK_MANAGER"
+          echo "Android SDK: $SDK_ROOT"
+          "$SDK_MANAGER" --sdk_root="$SDK_ROOT" 'platforms;android-35' 'build-tools;35.0.0'
       - uses: gradle/actions/setup-gradle@v4
       - uses: actions/setup-node@v4
         with:
@@ -39,40 +59,49 @@ jobs:
           npx playwright install --with-deps chromium
           npm test
       - name: Compilar APK debug assinado
-        run: ./gradlew --no-daemon --console=plain :app:assembleDebug
-      - name: Nomear APK para download
         run: |
-          mkdir -p dist
-          cp app/build/outputs/apk/debug/app-debug.apk dist/PatrulhaCanina-debug.apk
-          cp app/build/outputs/apk/debug/app-debug.apk dist/PatrulhaCanina.apk
-          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose dist/PatrulhaCanina.apk
+          chmod +x gradlew
+          ./gradlew --no-daemon --console=plain :app:assembleDebug
+      - name: Verificar e nomear APK para download
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK_DIR=app/build/outputs/apk/debug
+          test -s "$APK_DIR/app-debug.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "$APK_DIR/app-debug.apk"
+          mv "$APK_DIR/app-debug.apk" "$APK_DIR/PatrulhaCanina.apk"
+          ls -lh "$APK_DIR/PatrulhaCanina.apk"
       - uses: actions/upload-artifact@v4
         with:
           name: PatrulhaCanina-APK
-          path: dist/*.apk
+          path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 30
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
-    runs-on: ubuntu-latest
     permissions:
       contents: write
+    runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: PatrulhaCanina-APK
-          path: dist
-      - name: Criar ou atualizar Release latest
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-          COMMIT_SHA: ${{ github.sha }}
+          path: app/build/outputs/apk/debug
+      - name: Atualizar tag latest para o commit compilado
+        shell: bash
         run: |
-          if gh release view latest >/dev/null 2>&1; then
-            gh api --method PATCH "repos/$GH_REPO/git/refs/tags/latest" -f sha="$COMMIT_SHA" -F force=true
-            gh release edit latest --title 'Patrulha Canina - Missões (APK)' --notes 'APK Android offline. Assinatura pública de desenvolvimento; não é distribuição de produção.' --latest
-          else
-            gh release create latest --target "$COMMIT_SHA" --title 'Patrulha Canina - Missões (APK)' --notes 'APK Android offline. Assinatura pública de desenvolvimento; não é distribuição de produção.' --latest
-          fi
-          gh release upload latest dist/PatrulhaCanina.apk --clobber
+          set -euo pipefail
+          git tag --force latest "$GITHUB_SHA"
+          git push --force origin refs/tags/latest
+      - name: Publicar APK na Release latest
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          target_commitish: ${{ github.sha }}
+          name: Patrulha Canina - Missões (APK)
+          body: APK Android offline. Assinatura pública de desenvolvimento; não é distribuição de produção.
+          make_latest: true
+          fail_on_unmatched_files: true
+          files: app/build/outputs/apk/debug/*.apk

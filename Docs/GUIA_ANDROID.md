@@ -35,13 +35,13 @@ O áudio só é iniciado após o primeiro toque, respeitando a política do WebV
 
 ## Pipeline automático
 
-.github/workflows/build-apk.yml roda em pushes para main, pull requests e acionamento manual. Ele instala Java 17, configura Android SDK e Build Tools, verifica os áudios, testa as seis missões com Chromium/Playwright, compila assembleDebug, verifica a assinatura e publica o Artifact PatrulhaCanina-APK.
+.github/workflows/build-apk.yml roda em pushes para main, pull requests e acionamento manual. Ele instala Java 17 e Python 3.11, usa o Android SDK pré-instalado do runner ubuntu-24.04 e instala as plataformas/Build Tools necessários, verifica os áudios, testa as seis missões com Chromium/Playwright, compila assembleDebug, verifica a assinatura e publica o Artifact PatrulhaCanina-APK.
 
 Após sucesso em push para main, o job release atualiza a tag e a Release latest e anexa **PatrulhaCanina.apk**. O download direto fica em:
 
 https://github.com/renatobrilhante622-oss/PatrulhaCanina/releases/latest/download/PatrulhaCanina.apk
 
-O job de Release tem contents:write e usa exclusivamente github.token, fornecido automaticamente pelo GitHub. Não há UNITY_LICENSE, API key de voz, senha de conta ou secret externo. Pull requests têm apenas leitura e não publicam releases. A organização/repositório ainda precisa permitir Actions e a permissão declarada pelo workflow; políticas administrativas ou indisponibilidade dos serviços podem impedir builds/publicação.
+O job de Release tem contents:write e usa exclusivamente github.token, fornecido automaticamente pelo GitHub. Não há UNITY_LICENSE, API key de voz, senha de conta ou secret externo. Pull requests não publicam releases; o GitHub reduz as permissões de tokens em contribuições de forks conforme sua política. A organização/repositório ainda precisa permitir Actions e a permissão declarada pelo workflow; políticas administrativas ou indisponibilidade dos serviços podem impedir builds/publicação.
 
 GitHub Actions oferece cotas gratuitas conforme o plano e a visibilidade do repositório; o projeto usa ferramentas gratuitas, mas não promete minutos ilimitados do serviço. A instalação das dependências de build requer rede; o aplicativo instalado funciona offline.
 
@@ -56,3 +56,7 @@ O pacote novo `com.t4b.patrulhacanina` não atualiza o antigo aplicativo Unity `
 Tools/validate_android.py confere todos os WAVs, catálogo, personagens, identificador, orientação, ausência de permissões, chave debug e checksums do Wrapper. Tools/test_game.cjs usa eventos reais de ponteiro no Chromium para resolver todas as missões, inclusive tentativas incorretas, conserto, contagem, pares diferentes, repetição, recompensa e retorno ao Hub. As falas são decodificadas de arquivos reais, mas aceleradas no teste para reduzir duração. Isso não substitui ouvir as falas no ritmo normal nem executar em WebView Android.
 
 Teste o APK em aparelho real, em modo avião desde a abertura, verificando áudio, multitouch, suspensão/retomada, modo imersivo e áreas próximas das barras do sistema. Uma compilação bem-sucedida não é prova de conforto sensorial ou desempenho em todos os aparelhos.
+
+## Correção da inicialização do CI
+
+A execução 40542808059 falhou na etapa android-actions/setup-android@v3, antes do Gradle; checkout e Java concluíram. A interface pública permite ver o estado das etapas, mas exige autenticação para ler o conteúdo dos logs. O instalador foi removido: o workflow agora usa diretamente o SDK do runner ubuntu-24.04, fixa Python 3.11, confere o checksum do Wrapper versionado e garante chmod +x. Upload e softprops/action-gh-release@v2 usam o mesmo caminho app/build/outputs/apk/debug/*.apk, com permissões contents:write nos jobs. A conclusão da execução nova deve ser verificada no Actions; permissões de workflow não substituem eventuais restrições administrativas do GitHub.

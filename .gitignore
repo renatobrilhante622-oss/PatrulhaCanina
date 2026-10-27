@@ -20,3 +20,10 @@ app/build/
 
 node_modules/
 !Tools/debug.keystore
+
+# Wrapper Gradle faz parte do projeto e deve sempre ser versionado.
+!gradlew
+!gradlew.bat
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!gradle/wrapper/gradle-wrapper.jar.sha256
