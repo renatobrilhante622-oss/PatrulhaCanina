@@ -37,7 +37,7 @@ Não há permissão INTERNET no APK. HTTPS game.local é uma origem virtual: Mai
 
 ## Dublagem neural: procedência e limitações reais
 
-Tools/voice_catalog.py contém **105 falas** de saudações, bordões, números, cores, formas, vogais, materiais e animais. Tools/generate_voices.py usa edge-tts 7.2.8 e grava **MP3s reais** em app/src/main/assets/audio. Não usa eSpeak, conversão de WAV antigo, clonagem de ator ou bipes como se fossem fala. Os WAVs históricos permanecem em Assets/Resources apenas como legado; foram removidos do pacote Android.
+Tools/voice_catalog.py contém **105 falas** de saudações, bordões, números, cores, formas, vogais, materiais e animais. Tools/generate_voices.py usa edge-tts 7.3.1 e grava **MP3s reais** em app/src/main/assets/audio. Não usa eSpeak, conversão de WAV antigo, clonagem de ator ou bipes como se fossem fala. Os WAVs históricos permanecem em Assets/Resources apenas como legado; foram removidos do pacote Android.
 
 O gerador consulta as vozes PT-BR anunciadas pelo próprio serviço. Solicita Antonio, Fabio, Julio, Francisca, Rodrigo, Humberto e Thalita, com os pitch/rates pedidos. **A existência de uma voz no catálogo Azure não garante que o endpoint Edge a ofereça.** Quando a solicitada não está disponível, usa uma voz PT-BR anunciada com o mesmo gênero, preserva pitch/rate e registra requestedVoice e voice usados no manifest. Assim, a configuração não inventa sete vozes distintas quando o serviço oferece menos.
 
@@ -64,3 +64,5 @@ Se o serviço de voz estiver indisponível também no runner, a etapa neural fal
 A suíte de simulação resolve as seis missões, testando ordens, erros gentis, transporte de materiais, ponte e troca de personagem. A suíte Chromium usa dois toques reais simultâneos via CDP, veículo, turbo, gamepad, posição preservada e aviso de orientação. Esses testes não substituem teste em aparelho Android, escuta das vozes neurais nem medição de FPS.
 
 A assinatura continua pública e exclusiva de desenvolvimento, em Tools/debug.keystore. Não é uma chave de produção. O APK fica no Artifact PatrulhaCanina-APK e, após sucesso completo em main, em releases/latest/download/PatrulhaCanina.apk. O Android pode exigir autorização para instalar APKs pelo navegador.
+
+O cliente Edge TTS foi atualizado para 7.3.1 após a primeira falha de geração no CI. Falhas novas expõem etapa, tipo de exceção e status HTTP nas annotations, sem imprimir URLs ou credenciais.

@@ -7,6 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 DEST=ROOT/'app/src/main/assets/audio'
 CATALOG=ROOT/'app/src/main/assets/game/catalog.json'
 MANIFEST=DEST/'neural-manifest.json'
+STAGE='cache'
 
 def probe(path):
  result=subprocess.run(['ffprobe','-v','error','-show_entries','stream=codec_name:format=duration','-of','json',str(path)],capture_output=True,text=True,check=True)
@@ -17,6 +18,7 @@ def write_catalog():
  CATALOG.write_text(json.dumps({'entries':catalog()},ensure_ascii=False,indent=2)+'\n')
 
 async def generate(args):
+ global STAGE
  import edge_tts
  DEST.mkdir(parents=True,exist_ok=True)
  old=json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {'entries':{}}
@@ -29,6 +31,7 @@ async def generate(args):
   else:todo.append(entry)
  if not todo:write_catalog();print('Todos os MP3s neurais estão completos e verificados.');return
  proxy=os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
+ STAGE='list_voices'
  voices=await asyncio.wait_for(edge_tts.list_voices(proxy=proxy),45)
  available={v['ShortName']:v for v in voices if v['Locale']=='pt-BR'}
  if not available:raise RuntimeError('O serviço não anunciou vozes PT-BR.')
@@ -55,6 +58,7 @@ async def generate(args):
      tmp.unlink(missing_ok=True)
      if attempt==2:raise
      await asyncio.sleep(2*(attempt+1))
+ STAGE='synthesize'
  await asyncio.gather(*(one(entry) for entry in todo))
  write_catalog();print(f'{len(catalog())} falas neurais verificadas.')
 
@@ -62,4 +66,11 @@ def main():
  parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--catalog-only',action='store_true');parser.add_argument('--force',action='store_true');parser.add_argument('--workers',type=int,default=3);args=parser.parse_args()
  if args.catalog_only:write_catalog();print(f'{len(catalog())} falas no roteiro; isso não gera áudio.');return
  asyncio.run(generate(args))
-if __name__=='__main__':main()
+if __name__=='__main__':
+ try:main()
+ except Exception as error:
+  status=getattr(error,'status',None)
+  message=f'Edge TTS: etapa={STAGE}; tipo={type(error).__name__}; HTTP={status or "n/a"}. Nenhum audio artificial foi usado.'
+  print(message,flush=True)
+  if os.environ.get('GITHUB_ACTIONS'):print('::error title=Geracao neural interrompida::'+message,flush=True)
+  raise SystemExit(1)
