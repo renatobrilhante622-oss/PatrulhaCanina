@@ -9,7 +9,14 @@ const server=http.createServer((req,res)=>{const file=path.join(base,decodeURICo
   const page=await browser.newPage({viewport:{width:1280,height:720}}),errors=[];page.on('pageerror',e=>errors.push(String(e)));
   await page.addInitScript(()=>{const old=AudioContext.prototype.createBufferSource;AudioContext.prototype.createBufferSource=function(){const source=old.call(this);source.playbackRate.value=30;return source;};});
   await page.goto(`http://127.0.0.1:${server.address().port}/game/index.html`);await page.waitForFunction(()=>window.game&&game.inspect().frames>3,{},{timeout:45000});
-  const read=()=>page.evaluate(()=>game.inspect());let s=await read();assert.match(s.renderer,/WebGL/);assert.equal(s.characters,8);assert.equal(s.areas.length,4);assert.ok(s.triangles>10000);assert.equal(await page.locator('#webgl-error').isVisible(),false);
+  const read=()=>page.evaluate(()=>game.inspect());let s=await read();assert.match(s.renderer,/WebGL/);assert.equal(s.characters,8);assert.equal(s.areas.length,9);assert.ok(s.triangles>10000);assert.equal(await page.locator('#webgl-error').isVisible(),false);
+  if(process.env.SCREENSHOT_DIR){fs.mkdirSync(process.env.SCREENSHOT_DIR,{recursive:true});await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR,'menu.png')});}
+  assert.equal(s.console.page,'main');assert.equal(await page.getByRole('button',{name:/MODO HISTÓRIA/}).isVisible(),true);
+  await page.getByRole('button',{name:/OPÇÕES DOS PAIS/}).click();
+  await page.getByRole('slider',{name:'Volume da voz',exact:true}).focus();await page.keyboard.press('Home');await page.keyboard.press('ArrowRight');
+  await page.getByRole('combobox',{name:'Qualidade gráfica'}).selectOption('low');await page.getByRole('combobox',{name:'Limite de quadros'}).selectOption('30');
+  await page.reload();await page.waitForFunction(()=>window.game&&game.inspect().frames>3,{},{timeout:45000});s=await read();assert.equal(s.save.options.voice,.05);assert.equal(s.save.options.fps,30);assert.equal(s.save.options.quality,'low');
+  await page.getByRole('button',{name:/EXPLORAÇÃO LIVRE/}).click();await page.locator('#joystick').waitFor({state:'visible'});
   // Analógico verdadeiro usando o mouse de testes; a mesma entrada é PointerEvent touch no aparelho.
   const joy=await page.locator('#joystick').boundingBox();const sx=joy.x+joy.width/2,sy=joy.y+joy.height/2,start=s.player;
   await page.mouse.move(sx,sy);await page.mouse.down();await page.mouse.move(sx+joy.width*.35,sy);
@@ -17,15 +24,16 @@ const server=http.createServer((req,res)=>{const file=path.join(base,decodeURICo
   await page.locator('#vehicle').click();assert.equal((await read()).player.vehicle,true);
   await page.locator('#jump').click();assert.ok((await read()).player.turbo>0);
   await page.locator('#friends').click();for(const name of ['Chase','Marshall','Skye','Rocky','Rubble','Zuma','Tracker','Everest'])assert.equal(await page.getByRole('button',{name,exact:true}).count(),1);
-  await page.getByRole('button',{name:'Tracker',exact:true}).click();assert.equal((await read()).player.pup,7);
-  await page.locator('#areas').click();await page.getByRole('button',{name:'Selva do Tracker',exact:true}).click();s=await read();assert.equal(s.player.x,-125);assert.equal(s.player.z,-84);
+  await page.getByRole('button',{name:'Tracker',exact:true}).click();assert.equal((await read()).console.previewPup,7);await page.waitForSelector('.preview-window canvas');if(process.env.SCREENSHOT_DIR)await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR,'garage.png')});await page.getByRole('button',{name:'Escolher este amigo',exact:true}).click();assert.equal((await read()).player.pup,7);
+  await page.locator('#areas').click();await page.locator('.map-choices').getByRole('button',{name:/Selva do Tracker$/}).click();s=await read();assert.equal(s.player.x,-125);assert.equal(s.player.z,-84);
   const capture=process.env.SCREENSHOT_DIR;if(capture)fs.mkdirSync(capture,{recursive:true});
   for(const [name,file]of [['Selva do Tracker','selva'],['Grand Prix','pista'],['Estádio da Baía','futebol'],['Farol e cidade','farol']]){
-   await page.locator('#areas').click();await page.getByRole('button',{name,exact:true}).click();const frames=(await read()).frames;await page.waitForFunction(f=>game.inspect().frames>f+12,frames,{timeout:30000});if(capture)await page.screenshot({path:path.join(capture,file+'.png')});
+   await page.locator('#areas').click();await page.locator('.map-choices').getByRole('button',{name:new RegExp(name+'$')}).click();const frames=(await read()).frames;await page.waitForFunction(f=>game.inspect().frames>f+12,frames,{timeout:30000});if(capture)await page.screenshot({path:path.join(capture,file+'.png')});
   }
   // Arraste na metade direita livre da interface realmente gira a câmera.
   const yaw=(await read()).camera.yaw;await page.mouse.move(1000,230);await page.mouse.down();await page.mouse.move(1100,240,{steps:4});await page.mouse.up();assert.ok(Math.abs((await read()).camera.yaw-yaw)>.1);
-  await page.locator('#pup-pad').click();await page.setViewportSize({width:600,height:900});await page.locator('#rotate').waitFor({state:'visible',timeout:15000});assert.equal(await page.locator('#rotate').isVisible(),true);
-  assert.deepEqual(errors,[]);console.log('WebGL real: oito filhotes, malhas 3D, quatro áreas, analógico, veículo, turbo, câmera orbital, teleporte e paisagem aprovados.');
+  await page.locator('#pup-pad').click();assert.equal(await page.locator('[data-mission]').count(),12);await page.locator('[data-mission="1"]').click();assert.equal((await read()).campaign.phase,'call');await page.getByRole('button',{name:'Ouvir a missão',exact:true}).click();assert.equal((await read()).campaign.phase,'briefing');await page.getByRole('button',{name:'Partir do Farol',exact:true}).click();await page.waitForFunction(()=>game.inspect().campaign.phase==='play',{},{timeout:20000});assert.equal((await read()).campaign.id,1);
+  await page.setViewportSize({width:600,height:900});await page.locator('#rotate').waitFor({state:'visible',timeout:15000});assert.equal(await page.locator('#rotate').isVisible(),true);
+  assert.deepEqual(errors,[]);console.log('WebGL real: oito filhotes, malhas 3D, nove regiões, menu, save recarregado, opções, garagem, ritual, analógico, veículo, turbo, câmera orbital, teleporte e paisagem aprovados.');
  }finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));}
 })().catch(e=>{console.error(e);process.exitCode=1;});

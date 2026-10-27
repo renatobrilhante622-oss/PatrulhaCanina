@@ -1,7 +1,7 @@
 /* Simulação 3D determinística. Unidades em metros; sem dependência do renderizador. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.Adventure3D=factory();})(globalThis,()=>{
 'use strict';
-const AREAS={farol:{x:0,z:0,label:'Farol e cidade'},selva:{x:-125,z:-100,label:'Selva do Tracker'},pista:{x:120,z:-85,label:'Grand Prix'},futebol:{x:35,z:125,label:'Estádio da Baía'}};
+const AREAS={farol:{x:0,z:0,label:'Farol e cidade'},selva:{x:-125,z:-100,label:'Selva do Tracker'},pista:{x:120,z:-85,label:'Grand Prix'},futebol:{x:35,z:125,label:'Estádio da Baía'},cidade:{x:0,z:-30,label:'Cidade'},praia:{x:-145,z:80,label:'Praia e Píer'},fazenda:{x:-95,z:128,label:'Fazenda da Yumi'},petshop:{x:-48,z:66,label:'Pet Shop da Katie'},neve:{x:-85,z:-155,label:'Montanha do Jake'}};
 const NAMES=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma','Tracker','Everest'];
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
 class World{
@@ -9,7 +9,7 @@ class World{
   this.player={x:0,y:0,z:16,vx:0,vz:0,vy:0,angle:Math.PI,pup:2,vehicle:false,turbo:0,ground:0};
   this.ball={x:35,y:.8,z:125,vx:0,vy:0,vz:0,r:.8};
   this.objects=[];this.events=[];this.bones=0;this.stars=0;this.goals=0;this.time=0;this.lastAction=-10;this.goalCooldown=0;this.carry=null;this.done=new Set();
-  this.obstacles=[{x:0,z:-7,r:5},{x:-131,z:-122,r:9},{x:20,z:-17,r:5},{x:-20,z:-19,r:5},{x:137,z:-110,r:6}];
+  this.obstacles=[{x:0,z:-7,r:5},{x:-131,z:-122,r:9},{x:20,z:-17,r:5},{x:-20,z:-19,r:5},{x:137,z:-110,r:6},{x:-108,z:163,r:5},{x:-48,z:64,r:5},{x:-108,z:-161,r:5}];
   const add=(type,x,z,data={})=>this.objects.push({id:type+'-'+this.objects.length,type,x,z,done:false,...data});
   for(let i=0;i<10;i++)add('bone',-125+Math.sin(i*.7)*24,-80-i*3,{pup:7,order:i,number:i+1});
   ['monkey','toucan','frog'].forEach((animal,i)=>add('animal',-150+i*24,-123,{pup:7,animal,order:i}));
@@ -23,16 +23,16 @@ class World{
   for(let i=0;i<4;i++)add('snow',-57+i*8,-13,{pup:8,order:i});
   for(let i=0;i<12;i++)add('cookie',-60+i*10,53+Math.sin(i)*5);
  }
- emit(kind,data={}){this.events.push({kind,...data});}
+ emit(kind,data={}){if(kind==='voice'&&this.campaign?.active&&/^Ryder_goal/.test(data.id||''))return;this.events.push({kind,...data});if(this.campaign)this.campaign.onWorldEvent(kind,data);}
  switchPup(id){if(id<1||id>8)return;this.player.pup=id;this.player.vehicle=false;this.emit('voice',{id:NAMES[id]+'_call'});}
  teleport(area){const a=AREAS[area];if(!a)return;Object.assign(this.player,{x:a.x,z:a.z+16,y:0,vy:0,vx:0,vz:0,angle:Math.PI});this.emit('voice',{id:'Ryder_area_'+area});}
  toggleVehicle(){this.player.vehicle=!this.player.vehicle;this.emit('sfx',{id:'siren'});this.emit('voice',{id:NAMES[this.player.pup]+(this.player.vehicle?'_vehicle':'_walk')});}
  jump(){const p=this.player;if(p.vehicle){p.turbo=2;this.emit('sfx',{id:'engine'});}else if(p.y<=p.ground+.05){p.vy=7;this.emit('sfx',{id:'bark'});}}
  next(type){return this.objects.find(o=>o.type===type&&!o.done);}
- instruction(){const p=this.player;if(dist(p,AREAS.futebol)<65)return 'Ryder_football';if(dist(p,AREAS.pista)<60)return 'Ryder_race';if(dist(p,AREAS.selva)<60)return 'Tracker_instruction';return NAMES[p.pup]+'_instruction';}
+ instruction(){if(this.campaign?.active)return this.campaign.instructionID();const p=this.player;if(dist(p,AREAS.futebol)<65)return 'Ryder_football';if(dist(p,AREAS.pista)<60)return 'Ryder_race';if(dist(p,AREAS.selva)<60)return 'Tracker_instruction';return NAMES[p.pup]+'_instruction';}
  finish(o,id){o.done=true;this.stars++;this.emit('voice',{id});this.emit('spark',{x:o.x,y:1,z:o.z});}
  action(){
-  if(this.time-this.lastAction<.45)return;this.lastAction=this.time;const p=this.player;
+  if(this.time-this.lastAction<.45)return;this.lastAction=this.time;if(this.campaign?.active&&this.campaign.interact())return;const p=this.player;
   if(dist(p,this.ball)<5){this.kick();return;}
   this.emit('tool',{pup:p.pup});
   const nearby=this.objects.filter(o=>!o.done&&dist(p,o)<5.5&&(o.pup===p.pup||o.type==='animal')).sort((a,b)=>dist(p,a)-dist(p,b));
@@ -66,7 +66,7 @@ class World{
   if(!blocked(nx,p.z))p.x=nx;if(!blocked(p.x,nz))p.z=nz;
   p.ground=this.groundHeight(p.x,p.z);if(flying){p.y+=(10-p.y)*Math.min(1,dt*4);p.vy=0;}else{p.vy-=18*dt;p.y+=p.vy*dt;if(p.y<p.ground){p.y=p.ground;p.vy=0;}}
   for(const o of this.objects){
-   if(o.done)continue;
+   if(o.done||o.mission)continue;if(this.campaign?.active&&['bone','race','cookie'].includes(o.type))continue;
    if(['bone','race','cookie'].includes(o.type)&&dist(p,o)<2.5){
     if(o.type==='bone'&&o!==this.next('bone'))continue;
     if(o.type==='race'&&!p.vehicle)continue;
@@ -75,7 +75,7 @@ class World{
    }
    if(o.type==='boost'&&p.vehicle&&dist(p,o)<2.8)p.turbo=1.5;
   }
-  this.updateBall(dt);
+  this.updateBall(dt);if(this.campaign)this.campaign.update(dt);
  }
  updateBall(dt){
   const b=this.ball,p=this.player;
@@ -87,7 +87,7 @@ class World{
   if(b.x<12||b.x>58){b.x=Math.max(12,Math.min(58,b.x));b.vx*=-.65;}
   if(b.z<92||b.z>158){
    if(Math.abs(b.x-35)<6&&b.y<4.6&&this.goalCooldown===0){
-    this.goals++;this.goalCooldown=2.5;this.emit('goal',{number:this.goals});this.emit('voice',{id:this.goals<=10?'Ryder_goal'+this.goals:'Ryder_praise'});this.emit('sfx',{id:'crowd'});Object.assign(b,{x:35,y:2,z:125,vx:0,vy:0,vz:0});
+    this.goals++;this.goalCooldown=2.5;this.emit('goal',{number:this.goals,end:b.z<92?'north':'south'});this.emit('voice',{id:this.goals<=10?'Ryder_goal'+this.goals:'Ryder_praise'});this.emit('sfx',{id:'crowd'});Object.assign(b,{x:35,y:2,z:125,vx:0,vy:0,vz:0});
    }else{b.z=Math.max(92,Math.min(158,b.z));b.vz*=-.6;}
   }
  }

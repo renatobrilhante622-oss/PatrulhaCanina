@@ -4,7 +4,7 @@
 <title>Patrulha Canina — Aventura 3D</title><link rel="stylesheet" href="style.css"></head>
 <body><canvas id="game" aria-label="Mundo tridimensional em terceira pessoa"></canvas>
 <div id="interface">
- <div id="top"><div id="score">Preparando a Baía 3D…</div><button data-action="repeat" id="pup-pad">Pup-Pad · Ouvir</button><button data-action="mute" id="mute">Som ligado</button><canvas id="radar" width="180" height="140" aria-label="Mapa das quatro áreas"></canvas></div>
+ <div id="top"><div id="score">Preparando a Baía 3D…</div><button data-action="pad" id="pup-pad">📱 Pup-Pad</button><button data-action="repeat" id="repeat-instruction">🔊 Dica</button><button data-action="menu" id="main-menu">🏠 Menu</button><button data-action="mute" id="mute">Som ligado</button><canvas id="radar" width="180" height="140" aria-label="Mapa das quatro áreas"></canvas></div>
  <div id="objective">Explore a Baía da Aventura em três dimensões!</div>
  <div id="joystick" aria-label="Analógico de movimento"><div id="knob"></div></div>
  <div id="actions">
@@ -16,8 +16,8 @@
  </div>
 </div>
 <div id="caption" role="status" aria-live="polite">Use o analógico para andar. Arraste à direita para olhar ao redor.</div>
-<div id="modal" hidden></div>
+<div id="modal" hidden></div><section id="console"></section><div id="save-status"></div>
 <div id="rotate" hidden>Gire o aparelho para explorar deitado ↻</div>
 <div id="webgl-error" hidden>Não foi possível iniciar o mundo 3D neste WebView. Atualize o Android System WebView e abra novamente.</div>
-<script src="/js/three.min.js"></script><script src="world.js"></script><script src="audio.js"></script><script src="models.js"></script><script src="game.js"></script>
+<script src="/js/three.min.js"></script><script src="world.js"></script><script src="audio.js"></script><script src="models.js"></script><script src="save.js"></script><script src="campaign.js"></script><script src="console.js"></script><script src="game.js"></script>
 </body></html>

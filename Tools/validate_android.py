@@ -6,7 +6,7 @@ from voice_catalog import catalog
 root=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser();p.add_argument('--allow-missing-audio',action='store_true',help='Só desenvolvimento local: não comprova dublagem completa.');args=p.parse_args()
 assets=root/'app/src/main/assets';entries=json.loads((assets/'game/catalog.json').read_text())['entries']
-assert len(entries)>=150 and len({e['id'] for e in entries})==len(entries)
+assert len(entries)>=291 and len({e['id'] for e in entries})==len(entries)
 assert entries==catalog()
 manifest=assets/'audio/neural-manifest.json'
 records=json.loads(manifest.read_text())['entries'] if manifest.exists() else {}
@@ -31,7 +31,7 @@ if missing:print('MODO LOCAL: dublagem não validada; o CI não aceita esta exce
 
 three=root/'app/src/main/assets/js/three.min.js'
 assert hashlib.sha256(three.read_bytes()).hexdigest()==(three.parent/'three.sha256').read_text().split()[0]
-for name in ['audio.js','models.js','game.js','world.js']:
+for name in ['audio.js','models.js','game.js','world.js','save.js','campaign.js','console.js']:
  assert (assets/'game'/name).is_file()
 assert (root/'app/src/main/assets/js/THREE-LICENSE.txt').is_file()
 assert 'WebGLRenderer' in (assets/'game/game.js').read_text()
@@ -41,3 +41,9 @@ sfx=json.loads((assets/'audio/sfx-manifest.json').read_text())
 for item in sfx.values():
  assert hashlib.sha256((assets/'audio'/item['file']).read_bytes()).hexdigest()==item['sha256']
 print('Three.js local, licença, sombras, Java acelerado e dez efeitos MP3 verificados.')
+
+assert 'setDomStorageEnabled(true)' in (root/'app/src/main/java/com/t4b/patrulhacanina/MainActivity.java').read_text()
+assert 'versionCode 5' in (root/'app/build.gradle').read_text()
+assert "versionName '5.0'" in (root/'app/build.gradle').read_text()
+assert len(json.loads((assets/'game/campaign-catalog.json').read_text()))==12
+print('Edição 5.0: campanha com 12 missões, salvamento habilitado e versionCode 5 verificados.')

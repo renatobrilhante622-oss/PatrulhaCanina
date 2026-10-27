@@ -1,15 +1,14 @@
-# Patrulha Canina — Aventura 3D
+# Patrulha Canina — Edição Console 5.0
 
-Jogo Android offline em terceira pessoa, com Three.js/WebGL local, sombras, oito filhotes articulados, veículos e quatro áreas conectadas: Selva, Grand Prix, Estádio e Farol/Cidade.
+Campanha de **12 missões educativas e 97 objetivos**, menus narrados, Pup-Pad com quatro abas, nove regiões, garagem 3D giratória, álbum, biscoitos e save automático local.
 
-Analógico virtual, câmera orbital, gamepad, pulo/turbo, ferramentas, teleporte e futebol com física, goleiro e contagem de gols. Sem anúncios, Game Over ou limite de tempo.
+A engine WebGL/Three.js, oito filhotes/veículos articulados, física, sombras e os 150 áudios da v4 foram preservados. A v5 acrescenta 141 falas, totalizando **291 MP3s neurais PT-BR**, gerados e validados pelo pipeline antes de publicar.
 
-A versão 4.0 usa Java 17 + Android Gradle e Three.js 0.160.1 MIT embarcado. O catálogo contém 150 falas neurais PT-BR; os arquivos são validados e versionados pelo CI. Os efeitos e a música são originais sintetizados. Os modelos são procedurais estilizados e as vozes não são a dublagem oficial nem imitações idênticas dos atores.
+[Baixar APK publicado](../../releases/latest/download/PatrulhaCanina.apk) · [Guia da edição 5.0](Docs/GUIA_CONSOLE_V5.md)
 
-[Guia completo](Docs/GUIA_ANDROID.md) · [Baixar APK publicado](../../releases/latest/download/PatrulhaCanina.apk)
+- `npm ci && npx playwright install chromium && npm test`
+- `node Tools/export_campaign.cjs`
+- `python3 Tools/generate_voices.py && python3 Tools/validate_android.py`
+- `./gradlew --no-daemon :app:assembleDebug`
 
-`npm ci && npx playwright install chromium && npm test`
-
-`./gradlew --no-daemon :app:assembleDebug`
-
-Build automático na main, sem Unity ou secrets externos. A assinatura incluída é pública e de desenvolvimento. A Release só é atualizada depois da geração completa das vozes, testes e compilação.
+Android `com.t4b.patrulhacanina`, versionCode 5/versionName 5.0. Funciona offline, sem anúncios, conta, Game Over ou licença Unity. A assinatura incluída é de desenvolvimento; os modelos, a interface e as vozes são estilizados, sem alegação de assets/dublagem oficiais.

@@ -1,9 +1,9 @@
 {
   "name": "patrulhacanina-offline",
   "private": true,
-  "version": "4.0.0",
+  "version": "5.0.0",
   "scripts": {
-    "test": "node Tools/test_world.cjs && node Tools/test_game.cjs"
+    "test": "node Tools/test_world.cjs && node Tools/test_campaign.cjs && node Tools/test_game.cjs"
   },
   "devDependencies": {
     "playwright": "1.56.1"

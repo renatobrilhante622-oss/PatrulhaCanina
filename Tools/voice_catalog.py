@@ -56,4 +56,30 @@ def catalog():
  add('Ryder_football','Ryder','Vamos brincar de futebol! Aproxime-se da bola e aperte o botão da mochila para chutar. Não tem pressa para fazer gol!')
  add('Ryder_race','Ryder','Vamos dirigir no circuito! Use o analógico, passe pelos aceleradores e encontre círculos, quadrados, triângulos e estrelas!')
  for area,text in [('selva','Chegamos à selva tropical. Vamos encontrar animais e ossinhos numerados!'),('pista','Bem-vindo ao circuito da Baía! Escolha seu veículo e vamos passear na pista!'),('futebol','Chegamos ao estádio! A bola está no meio do campo. Vamos chutar e contar os gols!'),('farol','Voltamos ao Farol! Aqui estão nossos amigos e as missões de resgate.')]:add('Ryder_area_'+area,'Ryder',text)
+ # Adições v5: as 150 falas da v4 são preservadas, sem alterações.
+ import json
+ from pathlib import Path
+ data=json.loads((Path(__file__).resolve().parents[1]/'app/src/main/assets/game/campaign-catalog.json').read_text())
+ menu={
+ 'story':'Modo história! Vamos ajudar nossos amigos em doze missões educativas.',
+ 'free':'Exploração livre! Passeie, dirija e brinque no seu ritmo.',
+ 'pad':'Pup-Pad do Ryder! Aqui estão as missões, o mapa, a garagem e seus biscoitos.',
+ 'garage':'Garagem tridimensional! Escolha um amigo e gire para conhecer seu veículo.',
+ 'parents':'Opções dos pais. Ajuste os volumes, o tamanho do analógico e a qualidade gráfica.',
+ 'missions':'Missões! Cada cartão mostra um amigo e uma coisa legal para aprender.',
+ 'map':'Mapa de viagem rápida! Toque no lugar que quer visitar.',
+ 'biscuits':'Cantinho dos biscoitos! Dê carinho ao seu amigo e veja suas figurinhas.',
+ 'continue':'Vamos continuar nossa aventura!',
+ 'main':'Voltando ao menu principal. Seu progresso está guardado.',
+ 'call':'O Pup-Pad está chamando! Nossos amigos precisam de uma ajudinha. Vamos ouvir a missão?',
+ 'reward':'Missão cumprida! Você ajudou com carinho. Ganhou três estrelas, biscoitos e uma figurinha!',
+ 'next':'Vamos conhecer a próxima missão!',
+ 'needCookie':'Vamos ajudar em uma missão para ganhar mais biscoitos. Você pode escolher qualquer cartão!',
+ 'vehicle':'Vamos ver o filhote e seu veículo em três dimensões.'}
+ for key,text in menu.items():add('Menu_'+key,'Ryder',text)
+ for mission in data:
+  id=mission['id'];add(f'Mission{id}_brief','Ryder',mission['brief'])
+  add(f'Mission{id}_choose','Ryder','Vamos chamar '+NAMES[mission['pup']]+' na garagem para ajudar nesta missão.')
+  for index,step in enumerate(mission['steps']):add(f'Mission{id}_step{index}',NAMES[mission['pup']],step['text'])
+ for area,text in [('cidade','Chegamos à cidade. Vamos ajudar com números, formas e trânsito seguro!'),('praia','Bem-vindo à praia e ao píer! Vamos cuidar dos materiais e dos animais marinhos.'),('fazenda','Chegamos à fazenda da Yumi. Há frutas, pedras e blocos para aprender!'),('petshop','A Katie está no Pet Shop. Vamos cuidar da higiene dos nossos amigos.'),('neve','Estamos na montanha nevada do Jake. Vamos ajudar os pinguins com a Everest!')]:add('Ryder_area_'+area,'Ryder',text)
  return entries

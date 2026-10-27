@@ -899,6 +899,852 @@
       "speaker": "Ryder",
       "text": "Voltamos ao Farol! Aqui estão nossos amigos e as missões de resgate.",
       "audio": "/audio/Ryder_area_farol.mp3"
+    },
+    {
+      "id": "Menu_story",
+      "speaker": "Ryder",
+      "text": "Modo história! Vamos ajudar nossos amigos em doze missões educativas.",
+      "audio": "/audio/Menu_story.mp3"
+    },
+    {
+      "id": "Menu_free",
+      "speaker": "Ryder",
+      "text": "Exploração livre! Passeie, dirija e brinque no seu ritmo.",
+      "audio": "/audio/Menu_free.mp3"
+    },
+    {
+      "id": "Menu_pad",
+      "speaker": "Ryder",
+      "text": "Pup-Pad do Ryder! Aqui estão as missões, o mapa, a garagem e seus biscoitos.",
+      "audio": "/audio/Menu_pad.mp3"
+    },
+    {
+      "id": "Menu_garage",
+      "speaker": "Ryder",
+      "text": "Garagem tridimensional! Escolha um amigo e gire para conhecer seu veículo.",
+      "audio": "/audio/Menu_garage.mp3"
+    },
+    {
+      "id": "Menu_parents",
+      "speaker": "Ryder",
+      "text": "Opções dos pais. Ajuste os volumes, o tamanho do analógico e a qualidade gráfica.",
+      "audio": "/audio/Menu_parents.mp3"
+    },
+    {
+      "id": "Menu_missions",
+      "speaker": "Ryder",
+      "text": "Missões! Cada cartão mostra um amigo e uma coisa legal para aprender.",
+      "audio": "/audio/Menu_missions.mp3"
+    },
+    {
+      "id": "Menu_map",
+      "speaker": "Ryder",
+      "text": "Mapa de viagem rápida! Toque no lugar que quer visitar.",
+      "audio": "/audio/Menu_map.mp3"
+    },
+    {
+      "id": "Menu_biscuits",
+      "speaker": "Ryder",
+      "text": "Cantinho dos biscoitos! Dê carinho ao seu amigo e veja suas figurinhas.",
+      "audio": "/audio/Menu_biscuits.mp3"
+    },
+    {
+      "id": "Menu_continue",
+      "speaker": "Ryder",
+      "text": "Vamos continuar nossa aventura!",
+      "audio": "/audio/Menu_continue.mp3"
+    },
+    {
+      "id": "Menu_main",
+      "speaker": "Ryder",
+      "text": "Voltando ao menu principal. Seu progresso está guardado.",
+      "audio": "/audio/Menu_main.mp3"
+    },
+    {
+      "id": "Menu_call",
+      "speaker": "Ryder",
+      "text": "O Pup-Pad está chamando! Nossos amigos precisam de uma ajudinha. Vamos ouvir a missão?",
+      "audio": "/audio/Menu_call.mp3"
+    },
+    {
+      "id": "Menu_reward",
+      "speaker": "Ryder",
+      "text": "Missão cumprida! Você ajudou com carinho. Ganhou três estrelas, biscoitos e uma figurinha!",
+      "audio": "/audio/Menu_reward.mp3"
+    },
+    {
+      "id": "Menu_next",
+      "speaker": "Ryder",
+      "text": "Vamos conhecer a próxima missão!",
+      "audio": "/audio/Menu_next.mp3"
+    },
+    {
+      "id": "Menu_needCookie",
+      "speaker": "Ryder",
+      "text": "Vamos ajudar em uma missão para ganhar mais biscoitos. Você pode escolher qualquer cartão!",
+      "audio": "/audio/Menu_needCookie.mp3"
+    },
+    {
+      "id": "Menu_vehicle",
+      "speaker": "Ryder",
+      "text": "Vamos ver o filhote e seu veículo em três dimensões.",
+      "audio": "/audio/Menu_vehicle.mp3"
+    },
+    {
+      "id": "Mission1_brief",
+      "speaker": "Ryder",
+      "text": "Marshall, precisamos de água na Prefeitura! Vamos apagar dez chamas na ordem dos números. Sem pressa.",
+      "audio": "/audio/Mission1_brief.mp3"
+    },
+    {
+      "id": "Mission1_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Marshall na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission1_choose.mp3"
+    },
+    {
+      "id": "Mission1_step0",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 1.",
+      "audio": "/audio/Mission1_step0.mp3"
+    },
+    {
+      "id": "Mission1_step1",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 2.",
+      "audio": "/audio/Mission1_step1.mp3"
+    },
+    {
+      "id": "Mission1_step2",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 3.",
+      "audio": "/audio/Mission1_step2.mp3"
+    },
+    {
+      "id": "Mission1_step3",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 4.",
+      "audio": "/audio/Mission1_step3.mp3"
+    },
+    {
+      "id": "Mission1_step4",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 5.",
+      "audio": "/audio/Mission1_step4.mp3"
+    },
+    {
+      "id": "Mission1_step5",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 6.",
+      "audio": "/audio/Mission1_step5.mp3"
+    },
+    {
+      "id": "Mission1_step6",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 7.",
+      "audio": "/audio/Mission1_step6.mp3"
+    },
+    {
+      "id": "Mission1_step7",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 8.",
+      "audio": "/audio/Mission1_step7.mp3"
+    },
+    {
+      "id": "Mission1_step8",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 9.",
+      "audio": "/audio/Mission1_step8.mp3"
+    },
+    {
+      "id": "Mission1_step9",
+      "speaker": "Marshall",
+      "text": "Use o jato de água na chama número 10.",
+      "audio": "/audio/Mission1_step9.mp3"
+    },
+    {
+      "id": "Mission2_brief",
+      "speaker": "Ryder",
+      "text": "Chase, vamos organizar quatro formas e aprender as três cores do semáforo!",
+      "audio": "/audio/Mission2_brief.mp3"
+    },
+    {
+      "id": "Mission2_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Chase na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission2_choose.mp3"
+    },
+    {
+      "id": "Mission2_step0",
+      "speaker": "Chase",
+      "text": "Pegue o cone em forma de círculo.",
+      "audio": "/audio/Mission2_step0.mp3"
+    },
+    {
+      "id": "Mission2_step1",
+      "speaker": "Chase",
+      "text": "Leve a forma de círculo até a sombra igual e use a mochila.",
+      "audio": "/audio/Mission2_step1.mp3"
+    },
+    {
+      "id": "Mission2_step2",
+      "speaker": "Chase",
+      "text": "Pegue o cone em forma de quadrado.",
+      "audio": "/audio/Mission2_step2.mp3"
+    },
+    {
+      "id": "Mission2_step3",
+      "speaker": "Chase",
+      "text": "Leve a forma de quadrado até a sombra igual e use a mochila.",
+      "audio": "/audio/Mission2_step3.mp3"
+    },
+    {
+      "id": "Mission2_step4",
+      "speaker": "Chase",
+      "text": "Pegue o cone em forma de triângulo.",
+      "audio": "/audio/Mission2_step4.mp3"
+    },
+    {
+      "id": "Mission2_step5",
+      "speaker": "Chase",
+      "text": "Leve a forma de triângulo até a sombra igual e use a mochila.",
+      "audio": "/audio/Mission2_step5.mp3"
+    },
+    {
+      "id": "Mission2_step6",
+      "speaker": "Chase",
+      "text": "Pegue o cone em forma de estrela.",
+      "audio": "/audio/Mission2_step6.mp3"
+    },
+    {
+      "id": "Mission2_step7",
+      "speaker": "Chase",
+      "text": "Leve a forma de estrela até a sombra igual e use a mochila.",
+      "audio": "/audio/Mission2_step7.mp3"
+    },
+    {
+      "id": "Mission2_step8",
+      "speaker": "Chase",
+      "text": "Vermelho: pare com calma e use a mochila no semáforo vermelho.",
+      "audio": "/audio/Mission2_step8.mp3"
+    },
+    {
+      "id": "Mission2_step9",
+      "speaker": "Chase",
+      "text": "Amarelo: atenção! Observe e use a mochila no amarelo.",
+      "audio": "/audio/Mission2_step9.mp3"
+    },
+    {
+      "id": "Mission2_step10",
+      "speaker": "Chase",
+      "text": "Verde: siga! Use a mochila no verde.",
+      "audio": "/audio/Mission2_step10.mp3"
+    },
+    {
+      "id": "Mission3_brief",
+      "speaker": "Ryder",
+      "text": "Skye, vamos voar pelos anéis A, E, I, O, U. Depois vamos ajudar a Galinheta no telhado.",
+      "audio": "/audio/Mission3_brief.mp3"
+    },
+    {
+      "id": "Mission3_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Skye na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission3_choose.mp3"
+    },
+    {
+      "id": "Mission3_step0",
+      "speaker": "Skye",
+      "text": "Passe voando pelo anel com a vogal A.",
+      "audio": "/audio/Mission3_step0.mp3"
+    },
+    {
+      "id": "Mission3_step1",
+      "speaker": "Skye",
+      "text": "Passe voando pelo anel com a vogal E.",
+      "audio": "/audio/Mission3_step1.mp3"
+    },
+    {
+      "id": "Mission3_step2",
+      "speaker": "Skye",
+      "text": "Passe voando pelo anel com a vogal I.",
+      "audio": "/audio/Mission3_step2.mp3"
+    },
+    {
+      "id": "Mission3_step3",
+      "speaker": "Skye",
+      "text": "Passe voando pelo anel com a vogal O.",
+      "audio": "/audio/Mission3_step3.mp3"
+    },
+    {
+      "id": "Mission3_step4",
+      "speaker": "Skye",
+      "text": "Passe voando pelo anel com a vogal U.",
+      "audio": "/audio/Mission3_step4.mp3"
+    },
+    {
+      "id": "Mission3_step5",
+      "speaker": "Skye",
+      "text": "Chegue voando perto da Galinheta no telhado e use a mochila.",
+      "audio": "/audio/Mission3_step5.mp3"
+    },
+    {
+      "id": "Mission4_brief",
+      "speaker": "Ryder",
+      "text": "Rocky, vamos reciclar quatro materiais e depois consertar a ponte. Reutilizar é cuidar!",
+      "audio": "/audio/Mission4_brief.mp3"
+    },
+    {
+      "id": "Mission4_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Rocky na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission4_choose.mp3"
+    },
+    {
+      "id": "Mission4_step0",
+      "speaker": "Rocky",
+      "text": "Pegue o papel na praia.",
+      "audio": "/audio/Mission4_step0.mp3"
+    },
+    {
+      "id": "Mission4_step1",
+      "speaker": "Rocky",
+      "text": "Leve o material para a lixeira azul.",
+      "audio": "/audio/Mission4_step1.mp3"
+    },
+    {
+      "id": "Mission4_step2",
+      "speaker": "Rocky",
+      "text": "Pegue o plástico na praia.",
+      "audio": "/audio/Mission4_step2.mp3"
+    },
+    {
+      "id": "Mission4_step3",
+      "speaker": "Rocky",
+      "text": "Leve o material para a lixeira vermelha.",
+      "audio": "/audio/Mission4_step3.mp3"
+    },
+    {
+      "id": "Mission4_step4",
+      "speaker": "Rocky",
+      "text": "Pegue o metal na praia.",
+      "audio": "/audio/Mission4_step4.mp3"
+    },
+    {
+      "id": "Mission4_step5",
+      "speaker": "Rocky",
+      "text": "Leve o material para a lixeira amarela.",
+      "audio": "/audio/Mission4_step5.mp3"
+    },
+    {
+      "id": "Mission4_step6",
+      "speaker": "Rocky",
+      "text": "Pegue o vidro na praia.",
+      "audio": "/audio/Mission4_step6.mp3"
+    },
+    {
+      "id": "Mission4_step7",
+      "speaker": "Rocky",
+      "text": "Leve o material para a lixeira verde.",
+      "audio": "/audio/Mission4_step7.mp3"
+    },
+    {
+      "id": "Mission4_step8",
+      "speaker": "Rocky",
+      "text": "Use a garra para colocar a tábua e consertar a ponte do píer.",
+      "audio": "/audio/Mission4_step8.mp3"
+    },
+    {
+      "id": "Mission5_brief",
+      "speaker": "Ryder",
+      "text": "Rubble, vamos contar quatro pedras e empilhar blocos: grande embaixo, médio e pequeno em cima.",
+      "audio": "/audio/Mission5_brief.mp3"
+    },
+    {
+      "id": "Mission5_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Rubble na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission5_choose.mp3"
+    },
+    {
+      "id": "Mission5_step0",
+      "speaker": "Rubble",
+      "text": "Retire a pedra número 1. Comece pela maior e vamos contar juntos.",
+      "audio": "/audio/Mission5_step0.mp3"
+    },
+    {
+      "id": "Mission5_step1",
+      "speaker": "Rubble",
+      "text": "Retire a pedra número 2. Comece pela maior e vamos contar juntos.",
+      "audio": "/audio/Mission5_step1.mp3"
+    },
+    {
+      "id": "Mission5_step2",
+      "speaker": "Rubble",
+      "text": "Retire a pedra número 3. Comece pela maior e vamos contar juntos.",
+      "audio": "/audio/Mission5_step2.mp3"
+    },
+    {
+      "id": "Mission5_step3",
+      "speaker": "Rubble",
+      "text": "Retire a pedra número 4. Comece pela maior e vamos contar juntos.",
+      "audio": "/audio/Mission5_step3.mp3"
+    },
+    {
+      "id": "Mission5_step4",
+      "speaker": "Rubble",
+      "text": "Pegue o bloco grande.",
+      "audio": "/audio/Mission5_step4.mp3"
+    },
+    {
+      "id": "Mission5_step5",
+      "speaker": "Rubble",
+      "text": "Coloque o bloco grande na pilha.",
+      "audio": "/audio/Mission5_step5.mp3"
+    },
+    {
+      "id": "Mission5_step6",
+      "speaker": "Rubble",
+      "text": "Pegue o bloco médio.",
+      "audio": "/audio/Mission5_step6.mp3"
+    },
+    {
+      "id": "Mission5_step7",
+      "speaker": "Rubble",
+      "text": "Coloque o bloco médio na pilha.",
+      "audio": "/audio/Mission5_step7.mp3"
+    },
+    {
+      "id": "Mission5_step8",
+      "speaker": "Rubble",
+      "text": "Pegue o bloco pequeno.",
+      "audio": "/audio/Mission5_step8.mp3"
+    },
+    {
+      "id": "Mission5_step9",
+      "speaker": "Rubble",
+      "text": "Coloque o bloco pequeno na pilha.",
+      "audio": "/audio/Mission5_step9.mp3"
+    },
+    {
+      "id": "Mission6_brief",
+      "speaker": "Ryder",
+      "text": "Zuma, vamos navegar até as tartaruguinhas. Primeiro uma, depois duas: uma mais duas são três!",
+      "audio": "/audio/Mission6_brief.mp3"
+    },
+    {
+      "id": "Mission6_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Zuma na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission6_choose.mp3"
+    },
+    {
+      "id": "Mission6_step0",
+      "speaker": "Zuma",
+      "text": "Use o hovercraft para ajudar uma tartaruguinha. Uma!",
+      "audio": "/audio/Mission6_step0.mp3"
+    },
+    {
+      "id": "Mission6_step1",
+      "speaker": "Zuma",
+      "text": "Agora ajude duas tartaruguinhas. Uma mais duas são três!",
+      "audio": "/audio/Mission6_step1.mp3"
+    },
+    {
+      "id": "Mission6_step2",
+      "speaker": "Zuma",
+      "text": "Mais três tartaruguinhas! Três mais três são seis animais ajudados.",
+      "audio": "/audio/Mission6_step2.mp3"
+    },
+    {
+      "id": "Mission7_brief",
+      "speaker": "Ryder",
+      "text": "Tracker, siga cinco pegadas, encontre os animais pelos sons e abra o portão com as três cores.",
+      "audio": "/audio/Mission7_brief.mp3"
+    },
+    {
+      "id": "Mission7_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Tracker na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission7_choose.mp3"
+    },
+    {
+      "id": "Mission7_step0",
+      "speaker": "Tracker",
+      "text": "Siga a pegada brilhante número 1.",
+      "audio": "/audio/Mission7_step0.mp3"
+    },
+    {
+      "id": "Mission7_step1",
+      "speaker": "Tracker",
+      "text": "Siga a pegada brilhante número 2.",
+      "audio": "/audio/Mission7_step1.mp3"
+    },
+    {
+      "id": "Mission7_step2",
+      "speaker": "Tracker",
+      "text": "Siga a pegada brilhante número 3.",
+      "audio": "/audio/Mission7_step2.mp3"
+    },
+    {
+      "id": "Mission7_step3",
+      "speaker": "Tracker",
+      "text": "Siga a pegada brilhante número 4.",
+      "audio": "/audio/Mission7_step3.mp3"
+    },
+    {
+      "id": "Mission7_step4",
+      "speaker": "Tracker",
+      "text": "Siga a pegada brilhante número 5.",
+      "audio": "/audio/Mission7_step4.mp3"
+    },
+    {
+      "id": "Mission7_step5",
+      "speaker": "Tracker",
+      "text": "Ouça: u-u, a-a! Procure o macaquinho e use a mochila.",
+      "audio": "/audio/Mission7_step5.mp3"
+    },
+    {
+      "id": "Mission7_step6",
+      "speaker": "Tracker",
+      "text": "Ouça o chamado da ave. Procure o tucano do bico amarelo.",
+      "audio": "/audio/Mission7_step6.mp3"
+    },
+    {
+      "id": "Mission7_step7",
+      "speaker": "Tracker",
+      "text": "Coax, coax! Encontre o sapinho verde.",
+      "audio": "/audio/Mission7_step7.mp3"
+    },
+    {
+      "id": "Mission7_step8",
+      "speaker": "Tracker",
+      "text": "Use o painel vermelho para abrir o portão das cores.",
+      "audio": "/audio/Mission7_step8.mp3"
+    },
+    {
+      "id": "Mission7_step9",
+      "speaker": "Tracker",
+      "text": "Use o painel verde para abrir o portão das cores.",
+      "audio": "/audio/Mission7_step9.mp3"
+    },
+    {
+      "id": "Mission7_step10",
+      "speaker": "Tracker",
+      "text": "Use o painel azul para abrir o portão das cores.",
+      "audio": "/audio/Mission7_step10.mp3"
+    },
+    {
+      "id": "Mission8_brief",
+      "speaker": "Ryder",
+      "text": "Everest, vamos limpar a pista de um a cinco e ajudar dois pinguins a voltar para casa.",
+      "audio": "/audio/Mission8_brief.mp3"
+    },
+    {
+      "id": "Mission8_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Everest na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission8_choose.mp3"
+    },
+    {
+      "id": "Mission8_step0",
+      "speaker": "Everest",
+      "text": "Limpe a placa número 1 com o limpa-neve.",
+      "audio": "/audio/Mission8_step0.mp3"
+    },
+    {
+      "id": "Mission8_step1",
+      "speaker": "Everest",
+      "text": "Limpe a placa número 2 com o limpa-neve.",
+      "audio": "/audio/Mission8_step1.mp3"
+    },
+    {
+      "id": "Mission8_step2",
+      "speaker": "Everest",
+      "text": "Limpe a placa número 3 com o limpa-neve.",
+      "audio": "/audio/Mission8_step2.mp3"
+    },
+    {
+      "id": "Mission8_step3",
+      "speaker": "Everest",
+      "text": "Limpe a placa número 4 com o limpa-neve.",
+      "audio": "/audio/Mission8_step3.mp3"
+    },
+    {
+      "id": "Mission8_step4",
+      "speaker": "Everest",
+      "text": "Limpe a placa número 5 com o limpa-neve.",
+      "audio": "/audio/Mission8_step4.mp3"
+    },
+    {
+      "id": "Mission8_step5",
+      "speaker": "Everest",
+      "text": "Ajude o primeiro pinguim com a mochila.",
+      "audio": "/audio/Mission8_step5.mp3"
+    },
+    {
+      "id": "Mission8_step6",
+      "speaker": "Everest",
+      "text": "Agora ajude o segundo pinguim. Dois amigos ajudados!",
+      "audio": "/audio/Mission8_step6.mp3"
+    },
+    {
+      "id": "Mission9_brief",
+      "speaker": "Ryder",
+      "text": "Katie precisa de ajuda para um banho tranquilo. Primeiro espuma, depois enxaguar, secar e escovar.",
+      "audio": "/audio/Mission9_brief.mp3"
+    },
+    {
+      "id": "Mission9_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Marshall na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission9_choose.mp3"
+    },
+    {
+      "id": "Mission9_step0",
+      "speaker": "Marshall",
+      "text": "Vamos cobrir a lama com espuma macia. Use a mochila perto da banheira.",
+      "audio": "/audio/Mission9_step0.mp3"
+    },
+    {
+      "id": "Mission9_step1",
+      "speaker": "Marshall",
+      "text": "Agora vamos enxaguar. Use o chuveirinho para tirar toda a espuma.",
+      "audio": "/audio/Mission9_step1.mp3"
+    },
+    {
+      "id": "Mission9_step2",
+      "speaker": "Marshall",
+      "text": "Hora de secar com um ventinho suave. Use o secador.",
+      "audio": "/audio/Mission9_step2.mp3"
+    },
+    {
+      "id": "Mission9_step3",
+      "speaker": "Marshall",
+      "text": "Por último, escove com carinho. A rotina ficou completa!",
+      "audio": "/audio/Mission9_step3.mp3"
+    },
+    {
+      "id": "Mission10_brief",
+      "speaker": "Ryder",
+      "text": "Yumi vai colher duas maçãs vermelhas, três bananas amarelas e duas uvas roxas. Vamos levar para as cestas certas!",
+      "audio": "/audio/Mission10_brief.mp3"
+    },
+    {
+      "id": "Mission10_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Rocky na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission10_choose.mp3"
+    },
+    {
+      "id": "Mission10_step0",
+      "speaker": "Rocky",
+      "text": "Colha uma maçã vermelha.",
+      "audio": "/audio/Mission10_step0.mp3"
+    },
+    {
+      "id": "Mission10_step1",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta vermelha. Vamos contar: 1 de 2.",
+      "audio": "/audio/Mission10_step1.mp3"
+    },
+    {
+      "id": "Mission10_step2",
+      "speaker": "Rocky",
+      "text": "Colha uma maçã vermelha.",
+      "audio": "/audio/Mission10_step2.mp3"
+    },
+    {
+      "id": "Mission10_step3",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta vermelha. Vamos contar: 2 de 2.",
+      "audio": "/audio/Mission10_step3.mp3"
+    },
+    {
+      "id": "Mission10_step4",
+      "speaker": "Rocky",
+      "text": "Colha uma banana amarela.",
+      "audio": "/audio/Mission10_step4.mp3"
+    },
+    {
+      "id": "Mission10_step5",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta amarela. Vamos contar: 1 de 3.",
+      "audio": "/audio/Mission10_step5.mp3"
+    },
+    {
+      "id": "Mission10_step6",
+      "speaker": "Rocky",
+      "text": "Colha uma banana amarela.",
+      "audio": "/audio/Mission10_step6.mp3"
+    },
+    {
+      "id": "Mission10_step7",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta amarela. Vamos contar: 2 de 3.",
+      "audio": "/audio/Mission10_step7.mp3"
+    },
+    {
+      "id": "Mission10_step8",
+      "speaker": "Rocky",
+      "text": "Colha uma banana amarela.",
+      "audio": "/audio/Mission10_step8.mp3"
+    },
+    {
+      "id": "Mission10_step9",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta amarela. Vamos contar: 3 de 3.",
+      "audio": "/audio/Mission10_step9.mp3"
+    },
+    {
+      "id": "Mission10_step10",
+      "speaker": "Rocky",
+      "text": "Colha uma uva roxa.",
+      "audio": "/audio/Mission10_step10.mp3"
+    },
+    {
+      "id": "Mission10_step11",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta roxa. Vamos contar: 1 de 2.",
+      "audio": "/audio/Mission10_step11.mp3"
+    },
+    {
+      "id": "Mission10_step12",
+      "speaker": "Rocky",
+      "text": "Colha uma uva roxa.",
+      "audio": "/audio/Mission10_step12.mp3"
+    },
+    {
+      "id": "Mission10_step13",
+      "speaker": "Rocky",
+      "text": "Leve para a cesta roxa. Vamos contar: 2 de 2.",
+      "audio": "/audio/Mission10_step13.mp3"
+    },
+    {
+      "id": "Mission11_brief",
+      "speaker": "Ryder",
+      "text": "Vamos marcar três gols com calma. A cor e o número aparecem na trave. O goleiro está aqui para brincar com você.",
+      "audio": "/audio/Mission11_brief.mp3"
+    },
+    {
+      "id": "Mission11_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Zuma na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission11_choose.mp3"
+    },
+    {
+      "id": "Mission11_step0",
+      "speaker": "Zuma",
+      "text": "Faça o gol número 1 na trave vermelha.",
+      "audio": "/audio/Mission11_step0.mp3"
+    },
+    {
+      "id": "Mission11_step1",
+      "speaker": "Zuma",
+      "text": "Faça o gol número 2 na trave azul.",
+      "audio": "/audio/Mission11_step1.mp3"
+    },
+    {
+      "id": "Mission11_step2",
+      "speaker": "Zuma",
+      "text": "Faça o gol número 3 na trave amarela.",
+      "audio": "/audio/Mission11_step2.mp3"
+    },
+    {
+      "id": "Mission12_brief",
+      "speaker": "Ryder",
+      "text": "Escolha seu veículo! Vamos passar por oito portões educativos, sem cronômetro, e receber o troféu dourado.",
+      "audio": "/audio/Mission12_brief.mp3"
+    },
+    {
+      "id": "Mission12_choose",
+      "speaker": "Ryder",
+      "text": "Vamos chamar Chase na garagem para ajudar nesta missão.",
+      "audio": "/audio/Mission12_choose.mp3"
+    },
+    {
+      "id": "Mission12_step0",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão azul com círculo.",
+      "audio": "/audio/Mission12_step0.mp3"
+    },
+    {
+      "id": "Mission12_step1",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão vermelho com quadrado.",
+      "audio": "/audio/Mission12_step1.mp3"
+    },
+    {
+      "id": "Mission12_step2",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão amarelo com triângulo.",
+      "audio": "/audio/Mission12_step2.mp3"
+    },
+    {
+      "id": "Mission12_step3",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão verde com estrela.",
+      "audio": "/audio/Mission12_step3.mp3"
+    },
+    {
+      "id": "Mission12_step4",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão azul com círculo.",
+      "audio": "/audio/Mission12_step4.mp3"
+    },
+    {
+      "id": "Mission12_step5",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão vermelho com quadrado.",
+      "audio": "/audio/Mission12_step5.mp3"
+    },
+    {
+      "id": "Mission12_step6",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão amarelo com triângulo.",
+      "audio": "/audio/Mission12_step6.mp3"
+    },
+    {
+      "id": "Mission12_step7",
+      "speaker": "Chase",
+      "text": "Dirija pelo portão verde com estrela.",
+      "audio": "/audio/Mission12_step7.mp3"
+    },
+    {
+      "id": "Mission12_step8",
+      "speaker": "Chase",
+      "text": "Parabéns! Chegue ao pódio e use a mochila para receber o troféu.",
+      "audio": "/audio/Mission12_step8.mp3"
+    },
+    {
+      "id": "Ryder_area_cidade",
+      "speaker": "Ryder",
+      "text": "Chegamos à cidade. Vamos ajudar com números, formas e trânsito seguro!",
+      "audio": "/audio/Ryder_area_cidade.mp3"
+    },
+    {
+      "id": "Ryder_area_praia",
+      "speaker": "Ryder",
+      "text": "Bem-vindo à praia e ao píer! Vamos cuidar dos materiais e dos animais marinhos.",
+      "audio": "/audio/Ryder_area_praia.mp3"
+    },
+    {
+      "id": "Ryder_area_fazenda",
+      "speaker": "Ryder",
+      "text": "Chegamos à fazenda da Yumi. Há frutas, pedras e blocos para aprender!",
+      "audio": "/audio/Ryder_area_fazenda.mp3"
+    },
+    {
+      "id": "Ryder_area_petshop",
+      "speaker": "Ryder",
+      "text": "A Katie está no Pet Shop. Vamos cuidar da higiene dos nossos amigos.",
+      "audio": "/audio/Ryder_area_petshop.mp3"
+    },
+    {
+      "id": "Ryder_area_neve",
+      "speaker": "Ryder",
+      "text": "Estamos na montanha nevada do Jake. Vamos ajudar os pinguins com a Everest!",
+      "audio": "/audio/Ryder_area_neve.mp3"
     }
   ]
 }

@@ -1,0 +1,922 @@
+[
+  {
+    "id": 1,
+    "title": "Incêndio na Prefeitura",
+    "pup": 2,
+    "area": "cidade",
+    "lesson": "Números 1 a 10",
+    "icon": "🚒",
+    "brief": "Marshall, precisamos de água na Prefeitura! Vamos apagar dez chamas na ordem dos números. Sem pressa.",
+    "steps": [
+      {
+        "kind": "fire",
+        "x": -22,
+        "z": -35,
+        "text": "Use o jato de água na chama número 1.",
+        "number": 1
+      },
+      {
+        "kind": "fire",
+        "x": -11,
+        "z": -35,
+        "text": "Use o jato de água na chama número 2.",
+        "number": 2
+      },
+      {
+        "kind": "fire",
+        "x": 0,
+        "z": -35,
+        "text": "Use o jato de água na chama número 3.",
+        "number": 3
+      },
+      {
+        "kind": "fire",
+        "x": 11,
+        "z": -35,
+        "text": "Use o jato de água na chama número 4.",
+        "number": 4
+      },
+      {
+        "kind": "fire",
+        "x": 22,
+        "z": -35,
+        "text": "Use o jato de água na chama número 5.",
+        "number": 5
+      },
+      {
+        "kind": "fire",
+        "x": -22,
+        "z": -48,
+        "text": "Use o jato de água na chama número 6.",
+        "number": 6
+      },
+      {
+        "kind": "fire",
+        "x": -11,
+        "z": -48,
+        "text": "Use o jato de água na chama número 7.",
+        "number": 7
+      },
+      {
+        "kind": "fire",
+        "x": 0,
+        "z": -48,
+        "text": "Use o jato de água na chama número 8.",
+        "number": 8
+      },
+      {
+        "kind": "fire",
+        "x": 11,
+        "z": -48,
+        "text": "Use o jato de água na chama número 9.",
+        "number": 9
+      },
+      {
+        "kind": "fire",
+        "x": 22,
+        "z": -48,
+        "text": "Use o jato de água na chama número 10.",
+        "number": 10
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Trânsito Seguro",
+    "pup": 1,
+    "area": "cidade",
+    "lesson": "Cores e formas",
+    "icon": "🚓",
+    "brief": "Chase, vamos organizar quatro formas e aprender as três cores do semáforo!",
+    "steps": [
+      {
+        "kind": "takeShape",
+        "x": -55,
+        "z": 7,
+        "text": "Pegue o cone em forma de círculo.",
+        "shape": "circle"
+      },
+      {
+        "kind": "placeShape",
+        "x": -55,
+        "z": 23,
+        "text": "Leve a forma de círculo até a sombra igual e use a mochila.",
+        "shape": "circle"
+      },
+      {
+        "kind": "takeShape",
+        "x": -46,
+        "z": 7,
+        "text": "Pegue o cone em forma de quadrado.",
+        "shape": "square"
+      },
+      {
+        "kind": "placeShape",
+        "x": -46,
+        "z": 23,
+        "text": "Leve a forma de quadrado até a sombra igual e use a mochila.",
+        "shape": "square"
+      },
+      {
+        "kind": "takeShape",
+        "x": -37,
+        "z": 7,
+        "text": "Pegue o cone em forma de triângulo.",
+        "shape": "triangle"
+      },
+      {
+        "kind": "placeShape",
+        "x": -37,
+        "z": 23,
+        "text": "Leve a forma de triângulo até a sombra igual e use a mochila.",
+        "shape": "triangle"
+      },
+      {
+        "kind": "takeShape",
+        "x": -28,
+        "z": 7,
+        "text": "Pegue o cone em forma de estrela.",
+        "shape": "star"
+      },
+      {
+        "kind": "placeShape",
+        "x": -28,
+        "z": 23,
+        "text": "Leve a forma de estrela até a sombra igual e use a mochila.",
+        "shape": "star"
+      },
+      {
+        "kind": "traffic",
+        "x": -22,
+        "z": 52,
+        "text": "Vermelho: pare com calma e use a mochila no semáforo vermelho.",
+        "color": "red"
+      },
+      {
+        "kind": "traffic",
+        "x": -13,
+        "z": 52,
+        "text": "Amarelo: atenção! Observe e use a mochila no amarelo.",
+        "color": "yellow"
+      },
+      {
+        "kind": "traffic",
+        "x": -4,
+        "z": 52,
+        "text": "Verde: siga! Use a mochila no verde.",
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Vogais no Céu e Galinheta",
+    "pup": 3,
+    "area": "cidade",
+    "lesson": "Vogais e cuidado",
+    "icon": "🚁",
+    "brief": "Skye, vamos voar pelos anéis A, E, I, O, U. Depois vamos ajudar a Galinheta no telhado.",
+    "steps": [
+      {
+        "kind": "hoop",
+        "x": 28,
+        "z": -63,
+        "text": "Passe voando pelo anel com a vogal A.",
+        "letter": "A",
+        "mode": "fly",
+        "y": 10
+      },
+      {
+        "kind": "hoop",
+        "x": 36,
+        "z": -63,
+        "text": "Passe voando pelo anel com a vogal E.",
+        "letter": "E",
+        "mode": "fly",
+        "y": 10
+      },
+      {
+        "kind": "hoop",
+        "x": 44,
+        "z": -63,
+        "text": "Passe voando pelo anel com a vogal I.",
+        "letter": "I",
+        "mode": "fly",
+        "y": 10
+      },
+      {
+        "kind": "hoop",
+        "x": 52,
+        "z": -63,
+        "text": "Passe voando pelo anel com a vogal O.",
+        "letter": "O",
+        "mode": "fly",
+        "y": 10
+      },
+      {
+        "kind": "hoop",
+        "x": 60,
+        "z": -63,
+        "text": "Passe voando pelo anel com a vogal U.",
+        "letter": "U",
+        "mode": "fly",
+        "y": 10
+      },
+      {
+        "kind": "chicken",
+        "x": 20,
+        "z": -17,
+        "text": "Chegue voando perto da Galinheta no telhado e use a mochila.",
+        "y": 10,
+        "vehicle": true
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Praia Limpa e Ponte",
+    "pup": 4,
+    "area": "praia",
+    "lesson": "Reciclagem e cores",
+    "icon": "♻️",
+    "brief": "Rocky, vamos reciclar quatro materiais e depois consertar a ponte. Reutilizar é cuidar!",
+    "steps": [
+      {
+        "kind": "takeWaste",
+        "x": -150,
+        "z": 62,
+        "text": "Pegue o papel na praia.",
+        "material": "papel"
+      },
+      {
+        "kind": "recycleBin",
+        "x": -150,
+        "z": 82,
+        "text": "Leve o material para a lixeira azul.",
+        "material": "papel",
+        "color": "azul"
+      },
+      {
+        "kind": "takeWaste",
+        "x": -142,
+        "z": 62,
+        "text": "Pegue o plástico na praia.",
+        "material": "plastico"
+      },
+      {
+        "kind": "recycleBin",
+        "x": -142,
+        "z": 82,
+        "text": "Leve o material para a lixeira vermelha.",
+        "material": "plastico",
+        "color": "vermelha"
+      },
+      {
+        "kind": "takeWaste",
+        "x": -134,
+        "z": 62,
+        "text": "Pegue o metal na praia.",
+        "material": "metal"
+      },
+      {
+        "kind": "recycleBin",
+        "x": -134,
+        "z": 82,
+        "text": "Leve o material para a lixeira amarela.",
+        "material": "metal",
+        "color": "amarela"
+      },
+      {
+        "kind": "takeWaste",
+        "x": -126,
+        "z": 62,
+        "text": "Pegue o vidro na praia.",
+        "material": "vidro"
+      },
+      {
+        "kind": "recycleBin",
+        "x": -126,
+        "z": 82,
+        "text": "Leve o material para a lixeira verde.",
+        "material": "vidro",
+        "color": "verde"
+      },
+      {
+        "kind": "repair",
+        "x": -145,
+        "z": 108,
+        "text": "Use a garra para colocar a tábua e consertar a ponte do píer."
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Obra na Fazenda da Yumi",
+    "pup": 5,
+    "area": "fazenda",
+    "lesson": "Tamanhos e quantidades",
+    "icon": "🚜",
+    "brief": "Rubble, vamos contar quatro pedras e empilhar blocos: grande embaixo, médio e pequeno em cima.",
+    "steps": [
+      {
+        "kind": "rock",
+        "x": -100,
+        "z": 123,
+        "text": "Retire a pedra número 1. Comece pela maior e vamos contar juntos.",
+        "number": 1,
+        "size": 1.5
+      },
+      {
+        "kind": "rock",
+        "x": -92,
+        "z": 123,
+        "text": "Retire a pedra número 2. Comece pela maior e vamos contar juntos.",
+        "number": 2,
+        "size": 1.27
+      },
+      {
+        "kind": "rock",
+        "x": -84,
+        "z": 123,
+        "text": "Retire a pedra número 3. Comece pela maior e vamos contar juntos.",
+        "number": 3,
+        "size": 1.04
+      },
+      {
+        "kind": "rock",
+        "x": -76,
+        "z": 123,
+        "text": "Retire a pedra número 4. Comece pela maior e vamos contar juntos.",
+        "number": 4,
+        "size": 0.8099999999999999
+      },
+      {
+        "kind": "takeBlock",
+        "x": -106,
+        "z": 144,
+        "text": "Pegue o bloco grande.",
+        "size": 1.5,
+        "token": "grande"
+      },
+      {
+        "kind": "stack",
+        "x": -78,
+        "z": 150,
+        "text": "Coloque o bloco grande na pilha.",
+        "size": 1.5,
+        "token": "grande",
+        "level": 0
+      },
+      {
+        "kind": "takeBlock",
+        "x": -96,
+        "z": 144,
+        "text": "Pegue o bloco médio.",
+        "size": 1.1,
+        "token": "médio"
+      },
+      {
+        "kind": "stack",
+        "x": -78,
+        "z": 150,
+        "text": "Coloque o bloco médio na pilha.",
+        "size": 1.1,
+        "token": "médio",
+        "level": 1
+      },
+      {
+        "kind": "takeBlock",
+        "x": -86,
+        "z": 144,
+        "text": "Pegue o bloco pequeno.",
+        "size": 0.7,
+        "token": "pequeno"
+      },
+      {
+        "kind": "stack",
+        "x": -78,
+        "z": 150,
+        "text": "Coloque o bloco pequeno na pilha.",
+        "size": 0.7,
+        "token": "pequeno",
+        "level": 2
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Tartarugas no Píer",
+    "pup": 6,
+    "area": "praia",
+    "lesson": "Soma e vida marinha",
+    "icon": "🐢",
+    "brief": "Zuma, vamos navegar até as tartaruguinhas. Primeiro uma, depois duas: uma mais duas são três!",
+    "steps": [
+      {
+        "kind": "turtles",
+        "x": -166,
+        "z": 51,
+        "text": "Use o hovercraft para ajudar uma tartaruguinha. Uma!",
+        "quantity": 1,
+        "vehicle": true
+      },
+      {
+        "kind": "turtles",
+        "x": -170,
+        "z": 76,
+        "text": "Agora ajude duas tartaruguinhas. Uma mais duas são três!",
+        "quantity": 2,
+        "vehicle": true
+      },
+      {
+        "kind": "turtles",
+        "x": -164,
+        "z": 99,
+        "text": "Mais três tartaruguinhas! Três mais três são seis animais ajudados.",
+        "quantity": 3,
+        "vehicle": true
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Mistério dos Sons e Cores",
+    "pup": 7,
+    "area": "selva",
+    "lesson": "Animais, sons e cores",
+    "icon": "🐒",
+    "brief": "Tracker, siga cinco pegadas, encontre os animais pelos sons e abra o portão com as três cores.",
+    "steps": [
+      {
+        "kind": "paw",
+        "x": -144,
+        "z": -72,
+        "text": "Siga a pegada brilhante número 1.",
+        "mode": "walk",
+        "number": 1
+      },
+      {
+        "kind": "paw",
+        "x": -136,
+        "z": -78,
+        "text": "Siga a pegada brilhante número 2.",
+        "mode": "walk",
+        "number": 2
+      },
+      {
+        "kind": "paw",
+        "x": -128,
+        "z": -84,
+        "text": "Siga a pegada brilhante número 3.",
+        "mode": "walk",
+        "number": 3
+      },
+      {
+        "kind": "paw",
+        "x": -120,
+        "z": -90,
+        "text": "Siga a pegada brilhante número 4.",
+        "mode": "walk",
+        "number": 4
+      },
+      {
+        "kind": "paw",
+        "x": -112,
+        "z": -96,
+        "text": "Siga a pegada brilhante número 5.",
+        "mode": "walk",
+        "number": 5
+      },
+      {
+        "kind": "jungleAnimal",
+        "x": -150,
+        "z": -123,
+        "text": "Ouça: u-u, a-a! Procure o macaquinho e use a mochila.",
+        "animal": "monkey"
+      },
+      {
+        "kind": "jungleAnimal",
+        "x": -126,
+        "z": -123,
+        "text": "Ouça o chamado da ave. Procure o tucano do bico amarelo.",
+        "animal": "toucan"
+      },
+      {
+        "kind": "jungleAnimal",
+        "x": -102,
+        "z": -123,
+        "text": "Coax, coax! Encontre o sapinho verde.",
+        "animal": "frog"
+      },
+      {
+        "kind": "colorGate",
+        "x": -115,
+        "z": -145,
+        "text": "Use o painel vermelho para abrir o portão das cores.",
+        "color": "red"
+      },
+      {
+        "kind": "colorGate",
+        "x": -109,
+        "z": -145,
+        "text": "Use o painel verde para abrir o portão das cores.",
+        "color": "green"
+      },
+      {
+        "kind": "colorGate",
+        "x": -103,
+        "z": -145,
+        "text": "Use o painel azul para abrir o portão das cores.",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Pista de Neve do Jake",
+    "pup": 8,
+    "area": "neve",
+    "lesson": "Sequências e números",
+    "icon": "❄️",
+    "brief": "Everest, vamos limpar a pista de um a cinco e ajudar dois pinguins a voltar para casa.",
+    "steps": [
+      {
+        "kind": "snow",
+        "x": -95,
+        "z": -153,
+        "text": "Limpe a placa número 1 com o limpa-neve.",
+        "number": 1,
+        "vehicle": true
+      },
+      {
+        "kind": "snow",
+        "x": -86,
+        "z": -153,
+        "text": "Limpe a placa número 2 com o limpa-neve.",
+        "number": 2,
+        "vehicle": true
+      },
+      {
+        "kind": "snow",
+        "x": -77,
+        "z": -153,
+        "text": "Limpe a placa número 3 com o limpa-neve.",
+        "number": 3,
+        "vehicle": true
+      },
+      {
+        "kind": "snow",
+        "x": -68,
+        "z": -153,
+        "text": "Limpe a placa número 4 com o limpa-neve.",
+        "number": 4,
+        "vehicle": true
+      },
+      {
+        "kind": "snow",
+        "x": -59,
+        "z": -153,
+        "text": "Limpe a placa número 5 com o limpa-neve.",
+        "number": 5,
+        "vehicle": true
+      },
+      {
+        "kind": "penguin",
+        "x": -80,
+        "z": -169,
+        "text": "Ajude o primeiro pinguim com a mochila."
+      },
+      {
+        "kind": "penguin",
+        "x": -66,
+        "z": -169,
+        "text": "Agora ajude o segundo pinguim. Dois amigos ajudados!"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Banho no Pet Shop da Katie",
+    "pup": 2,
+    "area": "petshop",
+    "lesson": "Higiene e rotina",
+    "icon": "🛁",
+    "brief": "Katie precisa de ajuda para um banho tranquilo. Primeiro espuma, depois enxaguar, secar e escovar.",
+    "steps": [
+      {
+        "kind": "foam",
+        "x": -48,
+        "z": 72,
+        "text": "Vamos cobrir a lama com espuma macia. Use a mochila perto da banheira.",
+        "anyPup": true
+      },
+      {
+        "kind": "rinse",
+        "x": -48,
+        "z": 72,
+        "text": "Agora vamos enxaguar. Use o chuveirinho para tirar toda a espuma.",
+        "anyPup": true
+      },
+      {
+        "kind": "dry",
+        "x": -48,
+        "z": 72,
+        "text": "Hora de secar com um ventinho suave. Use o secador.",
+        "anyPup": true
+      },
+      {
+        "kind": "brush",
+        "x": -48,
+        "z": 72,
+        "text": "Por último, escove com carinho. A rotina ficou completa!",
+        "anyPup": true
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Colheita no Pomar da Yumi",
+    "pup": 4,
+    "area": "fazenda",
+    "lesson": "Cores e quantidades",
+    "icon": "🍎",
+    "brief": "Yumi vai colher duas maçãs vermelhas, três bananas amarelas e duas uvas roxas. Vamos levar para as cestas certas!",
+    "steps": [
+      {
+        "kind": "fruit",
+        "x": -112,
+        "z": 96,
+        "text": "Colha uma maçã vermelha.",
+        "fruit": "apple",
+        "color": "vermelha",
+        "quantity": 1
+      },
+      {
+        "kind": "basket",
+        "x": -88,
+        "z": 108,
+        "text": "Leve para a cesta vermelha. Vamos contar: 1 de 2.",
+        "fruit": "apple",
+        "color": "vermelha",
+        "quantity": 1,
+        "total": 2
+      },
+      {
+        "kind": "fruit",
+        "x": -112,
+        "z": 96,
+        "text": "Colha uma maçã vermelha.",
+        "fruit": "apple",
+        "color": "vermelha",
+        "quantity": 2
+      },
+      {
+        "kind": "basket",
+        "x": -88,
+        "z": 108,
+        "text": "Leve para a cesta vermelha. Vamos contar: 2 de 2.",
+        "fruit": "apple",
+        "color": "vermelha",
+        "quantity": 2,
+        "total": 2
+      },
+      {
+        "kind": "fruit",
+        "x": -100,
+        "z": 96,
+        "text": "Colha uma banana amarela.",
+        "fruit": "banana",
+        "color": "amarela",
+        "quantity": 1
+      },
+      {
+        "kind": "basket",
+        "x": -78,
+        "z": 108,
+        "text": "Leve para a cesta amarela. Vamos contar: 1 de 3.",
+        "fruit": "banana",
+        "color": "amarela",
+        "quantity": 1,
+        "total": 3
+      },
+      {
+        "kind": "fruit",
+        "x": -100,
+        "z": 96,
+        "text": "Colha uma banana amarela.",
+        "fruit": "banana",
+        "color": "amarela",
+        "quantity": 2
+      },
+      {
+        "kind": "basket",
+        "x": -78,
+        "z": 108,
+        "text": "Leve para a cesta amarela. Vamos contar: 2 de 3.",
+        "fruit": "banana",
+        "color": "amarela",
+        "quantity": 2,
+        "total": 3
+      },
+      {
+        "kind": "fruit",
+        "x": -100,
+        "z": 96,
+        "text": "Colha uma banana amarela.",
+        "fruit": "banana",
+        "color": "amarela",
+        "quantity": 3
+      },
+      {
+        "kind": "basket",
+        "x": -78,
+        "z": 108,
+        "text": "Leve para a cesta amarela. Vamos contar: 3 de 3.",
+        "fruit": "banana",
+        "color": "amarela",
+        "quantity": 3,
+        "total": 3
+      },
+      {
+        "kind": "fruit",
+        "x": -88,
+        "z": 96,
+        "text": "Colha uma uva roxa.",
+        "fruit": "grape",
+        "color": "roxa",
+        "quantity": 1
+      },
+      {
+        "kind": "basket",
+        "x": -68,
+        "z": 108,
+        "text": "Leve para a cesta roxa. Vamos contar: 1 de 2.",
+        "fruit": "grape",
+        "color": "roxa",
+        "quantity": 1,
+        "total": 2
+      },
+      {
+        "kind": "fruit",
+        "x": -88,
+        "z": 96,
+        "text": "Colha uma uva roxa.",
+        "fruit": "grape",
+        "color": "roxa",
+        "quantity": 2
+      },
+      {
+        "kind": "basket",
+        "x": -68,
+        "z": 108,
+        "text": "Leve para a cesta roxa. Vamos contar: 2 de 2.",
+        "fruit": "grape",
+        "color": "roxa",
+        "quantity": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Copa Canina",
+    "pup": 6,
+    "area": "futebol",
+    "lesson": "Gols, cores e números",
+    "icon": "⚽",
+    "brief": "Vamos marcar três gols com calma. A cor e o número aparecem na trave. O goleiro está aqui para brincar com você.",
+    "steps": [
+      {
+        "kind": "goal",
+        "x": 35,
+        "z": 92,
+        "text": "Faça o gol número 1 na trave vermelha.",
+        "number": 1,
+        "color": "red",
+        "end": "north",
+        "mode": "goal",
+        "anyPup": true
+      },
+      {
+        "kind": "goal",
+        "x": 35,
+        "z": 158,
+        "text": "Faça o gol número 2 na trave azul.",
+        "number": 2,
+        "color": "blue",
+        "end": "south",
+        "mode": "goal",
+        "anyPup": true
+      },
+      {
+        "kind": "goal",
+        "x": 35,
+        "z": 92,
+        "text": "Faça o gol número 3 na trave amarela.",
+        "number": 3,
+        "color": "yellow",
+        "end": "north",
+        "mode": "goal",
+        "anyPup": true
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Grande Corrida da Baía",
+    "pup": 1,
+    "area": "pista",
+    "lesson": "Cores e formas",
+    "icon": "🏆",
+    "brief": "Escolha seu veículo! Vamos passar por oito portões educativos, sem cronômetro, e receber o troféu dourado.",
+    "steps": [
+      {
+        "kind": "raceGate",
+        "x": 120,
+        "z": -58,
+        "text": "Dirija pelo portão azul com círculo.",
+        "mode": "drive",
+        "shape": "circle",
+        "color": "blue",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 145.45584412271572,
+        "z": -65.90811690796322,
+        "text": "Dirija pelo portão vermelho com quadrado.",
+        "mode": "drive",
+        "shape": "square",
+        "color": "red",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 156,
+        "z": -85,
+        "text": "Dirija pelo portão amarelo com triângulo.",
+        "mode": "drive",
+        "shape": "triangle",
+        "color": "yellow",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 145.45584412271572,
+        "z": -104.09188309203678,
+        "text": "Dirija pelo portão verde com estrela.",
+        "mode": "drive",
+        "shape": "star",
+        "color": "green",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 120,
+        "z": -112,
+        "text": "Dirija pelo portão azul com círculo.",
+        "mode": "drive",
+        "shape": "circle",
+        "color": "blue",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 94.54415587728428,
+        "z": -104.0918830920368,
+        "text": "Dirija pelo portão vermelho com quadrado.",
+        "mode": "drive",
+        "shape": "square",
+        "color": "red",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 84,
+        "z": -85,
+        "text": "Dirija pelo portão amarelo com triângulo.",
+        "mode": "drive",
+        "shape": "triangle",
+        "color": "yellow",
+        "anyPup": true
+      },
+      {
+        "kind": "raceGate",
+        "x": 94.54415587728428,
+        "z": -65.90811690796322,
+        "text": "Dirija pelo portão verde com estrela.",
+        "mode": "drive",
+        "shape": "star",
+        "color": "green",
+        "anyPup": true
+      },
+      {
+        "kind": "trophy",
+        "x": 120,
+        "z": -85,
+        "text": "Parabéns! Chegue ao pódio e use a mochila para receber o troféu.",
+        "anyPup": true
+      }
+    ]
+  }
+]

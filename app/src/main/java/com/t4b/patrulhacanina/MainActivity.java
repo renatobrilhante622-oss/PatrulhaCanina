@@ -28,7 +28,7 @@ public final class MainActivity extends Activity {
         game.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         WebSettings settings = game.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(false);
+        settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
