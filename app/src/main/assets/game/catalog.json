@@ -3,302 +3,632 @@
     {
       "id": "Ryder_call",
       "speaker": "Ryder",
-      "text": "Olá! Eu sou Ryder. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Ryder. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Ryder_call.mp3"
     },
     {
       "id": "Ryder_motto",
       "speaker": "Ryder",
-      "text": "Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!"
+      "text": "Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!",
+      "audio": "/audio/Ryder_motto.mp3"
     },
     {
       "id": "Ryder_instruction",
       "speaker": "Ryder",
-      "text": "Escolha um amigo no distintivo. Vamos brincar com calma!"
+      "text": "Use a alavanca à esquerda para passear. A seta no chão mostra uma brincadeira. O botão A usa sua ferramenta.",
+      "audio": "/audio/Ryder_instruction.mp3"
     },
     {
       "id": "Ryder_praise",
       "speaker": "Ryder",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Ryder_praise.mp3"
     },
     {
       "id": "Ryder_hint",
       "speaker": "Ryder",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Ryder_hint.mp3"
     },
     {
       "id": "Ryder_reward",
       "speaker": "Ryder",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Ryder_reward.mp3"
+    },
+    {
+      "id": "Ryder_vehicle",
+      "speaker": "Ryder",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Ryder_vehicle.mp3"
+    },
+    {
+      "id": "Ryder_walk",
+      "speaker": "Ryder",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Ryder_walk.mp3"
     },
     {
       "id": "Chase_call",
       "speaker": "Chase",
-      "text": "Olá! Eu sou Chase. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Chase. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Chase_call.mp3"
     },
     {
       "id": "Chase_motto",
       "speaker": "Chase",
-      "text": "Chase está no caso!"
+      "text": "O Chase está no caso!",
+      "audio": "/audio/Chase_motto.mp3"
     },
     {
       "id": "Chase_instruction",
       "speaker": "Chase",
-      "text": "Leve cada forma até a sombra igual. Você pode escolher por onde começar."
+      "text": "Vamos cuidar do trânsito e ajudar os gatinhos. Aproxime-se da placa e aperte A.",
+      "audio": "/audio/Chase_instruction.mp3"
     },
     {
       "id": "Chase_praise",
       "speaker": "Chase",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Chase_praise.mp3"
     },
     {
       "id": "Chase_hint",
       "speaker": "Chase",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Chase_hint.mp3"
     },
     {
       "id": "Chase_reward",
       "speaker": "Chase",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Chase_reward.mp3"
+    },
+    {
+      "id": "Chase_vehicle",
+      "speaker": "Chase",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Chase_vehicle.mp3"
+    },
+    {
+      "id": "Chase_walk",
+      "speaker": "Chase",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Chase_walk.mp3"
     },
     {
       "id": "Marshall_call",
       "speaker": "Marshall",
-      "text": "Olá! Eu sou Marshall. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Marshall. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Marshall_call.mp3"
     },
     {
       "id": "Marshall_motto",
       "speaker": "Marshall",
-      "text": "Estou pronto para um resgate!"
+      "text": "Estou pronto para um resgate!",
+      "audio": "/audio/Marshall_motto.mp3"
     },
     {
       "id": "Marshall_instruction",
       "speaker": "Marshall",
-      "text": "Toque nas chamas na ordem dos números. Comece pelo número um."
+      "text": "Vamos apagar dez chamas, na ordem. Aproxime-se e aponte para a chama. Depois aperte A para usar água.",
+      "audio": "/audio/Marshall_instruction.mp3"
     },
     {
       "id": "Marshall_praise",
       "speaker": "Marshall",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Marshall_praise.mp3"
     },
     {
       "id": "Marshall_hint",
       "speaker": "Marshall",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Marshall_hint.mp3"
     },
     {
       "id": "Marshall_reward",
       "speaker": "Marshall",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Marshall_reward.mp3"
+    },
+    {
+      "id": "Marshall_vehicle",
+      "speaker": "Marshall",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Marshall_vehicle.mp3"
+    },
+    {
+      "id": "Marshall_walk",
+      "speaker": "Marshall",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Marshall_walk.mp3"
     },
     {
       "id": "Skye_call",
       "speaker": "Skye",
-      "text": "Olá! Eu sou Skye. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Skye. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Skye_call.mp3"
     },
     {
       "id": "Skye_motto",
       "speaker": "Skye",
-      "text": "Esse filhote vai voar!"
+      "text": "Esse filhote vai voar!",
+      "audio": "/audio/Skye_motto.mp3"
     },
     {
       "id": "Skye_instruction",
       "speaker": "Skye",
-      "text": "Vamos conhecer as vogais. Toque na letra que eu falar."
+      "text": "Vamos passear no parque. Encontre os balões com as vogais. Aproxime-se e aperte A.",
+      "audio": "/audio/Skye_instruction.mp3"
     },
     {
       "id": "Skye_praise",
       "speaker": "Skye",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Skye_praise.mp3"
     },
     {
       "id": "Skye_hint",
       "speaker": "Skye",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Skye_hint.mp3"
     },
     {
       "id": "Skye_reward",
       "speaker": "Skye",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Skye_reward.mp3"
+    },
+    {
+      "id": "Skye_vehicle",
+      "speaker": "Skye",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Skye_vehicle.mp3"
+    },
+    {
+      "id": "Skye_walk",
+      "speaker": "Skye",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Skye_walk.mp3"
     },
     {
       "id": "Rocky_call",
       "speaker": "Rocky",
-      "text": "Olá! Eu sou Rocky. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Rocky. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Rocky_call.mp3"
     },
     {
       "id": "Rocky_motto",
       "speaker": "Rocky",
-      "text": "Não perca, reutilize!"
+      "text": "Não perca, reutilize!",
+      "audio": "/audio/Rocky_motto.mp3"
     },
     {
       "id": "Rocky_instruction",
       "speaker": "Rocky",
-      "text": "Papel na lixeira azul. Plástico na vermelha. Metal na amarela."
+      "text": "Vamos limpar a praia. Pegue um material com A e leve até a lixeira da mesma cor.",
+      "audio": "/audio/Rocky_instruction.mp3"
     },
     {
       "id": "Rocky_praise",
       "speaker": "Rocky",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Rocky_praise.mp3"
     },
     {
       "id": "Rocky_hint",
       "speaker": "Rocky",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Rocky_hint.mp3"
     },
     {
       "id": "Rocky_reward",
       "speaker": "Rocky",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Rocky_reward.mp3"
+    },
+    {
+      "id": "Rocky_vehicle",
+      "speaker": "Rocky",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Rocky_vehicle.mp3"
+    },
+    {
+      "id": "Rocky_walk",
+      "speaker": "Rocky",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Rocky_walk.mp3"
     },
     {
       "id": "Rubble_call",
       "speaker": "Rubble",
-      "text": "Olá! Eu sou Rubble. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Rubble. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Rubble_call.mp3"
     },
     {
       "id": "Rubble_motto",
       "speaker": "Rubble",
-      "text": "Rubble a toda!"
+      "text": "Rubble a toda!",
+      "audio": "/audio/Rubble_motto.mp3"
     },
     {
       "id": "Rubble_instruction",
       "speaker": "Rubble",
-      "text": "Leve os blocos até a pilha. Comece pelo maior e termine com o menor."
+      "text": "Vamos retirar pedras, construir uma ponte com formas e dar comida aos animais. Tudo com calma!",
+      "audio": "/audio/Rubble_instruction.mp3"
     },
     {
       "id": "Rubble_praise",
       "speaker": "Rubble",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Rubble_praise.mp3"
     },
     {
       "id": "Rubble_hint",
       "speaker": "Rubble",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Rubble_hint.mp3"
     },
     {
       "id": "Rubble_reward",
       "speaker": "Rubble",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Rubble_reward.mp3"
+    },
+    {
+      "id": "Rubble_vehicle",
+      "speaker": "Rubble",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Rubble_vehicle.mp3"
+    },
+    {
+      "id": "Rubble_walk",
+      "speaker": "Rubble",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Rubble_walk.mp3"
     },
     {
       "id": "Zuma_call",
       "speaker": "Zuma",
-      "text": "Olá! Eu sou Zuma. Vamos ajudar nossos amigos na Baía da Aventura?"
+      "text": "Olá! Eu sou Zuma. Que bom passear com você na Baía da Aventura!",
+      "audio": "/audio/Zuma_call.mp3"
     },
     {
       "id": "Zuma_motto",
       "speaker": "Zuma",
-      "text": "Vamos mergulhar!"
+      "text": "Vamos mergulhar!",
+      "audio": "/audio/Zuma_motto.mp3"
     },
     {
       "id": "Zuma_instruction",
       "speaker": "Zuma",
-      "text": "Toque em duas boias. Encontre os animais iguais, sem pressa."
+      "text": "Vamos ajudar os animais marinhos. Encontre a tartaruga, depois o polvo e a estrela do mar.",
+      "audio": "/audio/Zuma_instruction.mp3"
     },
     {
       "id": "Zuma_praise",
       "speaker": "Zuma",
-      "text": "Muito bem! Você conseguiu. Vamos continuar juntos!"
+      "text": "Muito bem! Você está aprendendo e ajudando nossos amigos.",
+      "audio": "/audio/Zuma_praise.mp3"
     },
     {
       "id": "Zuma_hint",
       "speaker": "Zuma",
-      "text": "Tudo bem. Vamos tentar de novo com calma. Eu ajudo você."
+      "text": "Tudo bem. Podemos tentar outra vez, sem pressa. A seta mostra o caminho.",
+      "audio": "/audio/Zuma_hint.mp3"
     },
     {
       "id": "Zuma_reward",
       "speaker": "Zuma",
-      "text": "Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!"
+      "text": "Missão cumprida! Que tal dar um biscoito ao nosso amigo?",
+      "audio": "/audio/Zuma_reward.mp3"
+    },
+    {
+      "id": "Zuma_vehicle",
+      "speaker": "Zuma",
+      "text": "Vamos passear no meu veículo! Use a alavanca para dirigir.",
+      "audio": "/audio/Zuma_vehicle.mp3"
+    },
+    {
+      "id": "Zuma_walk",
+      "speaker": "Zuma",
+      "text": "Agora vamos caminhar e explorar bem de pertinho.",
+      "audio": "/audio/Zuma_walk.mp3"
     },
     {
       "id": "Marshall_step1",
       "speaker": "Marshall",
-      "text": "Agora toque na chama com o número 1."
+      "text": "Agora vamos apagar a chama com o número 1. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step1.mp3"
     },
     {
       "id": "Marshall_step2",
       "speaker": "Marshall",
-      "text": "Agora toque na chama com o número 2."
+      "text": "Agora vamos apagar a chama com o número 2. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step2.mp3"
     },
     {
       "id": "Marshall_step3",
       "speaker": "Marshall",
-      "text": "Agora toque na chama com o número 3."
+      "text": "Agora vamos apagar a chama com o número 3. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step3.mp3"
     },
     {
       "id": "Marshall_step4",
       "speaker": "Marshall",
-      "text": "Agora toque na chama com o número 4."
+      "text": "Agora vamos apagar a chama com o número 4. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step4.mp3"
     },
     {
       "id": "Marshall_step5",
       "speaker": "Marshall",
-      "text": "Agora toque na chama com o número 5."
+      "text": "Agora vamos apagar a chama com o número 5. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step5.mp3"
+    },
+    {
+      "id": "Marshall_step6",
+      "speaker": "Marshall",
+      "text": "Agora vamos apagar a chama com o número 6. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step6.mp3"
+    },
+    {
+      "id": "Marshall_step7",
+      "speaker": "Marshall",
+      "text": "Agora vamos apagar a chama com o número 7. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step7.mp3"
+    },
+    {
+      "id": "Marshall_step8",
+      "speaker": "Marshall",
+      "text": "Agora vamos apagar a chama com o número 8. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step8.mp3"
+    },
+    {
+      "id": "Marshall_step9",
+      "speaker": "Marshall",
+      "text": "Agora vamos apagar a chama com o número 9. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step9.mp3"
+    },
+    {
+      "id": "Marshall_step10",
+      "speaker": "Marshall",
+      "text": "Agora vamos apagar a chama com o número 10. Aponte a água e aperte A.",
+      "audio": "/audio/Marshall_step10.mp3"
+    },
+    {
+      "id": "flower_azul",
+      "speaker": "Marshall",
+      "text": "Olha que linda! Nasceu uma flor azul. As plantas precisam de água e carinho.",
+      "audio": "/audio/flower_azul.mp3"
+    },
+    {
+      "id": "flower_vermelha",
+      "speaker": "Marshall",
+      "text": "Olha que linda! Nasceu uma flor vermelha. As plantas precisam de água e carinho.",
+      "audio": "/audio/flower_vermelha.mp3"
+    },
+    {
+      "id": "flower_amarela",
+      "speaker": "Marshall",
+      "text": "Olha que linda! Nasceu uma flor amarela. As plantas precisam de água e carinho.",
+      "audio": "/audio/flower_amarela.mp3"
+    },
+    {
+      "id": "flower_verde",
+      "speaker": "Marshall",
+      "text": "Olha que linda! Nasceu uma flor verde. As plantas precisam de água e carinho.",
+      "audio": "/audio/flower_verde.mp3"
     },
     {
       "id": "Skye_A",
       "speaker": "Skye",
-      "text": "Toque na vogal A."
+      "text": "A de Amor e Avião! Vamos encontrar essa vogal no parque.",
+      "audio": "/audio/Skye_A.mp3"
     },
     {
       "id": "Skye_E",
       "speaker": "Skye",
-      "text": "Toque na vogal E."
+      "text": "E de Estrela e Escola! Vamos encontrar essa vogal no parque.",
+      "audio": "/audio/Skye_E.mp3"
     },
     {
       "id": "Skye_I",
       "speaker": "Skye",
-      "text": "Toque na vogal I."
+      "text": "I de Ilha e Imaginação! Vamos encontrar essa vogal no parque.",
+      "audio": "/audio/Skye_I.mp3"
     },
     {
       "id": "Skye_O",
       "speaker": "Skye",
-      "text": "Toque na vogal O."
+      "text": "O de Ovelha e Olho! Vamos encontrar essa vogal no parque.",
+      "audio": "/audio/Skye_O.mp3"
     },
     {
       "id": "Skye_U",
       "speaker": "Skye",
-      "text": "Toque na vogal U."
+      "text": "U de Uva e Universo! Vamos encontrar essa vogal no parque.",
+      "audio": "/audio/Skye_U.mp3"
     },
     {
-      "id": "Rubble_next",
-      "speaker": "Rubble",
-      "text": "Agora escolha o maior bloco que ainda está no chão."
+      "id": "Rocky_papel",
+      "speaker": "Rocky",
+      "text": "Lixeira azul. O papel pode virar um caderno novo.",
+      "audio": "/audio/Rocky_papel.mp3"
     },
     {
-      "id": "Zuma_pair",
-      "speaker": "Zuma",
-      "text": "Olhe os animais. Se forem diferentes, podemos tentar outras boias."
+      "id": "Rocky_plastico",
+      "speaker": "Rocky",
+      "text": "Lixeira vermelha. Uma garrafa de plástico pode ganhar uma nova utilidade.",
+      "audio": "/audio/Rocky_plastico.mp3"
+    },
+    {
+      "id": "Rocky_metal",
+      "speaker": "Rocky",
+      "text": "Lixeira amarela. Uma latinha é feita de metal e pode ser reciclada.",
+      "audio": "/audio/Rocky_metal.mp3"
+    },
+    {
+      "id": "Rocky_vidro",
+      "speaker": "Rocky",
+      "text": "Lixeira verde. O vidro pode ser reciclado. Deixe objetos quebrados para um adulto.",
+      "audio": "/audio/Rocky_vidro.mp3"
+    },
+    {
+      "id": "Chase_red",
+      "speaker": "Chase",
+      "text": "Vermelho significa pare. Vamos esperar com calma.",
+      "audio": "/audio/Chase_red.mp3"
+    },
+    {
+      "id": "Chase_yellow",
+      "speaker": "Chase",
+      "text": "Amarelo significa atenção. Vamos observar.",
+      "audio": "/audio/Chase_yellow.mp3"
+    },
+    {
+      "id": "Chase_green",
+      "speaker": "Chase",
+      "text": "Verde significa siga. Agora podemos atravessar.",
+      "audio": "/audio/Chase_green.mp3"
+    },
+    {
+      "id": "Chase_circle",
+      "speaker": "Chase",
+      "text": "Círculo! Ele é redondinho, sem pontinhas.",
+      "audio": "/audio/Chase_circle.mp3"
+    },
+    {
+      "id": "Chase_square",
+      "speaker": "Chase",
+      "text": "Quadrado! Ele tem quatro lados iguais.",
+      "audio": "/audio/Chase_square.mp3"
+    },
+    {
+      "id": "Chase_triangle",
+      "speaker": "Chase",
+      "text": "Triângulo! Vamos contar as três pontinhas.",
+      "audio": "/audio/Chase_triangle.mp3"
+    },
+    {
+      "id": "Chase_star",
+      "speaker": "Chase",
+      "text": "Estrela! Suas pontinhas parecem brilhar.",
+      "audio": "/audio/Chase_star.mp3"
+    },
+    {
+      "id": "Chase_treasure",
+      "speaker": "Chase",
+      "text": "Encontramos o baú! Obrigado por seguir as pegadas comigo.",
+      "audio": "/audio/Chase_treasure.mp3"
     },
     {
       "id": "Rocky_repair",
       "speaker": "Rocky",
-      "text": "Vamos reutilizar! Arraste a roda até o carrinho para consertar o brinquedo."
+      "text": "Agora conserte o carrinho. Aproxime a roda do brinquedo e aperte A.",
+      "audio": "/audio/Rocky_repair.mp3"
     },
     {
-      "id": "Rubble_count",
+      "id": "Rubble_bridge",
       "speaker": "Rubble",
-      "text": "Agora vamos contar cinco pedrinhas. Toque no número um para começar."
+      "text": "Vamos construir a ponte. Pegue uma forma e leve até o encaixe igual.",
+      "audio": "/audio/Rubble_bridge.mp3"
     },
     {
-      "id": "Rubble_stone2",
+      "id": "Rubble_next",
       "speaker": "Rubble",
-      "text": "Agora toque na pedrinha número 2."
+      "text": "Escolha a maior pedra que ainda está no caminho.",
+      "audio": "/audio/Rubble_next.mp3"
     },
     {
-      "id": "Rubble_stone3",
+      "id": "Rubble_cow",
       "speaker": "Rubble",
-      "text": "Agora toque na pedrinha número 3."
+      "text": "A vaquinha faz mu! Ela gosta de capim. Vamos dar comida com carinho.",
+      "audio": "/audio/Rubble_cow.mp3"
     },
     {
-      "id": "Rubble_stone4",
+      "id": "Rubble_pig",
       "speaker": "Rubble",
-      "text": "Agora toque na pedrinha número 4."
+      "text": "O porquinho faz oinc, oinc! Ele está feliz por receber sua ajuda.",
+      "audio": "/audio/Rubble_pig.mp3"
     },
     {
-      "id": "Rubble_stone5",
+      "id": "Rubble_sheep",
       "speaker": "Rubble",
-      "text": "Agora toque na pedrinha número 5."
+      "text": "A ovelhinha faz bé! Vamos cuidar dela com carinho.",
+      "audio": "/audio/Rubble_sheep.mp3"
+    },
+    {
+      "id": "Zuma_turtle",
+      "speaker": "Zuma",
+      "text": "Uma tartaruga! Ela tem um casco que protege seu corpo. Vamos ajudar a tartaruga a voltar ao mar.",
+      "audio": "/audio/Zuma_turtle.mp3"
+    },
+    {
+      "id": "Zuma_octopus",
+      "speaker": "Zuma",
+      "text": "Dois animais ajudados! O polvo tem oito braços e vive no mar.",
+      "audio": "/audio/Zuma_octopus.mp3"
+    },
+    {
+      "id": "Zuma_starfish",
+      "speaker": "Zuma",
+      "text": "Três animais ajudados! Uma estrela do mar tem um formato muito especial.",
+      "audio": "/audio/Zuma_starfish.mp3"
+    },
+    {
+      "id": "Ryder_slide",
+      "speaker": "Ryder",
+      "text": "Iupi! Vamos descer pelo escorregador. Que passeio divertido!",
+      "audio": "/audio/Ryder_slide.mp3"
+    },
+    {
+      "id": "Ryder_food",
+      "speaker": "Ryder",
+      "text": "Nosso amigo recebeu um biscoito. Obrigado pelo carinho!",
+      "audio": "/audio/Ryder_food.mp3"
+    },
+    {
+      "id": "Ryder_near",
+      "speaker": "Ryder",
+      "text": "Chegue um pouquinho mais perto e aperte A. A seta ajuda você.",
+      "audio": "/audio/Ryder_near.mp3"
+    },
+    {
+      "id": "Ryder_switch",
+      "speaker": "Ryder",
+      "text": "Escolha um amigo. Você continua no mesmo lugar do mapa.",
+      "audio": "/audio/Ryder_switch.mp3"
+    },
+    {
+      "id": "Ryder_jump",
+      "speaker": "Ryder",
+      "text": "Um pulinho alegre! Vamos brincar sem pressa.",
+      "audio": "/audio/Ryder_jump.mp3"
+    },
+    {
+      "id": "Ryder_map",
+      "speaker": "Ryder",
+      "text": "A estrela do radar mostra a próxima brincadeira. O farol fica no centro.",
+      "audio": "/audio/Ryder_map.mp3"
+    },
+    {
+      "id": "Ryder_finish",
+      "speaker": "Ryder",
+      "text": "Você conheceu todas as brincadeiras! Podemos continuar passeando e cuidando da Baía.",
+      "audio": "/audio/Ryder_finish.mp3"
+    },
+    {
+      "id": "Rocky_full",
+      "speaker": "Rocky",
+      "text": "Você já está levando um material. Vamos primeiro até a lixeira da mesma cor.",
+      "audio": "/audio/Rocky_full.mp3"
+    },
+    {
+      "id": "Ryder_star",
+      "speaker": "Ryder",
+      "text": "Uma estrela do saber! Você encontrou uma surpresa pelo caminho.",
+      "audio": "/audio/Ryder_star.mp3"
     }
   ]
 }

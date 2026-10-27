@@ -15,7 +15,9 @@ jobs:
       contents: write
     # Imagem estável com Android SDK; evita a migração de ubuntu-latest para 26.04.
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 45
+    outputs:
+      compiled_sha: ${{ steps.revision.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -49,10 +51,28 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Empacotar e verificar falas offline
+      - name: Instalar gerador neural e verificador MP3
         run: |
-          python3 Tools/sync_android_assets.py
+          python3 -m pip install -r Tools/requirements-voices.txt
+          command -v ffprobe || { sudo apt-get update && sudo apt-get install -y ffmpeg; }
+      - name: Gerar falas neurais PT-BR reais
+        timeout-minutes: 18
+        run: |
+          python3 Tools/generate_voices.py
           python3 Tools/validate_android.py
+      - name: Versionar MP3s gerados na main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add app/src/main/assets/audio app/src/main/assets/game/catalog.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: grava vozes neurais PT-BR [skip ci]'
+            git push origin HEAD:main
+          fi
+      - name: Registrar revisão compilada
+        id: revision
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Testar as seis missões no Chromium
         run: |
           npm ci --ignore-scripts
@@ -85,6 +105,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.build.outputs.compiled_sha }}
       - uses: actions/download-artifact@v4
         with:
           name: PatrulhaCanina-APK
@@ -93,13 +115,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git tag --force latest "$GITHUB_SHA"
+          git tag --force latest "${{ needs.build.outputs.compiled_sha }}"
           git push --force origin refs/tags/latest
       - name: Publicar APK na Release latest
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          target_commitish: ${{ github.sha }}
+          target_commitish: ${{ needs.build.outputs.compiled_sha }}
           name: Patrulha Canina - Missões (APK)
           body: APK Android offline. Assinatura pública de desenvolvimento; não é distribuição de produção.
           make_latest: true

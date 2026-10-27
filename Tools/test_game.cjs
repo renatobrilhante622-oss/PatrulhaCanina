@@ -1,71 +1,46 @@
-/* Teste funcional de ponta a ponta: cliques e arrastes reais, sem pular estados do jogo. */
+/* Controles reais no Chromium: joystick, multitouch, gamepad, câmera e landscape. */
 const {chromium}=require('playwright');
 const http=require('node:http'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const base=path.resolve(__dirname,'../app/src/main/assets/game');
+const base=path.resolve(__dirname,'../app/src/main/assets');
 const server=http.createServer((req,res)=>{
  const file=path.join(base,decodeURIComponent(req.url.split('?')[0]));
  if(!file.startsWith(base+path.sep)){res.writeHead(403);return res.end();}
- fs.readFile(file,(e,data)=>{if(e){res.writeHead(404);return res.end();}res.setHeader('Content-Type',file.endsWith('.js')?'application/javascript':file.endsWith('.json')?'application/json':file.endsWith('.wav')?'audio/wav':file.endsWith('.css')?'text/css':'text/html');res.end(data);});
+ fs.readFile(file,(e,data)=>{if(e){res.writeHead(404);return res.end();}res.setHeader('Content-Type',file.endsWith('.js')?'application/javascript':file.endsWith('.json')?'application/json':file.endsWith('.mp3')?'audio/mpeg':file.endsWith('.css')?'text/css':'text/html');res.end(data);});
 });
 (async()=>{
- await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
- let browser;
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));let browser;
  try{
   browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--autoplay-policy=no-user-gesture-required']});
   const page=await browser.newPage({viewport:{width:1600,height:900}}),errors=[];
-  page.on('pageerror',error=>errors.push(String(error)));
-  // Decodifica WAVs reais, mas acelera a reprodução para a suíte não durar muitos minutos.
-  await page.addInitScript(()=>{
-   const original=AudioContext.prototype.createBufferSource;
-   AudioContext.prototype.createBufferSource=function(){const s=original.call(this);s.playbackRate.value=40;return s;};
-  });
-  await page.goto(`http://127.0.0.1:${server.address().port}/index.html`);
-  await page.waitForFunction(()=>window.game);
+  page.on('pageerror',e=>errors.push(String(e)));
+  await page.addInitScript(()=>{window.testPad=null;Object.defineProperty(navigator,'getGamepads',{value:()=>window.testPad?[window.testPad]:[]});const old=AudioContext.prototype.createBufferSource;AudioContext.prototype.createBufferSource=function(){const source=old.call(this);source.playbackRate.value=30;return source;};});
+  await page.goto(`http://127.0.0.1:${server.address().port}/game/index.html`);await page.waitForFunction(()=>window.game);
   const read=()=>page.evaluate(()=>game.inspect());
-  const click=async(x,y)=>{await page.mouse.click(x,y);await page.waitForTimeout(35);};
-  const ready=async()=>{await page.waitForFunction(()=>!game.inspect().busy,{},{timeout:20000});await page.waitForTimeout(40);};
-  const drag=async(item,target)=>{await page.mouse.move(item.x,item.y);await page.mouse.down();await page.mouse.move(target.x,target.y,{steps:8});await page.mouse.up();await ready();};
+  await page.waitForTimeout(120);const start=await read();
+  // Dois dedos simultâneos: joystick com um, pulo com o outro.
+  const touch=await page.context().newCDPSession(page);
+  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{id:10,x:175,y:705}]});
+  await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{id:10,x:260,y:705}]});
+  await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{id:10,x:260,y:705},{id:11,x:1300,y:750}]});
+  await page.waitForTimeout(700);
+  let s=await read();assert.ok(s.player.x>start.player.x+80,'Joystick move o personagem enquanto outro botão é usado');
+  await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  await page.mouse.click(1300,500);assert.equal((await read()).player.vehicle,true);
+  await page.mouse.click(1300,750);assert.ok((await read()).player.turbo>0);
+  await page.waitForTimeout(150);const position=(await read()).player;
+  await page.mouse.click(1150,625);await page.waitForTimeout(60);assert.equal((await read()).modal,'select');
+  await page.mouse.click(910,465);await page.waitForTimeout(100);s=await read();assert.equal(s.player.pup,2);assert.equal(s.modal,null);assert.ok(Math.hypot(s.player.x-position.x,s.player.y-position.y)<30,'Troca preserva posição');
+  // Gamepad externo usa o mesmo motor de movimento e detecta borda dos botões.
+  await page.evaluate(()=>{window.testPad={connected:true,axes:[0,1],buttons:Array.from({length:16},()=>({pressed:false}))};});
+  const before=await read();await page.waitForTimeout(650);s=await read();assert.ok(s.player.y>before.player.y+70,'Analógico Bluetooth movimenta');
+  await page.evaluate(()=>{window.testPad.axes=[0,0];window.testPad.buttons[2].pressed=true;});await page.waitForTimeout(100);assert.equal((await read()).player.vehicle,true);
+  await page.evaluate(()=>{window.testPad=null;});
+  await page.mouse.click(720,67);await page.waitForTimeout(100);
   const out=process.env.SCREENSHOT_DIR;
-  if(out){fs.mkdirSync(out,{recursive:true});await page.screenshot({path:path.join(out,'hub.png')});}
-  for(const pup of [2,1,4,3,5,6]){
-   await click(140+pup*220,790);assert.equal((await read()).phase,'call');
-   await click(800,770);await ready();let s=await read();assert.equal(s.phase,'mission');
-   if(out)await page.screenshot({path:path.join(out,`missao-${pup}.png`)});
-   // Repetir instrução continua acessível durante qualquer missão.
-   await click(1450,70);
-   if(pup===2){
-    await click(s.items[4].x,s.items[4].y);assert.equal((await read()).progress,0,'Chama errada não avança');
-    for(let i=0;i<5;i++){s=await read();await click(s.items[i].x,s.items[i].y);await ready();}
-   }
-   if(pup===1){
-    await drag(s.items[0],s.targets[1]);assert.equal((await read()).progress,0,'Sombra incorreta não avança');
-    for(let i=0;i<4;i++){s=await read();await drag(s.items[i],s.targets.find(t=>t.type===s.items[i].type));}
-   }
-   if(pup===4){
-    for(let i=0;i<6;i++){s=await read();await drag(s.items[i],s.targets.find(t=>t.type===s.items[i].type));}
-    s=await read();assert.equal(s.stage,1,'Conserto faz parte da missão');await drag(s.items[0],s.targets[0]);
-   }
-   if(pup===3){for(let i=0;i<5;i++){s=await read();await click(s.items[i].x,s.items[i].y);await ready();}}
-   if(pup===5){
-    await drag(s.items[3],s.targets[0]);assert.equal((await read()).progress,0,'Bloco menor não avança antes do maior');
-    for(let i=0;i<4;i++){s=await read();await drag(s.items[i],s.targets[0]);}
-    s=await read();assert.equal(s.stage,1,'Contagem faz parte da missão');
-    for(let i=0;i<5;i++){s=await read();await click(s.items[i].x,s.items[i].y);await ready();}
-   }
-   if(pup===6){
-    s=await read();const a=s.items[0],b=s.items.find(c=>c.id!==a.id);
-    await click(a.x,a.y);await click(b.x,b.y);await ready();assert.equal((await read()).progress,0);
-    for(let id=0;id<3;id++){s=await read();for(const item of s.items.filter(c=>c.id===id))await click(item.x,item.y);await ready();}
-   }
-   s=await read();assert.equal(s.phase,'reward',`Missão ${pup} terminou sem Game Over`);
-   await click(800,690);assert.equal((await read()).reward,true,'Biscoito recebido');
-   await click(1220,745);assert.equal((await read()).phase,'hub');
-   console.log(`Missão ${pup}: instrução, jogo, recompensa e retorno ao Farol aprovados.`);
-  }
-  // Prova de offline: todo pedido a origens externas é bloqueado durante uma missão.
-  await page.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:')?route.continue():route.abort());
-  await click(580,790);await click(800,770);await ready();assert.equal((await read()).pup,2);
-  assert.deepEqual(errors,[],'Nenhum erro JS durante as seis missões');
-  console.log('Seis missões completas, erros gentis e modo offline aprovados no Chromium.');
- }finally{if(browser)await browser.close();await new Promise(r=>server.close(r));}
-})().catch(error=>{console.error(error);process.exitCode=1;});
+  if(out){fs.mkdirSync(out,{recursive:true});await page.screenshot({path:path.join(out,'exploracao.png')});}
+  await page.setViewportSize({width:700,height:1000});await page.waitForTimeout(100);assert.equal(await page.locator('#rotate').isVisible(),true);
+  await page.setViewportSize({width:1600,height:900});await page.waitForTimeout(100);assert.equal(await page.locator('#rotate').isVisible(),false);
+  assert.deepEqual(errors,[]);
+  console.log('Joystick, dois dedos, veículos, gamepad Bluetooth, troca em posição e aviso landscape aprovados.');
+ }finally{if(browser)await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));}
+})().catch(e=>{console.error(e);process.exitCode=1;});

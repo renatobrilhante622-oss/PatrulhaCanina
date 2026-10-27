@@ -1,64 +1,65 @@
 #!/usr/bin/env python3
-"""Gera fala sintética PT-BR local e catálogo utilizado pelo jogo. Requer espeak-ng."""
-import argparse
-import json
-import os
+"""Geração neural real via edge-tts. Não converte WAV antigo nem sintetiza bipes."""
+import argparse,asyncio,hashlib,json,os,subprocess,tempfile
 from pathlib import Path
-import shutil
-import subprocess
-import wave
+from voice_catalog import catalog,PROFILES
+ROOT=Path(__file__).resolve().parents[1]
+DEST=ROOT/'app/src/main/assets/audio'
+CATALOG=ROOT/'app/src/main/assets/game/catalog.json'
+MANIFEST=DEST/'neural-manifest.json'
 
-ROOT = Path(__file__).resolve().parents[1]
-NAMES = ['Ryder', 'Chase', 'Marshall', 'Skye', 'Rocky', 'Rubble', 'Zuma']
-INSTRUCTIONS = {
- 'Ryder': 'Escolha um amigo no distintivo. Vamos brincar com calma!',
- 'Marshall': 'Toque nas chamas na ordem dos números. Comece pelo número um.',
- 'Chase': 'Leve cada forma até a sombra igual. Você pode escolher por onde começar.',
- 'Rocky': 'Papel na lixeira azul. Plástico na vermelha. Metal na amarela.',
- 'Skye': 'Vamos conhecer as vogais. Toque na letra que eu falar.',
- 'Rubble': 'Leve os blocos até a pilha. Comece pelo maior e termine com o menor.',
- 'Zuma': 'Toque em duas boias. Encontre os animais iguais, sem pressa.'
-}
-MOTTOS = {
- 'Ryder': 'Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!',
- 'Chase': 'Chase está no caso!', 'Marshall': 'Estou pronto para um resgate!',
- 'Skye': 'Esse filhote vai voar!', 'Rocky': 'Não perca, reutilize!',
- 'Rubble': 'Rubble a toda!', 'Zuma': 'Vamos mergulhar!'
-}
+def probe(path):
+ result=subprocess.run(['ffprobe','-v','error','-show_entries','stream=codec_name:format=duration','-of','json',str(path)],capture_output=True,text=True,check=True)
+ data=json.loads(result.stdout)
+ if not any(s.get('codec_name')=='mp3' for s in data.get('streams',[])) or float(data.get('format',{}).get('duration',0))<.3:raise ValueError('MP3 de fala inválido: '+str(path))
 
-def catalog():
- entries = []
- def add(id, speaker, text): entries.append(dict(id=id, speaker=speaker, text=text))
- for name in NAMES:
-  add(name+'_call', name, f'Olá! Eu sou {name}. Vamos ajudar nossos amigos na Baía da Aventura?')
-  add(name+'_motto', name, MOTTOS[name])
-  add(name+'_instruction', name, INSTRUCTIONS[name])
-  add(name+'_praise', name, 'Muito bem! Você conseguiu. Vamos continuar juntos!')
-  add(name+'_hint', name, 'Tudo bem. Vamos tentar de novo com calma. Eu ajudo você.')
-  add(name+'_reward', name, 'Que carinho! Aqui está um biscoito para nosso amigo. Obrigado por ajudar!')
- for n in range(1,6): add(f'Marshall_step{n}', 'Marshall', f'Agora toque na chama com o número {n}.')
- for vowel in 'AEIOU': add('Skye_'+vowel, 'Skye', f'Toque na vogal {vowel}.')
- add('Rubble_next', 'Rubble', 'Agora escolha o maior bloco que ainda está no chão.')
- add('Zuma_pair', 'Zuma', 'Olhe os animais. Se forem diferentes, podemos tentar outras boias.')
- add('Rocky_repair', 'Rocky', 'Vamos reutilizar! Arraste a roda até o carrinho para consertar o brinquedo.')
- add('Rubble_count', 'Rubble', 'Agora vamos contar cinco pedrinhas. Toque no número um para começar.')
- for n in range(2,6): add(f'Rubble_stone{n}', 'Rubble', f'Agora toque na pedrinha número {n}.')
- return entries
+def write_catalog():
+ CATALOG.write_text(json.dumps({'entries':catalog()},ensure_ascii=False,indent=2)+'\n')
+
+async def generate(args):
+ import edge_tts
+ DEST.mkdir(parents=True,exist_ok=True)
+ old=json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {'entries':{}}
+ # Sem consultar a rede quando os MP3s neurais corretos já estão versionados.
+ todo=[]
+ for entry in catalog():
+  p=DEST/(entry['id']+'.mp3');record=old['entries'].get(entry['id'],{})
+  expected=hashlib.sha256(entry['text'].encode()).hexdigest()
+  if not args.force and p.exists() and record.get('textSha256')==expected and record.get('requestedVoice')==PROFILES[entry['speaker']][0] and record.get('pitch')==PROFILES[entry['speaker']][1] and record.get('rate')==PROFILES[entry['speaker']][2] and record.get('sha256')==hashlib.sha256(p.read_bytes()).hexdigest():probe(p)
+  else:todo.append(entry)
+ if not todo:write_catalog();print('Todos os MP3s neurais estão completos e verificados.');return
+ proxy=os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
+ voices=await asyncio.wait_for(edge_tts.list_voices(proxy=proxy),45)
+ available={v['ShortName']:v for v in voices if v['Locale']=='pt-BR'}
+ if not available:raise RuntimeError('O serviço não anunciou vozes PT-BR.')
+ resolved={}
+ for name,(requested,pitch,rate,gender) in PROFILES.items():
+  voice=requested if requested in available else next((k for k,v in available.items() if v.get('Gender')==gender),None)
+  if not voice:raise RuntimeError('Sem voz PT-BR compatível para '+name)
+  resolved[name]=(voice,pitch,rate)
+  print(f'{name}: solicitada={requested}; disponível/usada={voice}',flush=True)
+ sem=asyncio.Semaphore(args.workers)
+ async def one(entry):
+  async with sem:
+   voice,pitch,rate=resolved[entry['speaker']]
+   path=DEST/(entry['id']+'.mp3');tmp=path.with_suffix('.part.mp3')
+   for attempt in range(3):
+    try:
+     await asyncio.wait_for(edge_tts.Communicate(entry['text'],voice,rate=rate,pitch=pitch,proxy=proxy).save(str(tmp)),75)
+     probe(tmp);tmp.replace(path)
+     old['entries'][entry['id']]={'source':'Microsoft Edge neural TTS','voice':voice,'requestedVoice':PROFILES[entry['speaker']][0],'pitch':pitch,'rate':rate,'textSha256':hashlib.sha256(entry['text'].encode()).hexdigest(),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+     # Atualização atômica por evento: sem await durante a escrita.
+     MANIFEST.write_text(json.dumps(old,ensure_ascii=False,indent=2)+'\n')
+     print('Gerado:',entry['id'],flush=True);return
+    except Exception:
+     tmp.unlink(missing_ok=True)
+     if attempt==2:raise
+     await asyncio.sleep(2*(attempt+1))
+ await asyncio.gather(*(one(entry) for entry in todo))
+ write_catalog();print(f'{len(catalog())} falas neurais verificadas.')
 
 def main():
- parser = argparse.ArgumentParser(description=__doc__)
- parser.add_argument('--engine', default=os.environ.get('ESPEAK_NG') or shutil.which('espeak-ng'))
- args = parser.parse_args()
- if not args.engine: parser.error('Instale espeak-ng ou defina ESPEAK_NG com o executável local.')
- target = ROOT/'Assets/Resources/Audio/Voices'
- target.mkdir(parents=True, exist_ok=True)
- entries = catalog()
- for entry in entries:
-  index = NAMES.index(entry['speaker'])
-  output = target/(entry['id']+'.wav')
-  subprocess.run([args.engine, '-v', 'pt-br', '-s', '135', '-p', str(43+index*3), '-a', '65', '-w', str(output), entry['text']], check=True)
-  with wave.open(str(output)) as wav:
-   if wav.getnframes() < 1000 or wav.getsampwidth() != 2: raise RuntimeError(f'Áudio inválido: {output}')
- (ROOT/'Assets/Resources/VoiceCatalog.json').write_text(json.dumps({'entries':entries}, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
- print(f'{len(entries)} falas PT-BR geradas e verificadas.')
-if __name__ == '__main__': main()
+ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--catalog-only',action='store_true');parser.add_argument('--force',action='store_true');parser.add_argument('--workers',type=int,default=3);args=parser.parse_args()
+ if args.catalog_only:write_catalog();print(f'{len(catalog())} falas no roteiro; isso não gera áudio.');return
+ asyncio.run(generate(args))
+if __name__=='__main__':main()

@@ -2,3 +2,7 @@
 html,body { margin:0; width:100%; height:100%; overflow:hidden; background:#91cfe7; font-family:Arial,sans-serif; touch-action:none; }
 canvas { display:block; width:100%; height:100%; touch-action:none; }
 #caption { position:fixed; left:10%; bottom:max(2%,env(safe-area-inset-bottom)); width:80%; padding:.45em 1em; border-radius:20px; background:rgba(255,255,255,.95); color:#183449; font-size:clamp(14px,2.5vw,28px); text-align:center; pointer-events:none; border-left:10px solid #306db0; }
+
+#rotate { position:fixed;inset:0;background:#294b5b;color:#fff0ca;z-index:10;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:28px; }
+#rotate:not([hidden]) { display:flex; }
+#caption { left:25%;width:50%;bottom:1%;font-size:clamp(12px,1.7vw,23px);max-height:14%;overflow:hidden; }

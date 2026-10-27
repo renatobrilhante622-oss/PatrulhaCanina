@@ -1,6 +1,7 @@
 package com.t4b.patrulhacanina;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Build;
 import android.view.View;
@@ -20,6 +21,7 @@ public final class MainActivity extends Activity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         game = new WebView(this);
         game.setBackgroundColor(0xff9cdaef);
@@ -43,8 +45,8 @@ public final class MainActivity extends Activity {
                 String mime = path.endsWith(".js") ? "application/javascript" :
                         path.endsWith(".css") ? "text/css" :
                         path.endsWith(".json") ? "application/json" :
-                        path.endsWith(".wav") ? "audio/wav" : "text/html";
-                try { return new WebResourceResponse(mime, "UTF-8", getAssets().open("game" + path)); }
+                        path.endsWith(".mp3") ? "audio/mpeg" : "text/html";
+                try { return new WebResourceResponse(mime, "UTF-8", getAssets().open(path.startsWith("/audio/") ? path.substring(1) : "game" + path)); }
                 catch (IOException ignored) { return empty(); }
             }
             private WebResourceResponse empty() {

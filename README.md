@@ -1,26 +1,16 @@
-# Patrulha Canina - Missões
+# Patrulha Canina — Baía da Aventura
 
-Jogo Android 2D **offline**, por toque, com seis missões educativas, cenários procedurais e **60 falas sintéticas PT-BR já incluídas**. Sem anúncios, tempo limite ou punição por erro.
+Exploração Android 2D top-down em um mundo de 3200 × 2400: analógico virtual, gamepad Bluetooth, veículos, ferramentas, seis zonas educativas, radar e recompensas sem punição. Tudo funciona offline depois de empacotado.
 
-**Arquitetura atual: Java 17 + Android Gradle + Canvas HTML5 em WebView local. Não usa Unity no build e não exige licença nem secrets externos.**
+Versão 3.0.0: Java 17 + Android Gradle + Canvas/WebView. Sem Unity no build, anúncios ou permissão de Internet. O roteiro neural possui 105 falas PT-BR; o CI gera MP3s reais com edge-tts e verifica todos antes de publicar. A geração local está bloqueada pelo proxy (HTTP 403); a presença das vozes deve ser confirmada no manifest de áudio e no workflow, não apenas pelo roteiro.
 
-## Baixar no celular
+[Guia de controles, missões, voz e build](Docs/GUIA_ANDROID.md).
 
-Após uma execução bem-sucedida do workflow, baixe [PatrulhaCanina.apk na Release latest](../../releases/latest/download/PatrulhaCanina.apk). O link só existe depois que o build e a publicação terminarem. A instalação lateral pode exigir autorização do Android para o navegador.
+- Testes: `npm ci && npx playwright install chromium && npm test`
+- Build: `./gradlew :app:assembleDebug`
+- Voz neural: `python3 -m pip install -r Tools/requirements-voices.txt && python3 Tools/generate_voices.py`
+- Verificação estrita: `python3 Tools/validate_android.py`
 
-Cada push para `main` compila, testa e atualiza a Release `latest`. Pull requests compilam e geram o Artifact **PatrulhaCanina-APK**, sem publicar Release. O upload usa apenas o token automático do próprio GitHub Actions.
+Cada push na main executa o CI. Se a geração neural e as verificações passarem, o bot versiona os MP3s e a Release latest recebe o APK. A assinatura incluída é pública e de desenvolvimento; não serve para distribuição de produção.
 
-## Compilar
-
-Com Java 17 e Android SDK 35: `./gradlew :app:assembleDebug`. Saída: `app/build/outputs/apk/debug/app-debug.apk`. O Gradle Wrapper verifica o checksum oficial da distribuição.
-
-A assinatura de desenvolvimento é pública, incluída em `Tools/debug.keystore`, para permitir atualizar os APKs de teste sem segredo externo. **Não use essa chave para distribuição de produção.**
-
-## Desenvolvimento e testes
-
-- `python3 Tools/sync_android_assets.py` empacota os WAVs locais.
-- `python3 Tools/validate_android.py` verifica integridade e configuração offline.
-- `npm ci && npx playwright install chromium && npm test` testa as seis missões no navegador.
-- `python3 Tools/bootstrap_android.py /tmp/patrulha-android-sdk` instala o SDK oficial verificado em Linux quando necessário.
-
-Veja [Docs/GUIA_ANDROID.md](Docs/GUIA_ANDROID.md). Os arquivos Unity de `Assets/Scripts`, `Packages` e `ProjectSettings` são legado preservado e não participam da compilação Android. Apenas as gravações de `Assets/Resources` são reaproveitadas pelo sincronizador.
+Os scripts Unity e as gravações antigas em Assets são históricos e não participam do novo jogo Android.
