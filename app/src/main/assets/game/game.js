@@ -115,7 +115,7 @@ function openModal(type){modalOpen=true;selection=type;joystick.x=joystick.y=0;j
 }
 function closeModal(){modal.hidden=true;modalOpen=false;}
 function doAction(id){audio.unlock();if(id==='friends'){openModal('pups');return;}if(id==='areas'){openModal('areas');return;}if(modalOpen)return;
- if(id==='jump')world.jump();if(id==='vehicle')world.toggleVehicle();if(id==='tool')world.action();if(id==='repeat'){audio.cancel();audio.say(world.instruction(),true);}if(id==='mute'){audio.mute();document.getElementById('mute').textContent=audio.muted?'Som desligado':'Som ligado';}
+ if(id==='jump')world.jump();if(id==='vehicle')world.toggleVehicle();if(id==='tool')world.action();if(id==='repeat'){const message=audio.last||world.instruction();audio.cancel();audio.say(message,true);}if(id==='mute'){audio.mute();document.getElementById('mute').textContent=audio.muted?'Som desligado':'Som ligado';}
 }
 for(const b of document.querySelectorAll('[data-action]'))b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();doAction(b.dataset.action);if(b.dataset.action==='tool')actionHeld=true;});
 window.addEventListener('pointerup',()=>{actionHeld=false;});window.addEventListener('pointercancel',()=>{actionHeld=false;});

@@ -14,13 +14,13 @@ def catalog():
  entries=[]
  def add(id,speaker,text):entries.append(dict(id=id,speaker=speaker,text=text,audio='/audio/'+id+'.mp3'))
  instructions=[
-  'Use a alavanca à esquerda para passear. A seta no chão mostra uma brincadeira. O botão A usa sua ferramenta.',
-  'Vamos cuidar do trânsito e ajudar os gatinhos. Aproxime-se da placa e aperte A.',
-  'Vamos apagar dez chamas, na ordem. Aproxime-se e aponte para a chama. Depois aperte A para usar água.',
-  'Vamos passear no parque. Encontre os balões com as vogais. Aproxime-se e aperte A.',
-  'Vamos limpar a praia. Pegue um material com A e leve até a lixeira da mesma cor.',
-  'Vamos retirar pedras, construir uma ponte com formas e dar comida aos animais. Tudo com calma!',
-  'Vamos ajudar os animais marinhos. Encontre a tartaruga, depois o polvo e a estrela do mar.',
+  'Use o analógico à esquerda para passear. Arraste à direita para olhar ao redor. A mochila usa sua ferramenta. O botão Viajar escolhe um lugar.',
+  'O Chase está no caso! Vamos pilotar a viatura no circuito e conhecer círculos, quadrados, triângulos e estrelas.',
+  'Vamos apagar as cinco chamas da cidade na ordem dos números. Chegue perto da chama e use a mochila para jogar água.',
+  'Vamos voar com a Skye! Encontre as estrelas com as vogais perto do Farol. Aproxime-se e use a mochila.',
+  'Vamos reciclar na cidade! Use a mochila para pegar um material e leve até a lixeira da mesma cor. Depois use a mochila de novo.',
+  'Rubble a toda! Vamos pilotar o trator no circuito e aprender formas. No estádio, use a mochila perto da bola para chutar.',
+  'Vamos passear de hovercraft pela Baía! Também podemos brincar no estádio e contar gols com os amigos.',
   'Vamos explorar a selva! Encontre os ossinhos na ordem dos números e chegue perto dos animais com a mochila.',
   'Eu sou a Everest! Vamos limpar os montinhos de neve e cuidar dos nossos amigos.'
  ]
