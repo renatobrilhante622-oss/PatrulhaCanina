@@ -43,7 +43,21 @@ O gerador consulta as vozes PT-BR anunciadas pelo próprio serviço. Solicita An
 
 neural-manifest.json registra origem, voz, parâmetros, hash de texto e SHA-256 do MP3. ffprobe exige codec MP3 e duração de fala; o validador compara hashes e exige todos os arquivos em CI. Isso verifica formato/integridade/procedência declarada pelo gerador, mas ouvir as falas continua necessário para avaliar naturalidade e conforto. Não há promessa de que um serviço gratuito e não contratado permaneça disponível indefinidamente.
 
-Neste ambiente, a consulta HTTPS ao Microsoft Edge TTS recebeu **HTTP 403 do proxy**, inclusive na tentativa com execução ampliada. Por isso não foi possível gerar ou validar MP3s neurais localmente nesta etapa. O build local valida código/empacotamento com legendas, sem dublagem, e não comprova entrega das vozes. A API de reprodução simplesmente mantém a legenda se um MP3 faltar; nunca substitui por voz robotizada. O workflow é estrito e não publica uma nova Release sem os MP3s completos.
+A primeira tentativa local recebeu HTTP 403 do proxy e o primeiro cliente 7.2.8 falhou no CI. Após atualizar para 7.3.1, o serviço funcionou no GitHub Actions: **105 MP3s foram gerados e versionados no commit f81b70d**. Os arquivos foram baixados de volta e passaram na verificação estrita local. O APK local foi recompilado com todos os MP3s. A reprodução mantém legendas se um arquivo ficar indisponível, sem voltar a WAVs robotizados.
+
+Vozes efetivamente fornecidas pelo endpoint Edge nesta geração:
+
+| Personagem | Voz-base neural usada | Pitch | Rate |
+| --- | --- | --- | --- |
+| Ryder | pt-BR-AntonioNeural | +15Hz | +5% |
+| Chase | pt-BR-AntonioNeural | +20Hz | +8% |
+| Marshall | pt-BR-AntonioNeural | +25Hz | +5% |
+| Skye | pt-BR-FranciscaNeural | +30Hz | +8% |
+| Rocky | pt-BR-AntonioNeural | +22Hz | +6% |
+| Rubble | pt-BR-AntonioNeural | +18Hz | +4% |
+| Zuma | pt-BR-ThalitaMultilingualNeural | +15Hz | +6% |
+
+Fabio, Julio, Rodrigo e Humberto não foram anunciados pelo serviço Edge nessa execução. O projeto não alega ter criado essas vozes ou sete locutores diferentes.
 
 ## CI e commit automático dos MP3s
 

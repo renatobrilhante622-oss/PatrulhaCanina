@@ -2,7 +2,7 @@
 
 Exploração Android 2D top-down em um mundo de 3200 × 2400: analógico virtual, gamepad Bluetooth, veículos, ferramentas, seis zonas educativas, radar e recompensas sem punição. Tudo funciona offline depois de empacotado.
 
-Versão 3.0.0: Java 17 + Android Gradle + Canvas/WebView. Sem Unity no build, anúncios ou permissão de Internet. O roteiro neural possui 105 falas PT-BR; o CI gera MP3s reais com edge-tts e verifica todos antes de publicar. A geração local está bloqueada pelo proxy (HTTP 403); a presença das vozes deve ser confirmada no manifest de áudio e no workflow, não apenas pelo roteiro.
+Versão 3.0.0: Java 17 + Android Gradle + Canvas/WebView. Sem Unity no build, anúncios ou permissão de Internet. Inclui 105 MP3s neurais PT-BR reais, gerados com edge-tts 7.3.1 e já versionados em app/src/main/assets/audio. O manifest registra as três vozes-base disponíveis e as variações de pitch/velocidade dos sete personagens. O CI verifica todos antes de publicar.
 
 [Guia de controles, missões, voz e build](Docs/GUIA_ANDROID.md).
 
