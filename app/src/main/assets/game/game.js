@@ -2,7 +2,8 @@
 'use strict';
 (()=>{
 const T=THREE,M=AdventureModels,S=Adventure3D,canvas=document.getElementById('game'),audio=new AdventureAudio(),world=new S.World();
-const save=new ConsoleSave.Store(window.localStorage),campaign=new AdventureCampaign.Campaign(world,save);world.campaign=campaign;world.bones=save.data.bones;world.stars=save.data.starTotal;let consoleUI;const empire=new PatrolTycoon.Empire(save);world.empire=empire;
+const localStore=(()=>{try{return window.localStorage;}catch{return null;}})();
+const save=new ConsoleSave.Store(localStore),campaign=new AdventureCampaign.Campaign(world,save);world.campaign=campaign;world.bones=save.data.bones;world.stars=save.data.starTotal;let consoleUI;const empire=new PatrolTycoon.Empire(save);world.empire=empire;
 const ui=document.getElementById('interface'),info=document.getElementById('objective'),score=document.getElementById('score'),modal=document.getElementById('modal'),map=document.getElementById('radar'),mc=map.getContext('2d');
 let renderer;
 try{renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});}catch(error){document.getElementById('webgl-error').hidden=false;return;}

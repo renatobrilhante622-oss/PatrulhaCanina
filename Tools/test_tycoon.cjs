@@ -28,3 +28,5 @@ const beltWorld=new World(),beltEmpire=new E.Empire(new Store({getItem:()=>null,
 const waterWorld=new World();waterWorld.empire=beltEmpire;Object.assign(waterWorld.player,{x:-170,z:60,pup:2,vehicle:true});for(let i=0;i<50;i++)waterWorld.update(.02,{x:0,z:1});const slow=waterWorld.player.vz;beltEmpire.vehicle(2).amphibious=true;for(let i=0;i<50;i++)waterWorld.update(.02,{x:0,z:1});assert.ok(waterWorld.player.vz>slow*1.8);assert.equal(waterWorld.player.ground,.1);
 const magnetWorld=new World();magnetWorld.empire=beltEmpire;Object.assign(magnetWorld.player,{x:0,z:0,pup:2,vehicle:true});magnetWorld.objects=[{id:'test-cookie',type:'cookie',x:9,z:0,done:false}];magnetWorld.update(.02);assert.equal(magnetWorld.bones,0);beltEmpire.vehicle(2).magnet=true;magnetWorld.update(.02);assert.equal(magnetWorld.bones,1);
 console.log('Física Tycoon: permanência/saída da esteira, melhoria anfíbia e ímã de 12m aprovados.');
+
+assert.doesNotThrow(()=>E.restore({animals:[null,4,'invalid',{}],buildings:[null,'invalid',{}],plots:[null,{},3]}));
