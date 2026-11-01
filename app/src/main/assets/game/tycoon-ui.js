@@ -6,7 +6,7 @@ class TycoonUI extends Previous{
  voice(id){if(/^Menu_/.test(id))return;this.api.audio.unlock();this.api.audio.say(id,false);}
  main(){this.api.audio.cancel();super.main();const list=this.host.querySelector('.main-buttons');list.prepend(this.button('🏗 MINHA BASE — TYCOON & RESGATE',null,()=>this.base(),'base-entry'));this.host.querySelector('h1').textContent='PATRULHA CANINA';this.host.querySelector('p').textContent='TYCOON · CONSTRUÇÃO · RESGATE 3D';}
  travel(id){if(id==='base')this.base();else super.travel(id);}
- base(){this.api.campaign.stop();this.api.teleport('base');this.api.world.player.x=E.BASE.x-22;this.api.world.player.z=E.BASE.z-19;this.play();this.voice('Tycoon_welcome');}
+ base(){this.api.campaign.stop();this.api.teleport('base');this.api.world.player.vehicle=false;this.api.world.player.flying=false;this.api.world.player.x=E.BASE.x-22;this.api.world.player.z=E.BASE.z-19;this.play();this.voice('Tycoon_welcome');}
  start(id,resume=false){this.api.audio.briefingReady=false;super.start(id,resume);}
  ritual(){super.ritual();const c=this.api.campaign;if(!c.active)return;if(c.phase==='briefing'){
  const preview=document.createElement('div');preview.className='brief-portrait preview-window';this.host.querySelector('h1').after(preview);this.previewRect=preview;this.previewPup=0;this.previewVehicle=false;
