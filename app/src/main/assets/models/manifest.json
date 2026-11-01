@@ -1,0 +1,166 @@
+{
+  "entries": [
+    {
+      "file": "palm.glb",
+      "sha256": "bd9eb9eb72c77b3de12db19b2ce2acb0e8bad6a012be7fae3874edcfcde53777",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "fence.glb",
+      "sha256": "9fe52427aaaa9f3dae1b8d215a6ea267a921f6b388c393667ace99a34ee33beb",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "car.glb",
+      "sha256": "01a60862de55cd4b9f3acfab0b0def86451800f9c42467fcd61052c16cb9838c",
+      "source": "KhronosGroup/glTF-Sample-Assets/Models/ToyCar; Guido Odendahl, Eric Chadwick",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "tree.glb",
+      "sha256": "cb06d03cc1c64ca7e7692c0aef3628d8e7cd4afee69093025f9ddd668653a4ce",
+      "source": "KenneyNL/Starter-Kit-City-Builder@4535092b740b378b700efd9df9e27a631815b84a",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-dinosaur.glb",
+      "sha256": "56aea18928fba618dfe8665e9e1a0ccac08db2dae922cb23dee889d5d5804b37",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "house.glb",
+      "sha256": "22ce989013bd16b1732e81798e343cf85f947e92b6c93825b18131feded48e07",
+      "source": "KenneyNL/Starter-Kit-City-Builder@4535092b740b378b700efd9df9e27a631815b84a",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-tiger.glb",
+      "sha256": "4d77ae3ad68efc6774704cd78615d5f4edae800e524d701b267e96a0002cfcad",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-toucan.glb",
+      "sha256": "f6681a6177260b8ea07294b9864939e5e5264e00714cae88dd5005a9c07f1d9e",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "fox.glb",
+      "sha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+      "source": "KhronosGroup/glTF-Sample-Assets/Models/Fox; PixelMannen, tomkranis, AsoboStudio, scurest",
+      "license": "CC0-1.0 model / CC-BY-4.0 rig and conversion"
+    },
+    {
+      "file": "pet-cow.glb",
+      "sha256": "9f3c612ee02ef71e37741ebc4dd3704e5b0e2f732c47de0a5eccaf86eab4a50f",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-penguin.glb",
+      "sha256": "e073d7bb9f15bed26669c55b02b80161d474ad0d2cb106f5b8339c0bf4e5e703",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "rock.glb",
+      "sha256": "1bba5aa9ed0b34d72e3d446df0f823e6873e788a6fa3207bee21f10a45089e64",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-lion.glb",
+      "sha256": "62ff62a24707f7cf44825259e2f6d340fc4c68d11e5ba9b719deeb7a5bb03ca5",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-horse.glb",
+      "sha256": "48559eb3a778e412ff2dc4f31da89887f20362f54fb51f790e3db2951d80e694",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-monkey.glb",
+      "sha256": "1fdd39dfcd0fb69b5ba112a89cf1356a66bcddc5beaf9c44685c38ff7466784c",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-wolf.glb",
+      "sha256": "7f9f021a9854c7e918ed5ea2705be10061f212aa33aaaea789aa46bbb5c52109",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "garage.glb",
+      "sha256": "7373b558fc9b1e27e60b60ca1ce53000af7e132d7304eeb6d49b47528a3b6806",
+      "source": "KenneyNL/Starter-Kit-City-Builder@4535092b740b378b700efd9df9e27a631815b84a",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-dragon.glb",
+      "sha256": "d62b9f30963c93de95ba7997a27e3735a3e119854433cd50603fa99818ce8143",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "tree-tall.glb",
+      "sha256": "d23e3b722453236bf6f4f8922b7bf64f81a7f3f804848a89c4b100ccbf13abef",
+      "source": "KenneyNL/Starter-Kit-City-Builder@4535092b740b378b700efd9df9e27a631815b84a",
+      "license": "MIT"
+    },
+    {
+      "file": "coin.glb",
+      "sha256": "4b2aaa71fe58bc866b36fba5eecfcbb016143365a45dc724005373baaad412a0",
+      "source": "KenneyNL/Starter-Kit-3D-Platformer@3fa8a04b1c01ab23db43123d4ce814a34c3fc7f0",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-dolphin.glb",
+      "sha256": "a8bab7cbbd564f32a0812d07832ba779194f2e9a60d2b0e117c6c1df7e3442d6",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-turtle.glb",
+      "sha256": "3f8fc373c3cdfd83e78a85b61db89664e7de62f5549894818fc546d40acd203c",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-pig.glb",
+      "sha256": "970b1002f06fcd08d8a3b6e4b2d5bb6c01110ff151ced0f2cc630a4902866bc3",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-sheep.glb",
+      "sha256": "9970261665e17669787f77e7d9d01069498c20fb23f2f1ef8a3883ad7c19d675",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "barn.glb",
+      "sha256": "675b1aeb5b977dc19899d41222e0f13f7ce602b1969e89e42e2bed48d1a02541",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-chicken.glb",
+      "sha256": "593a479d608367f3a68a16dd4692ede0b833b847cf72adfce84fcd016a1291ff",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    },
+    {
+      "file": "pet-panda.glb",
+      "sha256": "79580f9cd1d5e267d0fefe6833fbd1e13782faecf6365fffa14236ae3c6b1d9b",
+      "source": "Original do projeto, licença MIT",
+      "license": "MIT"
+    }
+  ]
+}

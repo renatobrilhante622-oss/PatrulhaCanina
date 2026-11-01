@@ -1,7 +1,7 @@
 /* Simulação 3D determinística. Unidades em metros; sem dependência do renderizador. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.Adventure3D=factory();})(globalThis,()=>{
 'use strict';
-const AREAS={farol:{x:0,z:0,label:'Farol e cidade'},selva:{x:-125,z:-100,label:'Selva do Tracker'},pista:{x:120,z:-85,label:'Grand Prix'},futebol:{x:35,z:125,label:'Estádio da Baía'},cidade:{x:0,z:-30,label:'Cidade'},praia:{x:-145,z:80,label:'Praia e Píer'},fazenda:{x:-95,z:128,label:'Fazenda da Yumi'},petshop:{x:-48,z:66,label:'Pet Shop da Katie'},neve:{x:-85,z:-155,label:'Montanha do Jake'}};
+const AREAS={base:{x:112,z:30,label:'Minha Base Tycoon'},farol:{x:0,z:0,label:'Farol e cidade'},selva:{x:-125,z:-100,label:'Selva do Tracker'},pista:{x:120,z:-85,label:'Grand Prix'},futebol:{x:35,z:125,label:'Estádio da Baía'},cidade:{x:0,z:-30,label:'Cidade'},praia:{x:-145,z:80,label:'Praia e Píer'},fazenda:{x:-95,z:128,label:'Fazenda da Yumi'},petshop:{x:-48,z:66,label:'Pet Shop da Katie'},neve:{x:-85,z:-155,label:'Montanha do Jake'}};
 const NAMES=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma','Tracker','Everest'];
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
 class World{
@@ -24,19 +24,19 @@ class World{
   for(let i=0;i<12;i++)add('cookie',-60+i*10,53+Math.sin(i)*5);
  }
  emit(kind,data={}){if(kind==='voice'&&this.campaign?.active&&/^Ryder_goal/.test(data.id||''))return;this.events.push({kind,...data});if(this.campaign)this.campaign.onWorldEvent(kind,data);}
- switchPup(id){if(id<1||id>8)return;this.player.pup=id;this.player.vehicle=false;this.emit('voice',{id:NAMES[id]+'_call'});}
- teleport(area){const a=AREAS[area];if(!a)return;Object.assign(this.player,{x:a.x,z:a.z+16,y:0,vy:0,vx:0,vz:0,angle:Math.PI});this.emit('voice',{id:'Ryder_area_'+area});}
- toggleVehicle(){this.player.vehicle=!this.player.vehicle;this.emit('sfx',{id:'siren'});this.emit('voice',{id:NAMES[this.player.pup]+(this.player.vehicle?'_vehicle':'_walk')});}
- jump(){const p=this.player;if(p.vehicle){p.turbo=2;this.emit('sfx',{id:'engine'});}else if(p.y<=p.ground+.05){p.vy=7;this.emit('sfx',{id:'bark'});}}
+ switchPup(id){if(id<1||id>8)return;this.player.pup=id;this.player.vehicle=false;this.player.flying=false;this.player.onBelt=false;this.emit('voice',{id:NAMES[id]+'_call'});}
+ teleport(area){const a=AREAS[area];if(!a)return;Object.assign(this.player,{x:a.x,z:a.z+16,y:0,vy:0,vx:0,vz:0,flying:false,onBelt:false,angle:Math.PI});if(area!=='base')this.emit('voice',{id:'Ryder_area_'+area});}
+ toggleVehicle(){this.player.onBelt=false;this.player.vehicle=!this.player.vehicle;this.player.flying=this.player.vehicle&&this.player.pup===3;this.emit('sfx',{id:'siren'});this.emit('voice',{id:NAMES[this.player.pup]+(this.player.vehicle?'_vehicle':'_walk')});}
+ jump(){const p=this.player;if(p.onBelt){p.onBelt=false;p.x+=4;}if(p.vehicle&&this.empire?.capabilities(p.pup).canFly){p.flying=!p.flying;p.flightHeight=p.flightHeight||10;this.emit('sfx',{id:'engine'});return;}if(p.vehicle){p.turbo=2;this.emit('sfx',{id:'engine'});}else if(p.y<=p.ground+.05){p.vy=7;this.emit('sfx',{id:'bark'});}}
  next(type){return this.objects.find(o=>o.type===type&&!o.done);}
  instruction(){if(this.campaign?.active)return this.campaign.instructionID();const p=this.player;if(dist(p,AREAS.futebol)<65)return 'Ryder_football';if(dist(p,AREAS.pista)<60)return 'Ryder_race';if(dist(p,AREAS.selva)<60)return 'Tracker_instruction';return NAMES[p.pup]+'_instruction';}
  finish(o,id){o.done=true;this.stars++;this.emit('voice',{id});this.emit('spark',{x:o.x,y:1,z:o.z});}
  action(){
-  if(this.time-this.lastAction<.45)return;this.lastAction=this.time;if(this.campaign?.active&&this.campaign.interact())return;const p=this.player;
+  if(this.time-this.lastAction<.45)return;this.lastAction=this.time;if(this.campaign?.active&&this.campaign.interact())return;if(this.player.onBelt){this.player.onBelt=false;this.player.x+=4;return;}if(this.baseScene?.use())return;const p=this.player;
   if(dist(p,this.ball)<5){this.kick();return;}
   this.emit('tool',{pup:p.pup});
   const nearby=this.objects.filter(o=>!o.done&&dist(p,o)<5.5&&(o.pup===p.pup||o.type==='animal')).sort((a,b)=>dist(p,a)-dist(p,b));
-  const o=nearby[0];if(!o){this.emit('voice',{id:this.instruction()});return;}
+  const o=nearby[0];if(!o)return;
   if(o.type==='hydrant'){this.emit('water',{x:o.x,z:o.z});this.emit('voice',{id:'Marshall_praise'});return;}
   if(o.type==='airRescue'){if(!p.vehicle||p.y<6){this.emit('voice',{id:'Skye_vehicle'});return;}this.finish(o,'Skye_praise');return;}
   if(o.type==='fire'){
@@ -52,22 +52,25 @@ class World{
   else if(o.type==='snow')this.finish(o,'Everest_instruction');
  }
  kick(){const p=this.player,b=this.ball;let dx=b.x-p.x,dz=b.z-p.z,l=Math.hypot(dx,dz);if(l<.1){dx=Math.sin(p.angle);dz=Math.cos(p.angle);l=1;}b.vx=dx/l*19;b.vz=dz/l*19;b.vy=6;this.emit('sfx',{id:'kick'});}
- groundHeight(x,z){if(Math.abs(x-120)>6)return 0;if(z>=-121.5&&z<=-104.5)return 1.8;if(z>-127.5&&z<-121.5)return (z+127.5)/6*1.8;if(z>-104.5&&z<-99.5)return (-99.5-z)/5*1.8;return 0;}
+ waterZone(x,z){return x<-157&&z>-20||x>-45&&z<-132;}
+ groundHeight(x,z){if(this.empire){for(const b of this.empire.data.buildings.filter(b=>b.type==='ramp')){const pos=this.empire.cellWorld(b.x,b.z),angle=b.rotation*Math.PI/2,dx=x-pos.x,dz=z-pos.z,lx=dx*Math.cos(angle)-dz*Math.sin(angle),lz=dx*Math.sin(angle)+dz*Math.cos(angle);if(Math.abs(lx)<2.5&&Math.abs(lz)<2.5)return Math.max(0,(lz+2.5)/5*1.6);}}if(Math.abs(x-120)>6)return 0;if(z>=-121.5&&z<=-104.5)return 1.8;if(z>-127.5&&z<-121.5)return (z+127.5)/6*1.8;if(z>-104.5&&z<-99.5)return (-99.5-z)/5*1.8;return 0;}
  update(dt,input={x:0,z:0},cameraYaw=0){
   dt=Math.max(0,Math.min(.04,dt));this.time+=dt;this.goalCooldown=Math.max(0,this.goalCooldown-dt);const p=this.player;
-  const len=Math.hypot(input.x,input.z),m=Math.min(1,len),speed=(p.vehicle?18:7)*(p.turbo>0?1.55:1);p.turbo=Math.max(0,p.turbo-dt);
+  const len=Math.hypot(input.x,input.z),m=Math.min(1,len),speed=(p.vehicle?18*(this.empire?.capabilities(p.pup).speed||1):7)*(p.turbo>0?(this.empire?.capabilities(p.pup).nitro?2.1:1.55):1)*(p.vehicle&&this.empire&&this.waterZone(p.x,p.z)&&!this.empire.capabilities(p.pup).amphibious?.45:1);p.turbo=Math.max(0,p.turbo-dt);
   const ix=len>.12?input.x/len*m:0,iz=len>.12?input.z/len*m:0;
   const dx=(ix*Math.cos(cameraYaw)+iz*Math.sin(cameraYaw))*speed,dz=(-ix*Math.sin(cameraYaw)+iz*Math.cos(cameraYaw))*speed;
   const blend=1-Math.exp(-dt*8);p.vx+=(dx-p.vx)*blend;p.vz+=(dz-p.vz)*blend;
   if(Math.hypot(p.vx,p.vz)>.25){const target=Math.atan2(p.vx,p.vz);let delta=Math.atan2(Math.sin(target-p.angle),Math.cos(target-p.angle));p.angle+=delta*Math.min(1,dt*10);}
-  const nx=Math.max(-195,Math.min(195,p.x+p.vx*dt)),nz=Math.max(-175,Math.min(190,p.z+p.vz*dt));
-  const flying=p.vehicle&&p.pup===3;
+  if(this.empire&&!p.vehicle&&Math.abs(p.x-90)<2.6&&Math.abs(p.z-11)<4&&len>.2)p.onBelt=true;
+  let nx=Math.max(-195,Math.min(195,p.x+p.vx*dt)),nz=Math.max(-175,Math.min(190,p.z+p.vz*dt));
+  if(p.onBelt){nx=p.x;nz=p.z;}
+  const flying=p.vehicle&&(this.empire?p.flying&&this.empire.capabilities(p.pup).canFly:p.pup===3);
   const blocked=(x,z)=>!flying&&p.y<2&&this.obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.r+1.1);
   if(!blocked(nx,p.z))p.x=nx;if(!blocked(p.x,nz))p.z=nz;
-  p.ground=this.groundHeight(p.x,p.z);if(flying){p.y+=(10-p.y)*Math.min(1,dt*4);p.vy=0;}else{p.vy-=18*dt;p.y+=p.vy*dt;if(p.y<p.ground){p.y=p.ground;p.vy=0;}}
+  p.ground=this.groundHeight(p.x,p.z);if(this.empire&&this.waterZone(p.x,p.z))p.ground=p.vehicle&&this.empire.capabilities(p.pup).amphibious?.1:-.3;if(flying){p.y+=((p.flightHeight||10)-p.y)*Math.min(1,dt*4);p.vy=0;}else{p.vy-=18*dt;p.y+=p.vy*dt;if(p.y<p.ground){p.y=p.ground;p.vy=0;}}
   for(const o of this.objects){
    if(o.done||o.mission)continue;if(this.campaign?.active&&['bone','race','cookie'].includes(o.type))continue;
-   if(['bone','race','cookie'].includes(o.type)&&dist(p,o)<2.5){
+   if(['bone','race','cookie'].includes(o.type)&&dist(p,o)<(p.vehicle&&this.empire?.capabilities(p.pup).magnet?12:2.5)){
     if(o.type==='bone'&&o!==this.next('bone'))continue;
     if(o.type==='race'&&!p.vehicle)continue;
     o.done=true;if(o.type==='bone'){this.bones++;this.emit('voice',{id:'Tracker_bone'+o.number});}else if(o.type==='race'){this.stars++;this.emit('voice',{id:'Chase_'+o.shape});}else this.bones++;
@@ -75,7 +78,7 @@ class World{
    }
    if(o.type==='boost'&&p.vehicle&&dist(p,o)<2.8)p.turbo=1.5;
   }
-  this.updateBall(dt);if(this.campaign)this.campaign.update(dt);
+  this.updateBall(dt);if(this.campaign)this.campaign.update(dt);if(this.empire)this.empire.tick(dt,this,true);
  }
  updateBall(dt){
   const b=this.ball,p=this.player;

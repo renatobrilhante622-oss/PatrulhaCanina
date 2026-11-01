@@ -1,14 +1,25 @@
-# Patrulha Canina — Edição Console 5.0
+# Patrulha Canina — Tycoon, Construção & Resgate 3D · 6.0
 
-Campanha de **12 missões educativas e 97 objetivos**, menus narrados, Pup-Pad com quatro abas, nove regiões, garagem 3D giratória, álbum, biscoitos e save automático local.
+Jogo Android 3D offline em Three.js/WebGL: base Tycoon, esteira com **50 níveis**, **16 espécies em 5 biomas**, horta, alimentação, renda dos animais, construção em grade e oito veículos com raridades, pinturas, nitro, voo, ímã e modo anfíbio. Os aliados acompanham e ajudam nas **12 missões / 97 objetivos** da campanha.
 
-A engine WebGL/Three.js, oito filhotes/veículos articulados, física, sombras e os 150 áudios da v4 foram preservados. A v5 acrescenta 141 falas, totalizando **291 MP3s neurais PT-BR**, gerados e validados pelo pipeline antes de publicar.
+**306 falas neurais PT-BR** e 12 efeitos/música estão dentro do APK. Menus silenciosos; chamado em sequência: comunicador → briefing do Ryder → “O Ryder tá chamando!” da Skye. Sem voz em loop, anúncios, compras reais ou Game Over.
 
-[Baixar APK publicado](../../releases/latest/download/PatrulhaCanina.apk) · [Guia da edição 5.0](Docs/GUIA_CONSOLE_V5.md)
+[Baixar APK](../../releases/latest/download/PatrulhaCanina.apk) · [Guia da edição Tycoon](Docs/GUIA_TYCOON_V6.md) · [Assets e licenças](Docs/ASSETS_3D.md)
 
-- `npm ci && npx playwright install chromium && npm test`
-- `node Tools/export_campaign.cjs`
-- `python3 Tools/generate_voices.py && python3 Tools/validate_android.py`
-- `./gradlew --no-daemon :app:assembleDebug`
+```sh
+npm ci
+npx playwright install chromium
+npm test
+python3 -m pip install -r Tools/requirements-voices.txt
+node Tools/export_campaign.cjs
+python3 Tools/generate_voices.py
+python3 Tools/validate_android.py
+python3 Tools/validate_assets.py
+./gradlew --no-daemon :app:assembleDebug
+```
 
-Android `com.t4b.patrulhacanina`, versionCode 5/versionName 5.0. Funciona offline, sem anúncios, conta, Game Over ou licença Unity. A assinatura incluída é de desenvolvimento; os modelos, a interface e as vozes são estilizados, sem alegação de assets/dublagem oficiais.
+Java 17 e Android SDK 35. Saída: `app/build/outputs/apk/debug/app-debug.apk`. O único workflow ativo da raiz publica `PatrulhaCanina.apk` na Release `latest` após os testes e a compilação. Não exige Unity, licença ou segredo externo.
+
+Pacote `com.t4b.patrulhacanina`, `versionCode 6`, `versionName 6.0`. A atualização mantém o save da v5 no aparelho. Android sem permissão de Internet; todos os GLBs, texturas, biblioteca e MP3s são locais. As implementações antigas em `Downloads/PatrulhaCanina` foram preservadas como recebidas e não participam do build da raiz.
+
+Os filhotes/Ryder e props adicionais são modelos autorais estilizados; Kenney/Khronos fornecem assets com atribuição. Vozes neurais estilizadas, sem alegação de dublagem ou modelos oficiais. Assinatura de desenvolvimento estável para instalação/atualização direta.

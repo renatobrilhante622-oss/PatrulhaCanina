@@ -1,18 +1,14 @@
 /* Jogo local: nenhuma biblioteca, imagem, fonte ou serviço remoto. */
 'use strict';
 (() => {
-const canvas=document.getElementById('game');
 const caption=document.getElementById('caption');
-const W=1600,H=900;
 const names=['Ryder','Chase','Marshall','Skye','Rocky','Rubble','Zuma','Tracker','Everest'];
 const colors=['#bc3544','#275ca8','#d84b3c','#bd4888','#348454','#d6a31d','#df752d','#698559','#61b5bc'];
-const missions=['Farol','Formas e trânsito','Cores e números','Vogais voando','Praia e reciclagem','Blocos e pedrinhas','Memória no mar'];
-const shapes=['circle','square','triangle','star'];
 let catalog={};
 const catalogReady=fetch('catalog.json').then(r=>{if(!r.ok)throw Error('Catálogo');return r.json();}).then(data=>{for(const entry of data.entries)catalog[entry.id]=entry;}).catch(()=>{});
 
 class AudioGuide {
- constructor(){this.context=null;this.cache=new Map();this.tail=Promise.resolve();this.epoch=0;this.last='Ryder_instruction';this.muted=false;this.active=null;this.pendingRepeat=false;this.speaking=false;this.volumes={voice:.9,music:.32,sfx:.6};}
+ constructor(){this.context=null;this.cache=new Map();this.tail=Promise.resolve();this.epoch=0;this.last='Ryder_instruction';this.muted=false;this.active=null;this.pendingRepeat=false;this.speaking=false;this.volumes={voice:.9,music:.32,sfx:.6};this.recent=new Map();this.queued=0;this.briefingReady=false;}
  unlock(){
   if(!this.context){
    const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
@@ -25,11 +21,14 @@ class AudioGuide {
   if(this.context.state==='suspended')this.context.resume().catch(()=>{});
  }
  async load(id){
-  if(this.cache.has(id))return this.cache.get(id);
+  if(this.cache.has(id)){const value=this.cache.get(id);this.cache.delete(id);this.cache.set(id,value);return value;}
+  if(this.cache.size>=48){const oldest=[...this.cache.keys()].find(key=>!['sfx_music','sfx_engine'].includes(key));if(oldest)this.cache.delete(oldest);}
   const task=fetch('/audio/'+id+'.mp3').then(r=>{if(!r.ok)throw Error('MP3 neural ausente');return r.arrayBuffer();}).then(b=>this.context.decodeAudioData(b));
   this.cache.set(id,task);try{return await task;}catch(e){this.cache.delete(id);throw e;}
  }
- say(id,remember=false){
+ say(id,remember=false,force=false){
+  if(/^Menu_/.test(id)&&id!=='Menu_reward')return Promise.resolve(false);
+  const now=performance.now();if(!force&&((this.recent.get(id)||-20000)>now-14000||this.queued>=2))return Promise.resolve(false);this.recent.set(id,now);this.queued++;
   if(remember)this.last=id;
   const epoch=this.epoch;
   const operation=async()=>{
@@ -44,16 +43,16 @@ class AudioGuide {
     await new Promise(resolve=>{const source=this.context.createBufferSource();source.buffer=buffer;source.connect(this.voiceBus);source.onended=resolve;this.active=source;source.start();});
    }finally{if(epoch===this.epoch){this.active=null;this.speaking=false;this.music.gain.setTargetAtTime(this.volumes.music,this.context.currentTime,.3);}}
   };
-  this.tail=this.tail.catch(()=>{}).then(operation);return this.tail;
+  this.tail=this.tail.catch(()=>{}).then(operation).finally(()=>{if(epoch===this.epoch)this.queued=Math.max(0,this.queued-1);});return this.tail;
  }
- repeat(){if(this.pendingRepeat)return;this.pendingRepeat=true;this.say(this.last).finally(()=>{this.pendingRepeat=false;});}
- cancel(){this.epoch++;if(this.active){try{this.active.stop();}catch(e){}this.active=null;}this.tail=Promise.resolve();this.speaking=false;this.pendingRepeat=false;if(this.music)this.music.gain.setTargetAtTime(this.volumes.music,this.context.currentTime,.2);}
+ repeat(){if(this.pendingRepeat)return;this.pendingRepeat=true;this.say(this.last,false,true).finally(()=>{this.pendingRepeat=false;});}
+ cancel(){this.epoch++;this.queued=0;if(this.active){try{this.active.stop();}catch(e){}this.active=null;}this.tail=Promise.resolve();this.speaking=false;this.pendingRepeat=false;if(this.music)this.music.gain.setTargetAtTime(this.volumes.music,this.context.currentTime,.2);}
  mute(){this.muted=!this.muted;if(this.master)this.master.gain.setTargetAtTime(this.muted?0:1,this.context.currentTime,.08);}
  setVolumes(options){for(const key of ['voice','music','sfx'])if(Number.isFinite(options[key]))this.volumes[key]=Math.max(0,Math.min(1,options[key]));if(this.context){this.voiceBus.gain.setTargetAtTime(this.volumes.voice,this.context.currentTime,.08);this.effectsBus.gain.setTargetAtTime(this.volumes.sfx,this.context.currentTime,.08);this.music.gain.setTargetAtTime(this.volumes.music*(this.speaking?.14:1),this.context.currentTime,.15);}}
  effect(type){
   if(!this.context)return;
-  const mapped={happy:'bark',gentle:'collect',turbo:'engine',eat:'bark'}[type]||type;
-  this.load('sfx_'+mapped).then(buffer=>{const source=this.context.createBufferSource();const gain=this.context.createGain();gain.gain.value=.6;source.buffer=buffer;source.connect(gain);gain.connect(this.effectsBus);source.start();}).catch(()=>{});
+  const mapped={happy:'bark',gentle:'collect',turbo:'engine',eat:'chew'}[type]||type;
+  const operation=this.load('sfx_'+mapped).then(buffer=>new Promise(resolve=>{const source=this.context.createBufferSource();const gain=this.context.createGain();gain.gain.value=.6;source.buffer=buffer;source.connect(gain);gain.connect(this.effectsBus);source.onended=resolve;source.start();})).catch(()=>{});if(type==='phone')this.phoneTail=operation;return operation;
  }
  setEngine(active,speed){
   this.engineWanted=active;

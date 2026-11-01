@@ -1,0 +1,50 @@
+/* Direção de arte original: olhos UV HD, pelagem, costuras e equipamentos articulados.
+ * Modelos autorais inspirados nos personagens, sem extração de jogos comerciais. */
+(()=>{
+'use strict';
+const T=THREE,M=AdventureModels,textures=new T.TextureLoader(),cache=new Map(),oldVehicle=M.vehicle;
+const tex=path=>{if(!cache.has(path)){const t=textures.load('/textures/'+path+'.png');t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;cache.set(path,t);}return cache.get(path);};
+const skinMaterials=Array.from({length:9},(_,i)=>new T.MeshStandardMaterial({map:tex('fur-'+i),roughness:.84}));
+const uniforms=Array.from({length:9},(_,i)=>new T.MeshStandardMaterial({map:tex('uniform-'+i),roughness:.59,metalness:.04}));
+const iris=new T.MeshStandardMaterial({map:tex('iris'),transparent:true,roughness:.22});
+const dense=new T.SphereGeometry(1,32,24);
+function ellipsoid(g,mat,x,y,z,sx,sy=sx,sz=sx){const m=new T.Mesh(dense,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.castShadow=m.receiveShadow=true;g.add(m);return m;}
+function eyes(head,color=0x8a5532){for(const side of [-1,1]){const socket=M.ball(head,0xe3d4bf,side*.245,.24,.436,.205,.225,.105);M.ball(head,0xf9faf6,side*.245,.25,.472,.178,.198,.075);const disk=new T.Mesh(M.geo('iris-disc',()=>new T.CircleGeometry(.129,32)),iris);disk.position.set(side*.245,.25,.548);disk.scale.y=1.15;head.add(disk);M.ball(head,color,side*.25,.485,.4,.18,.045,.07);}}
+function human(){const g=new T.Group(),head=new T.Group();head.position.set(0,2.28,0);g.add(head);ellipsoid(head,skinMaterials[0],0,.06,0,.38,.45,.35);for(const side of [-1,1]){M.ball(head,0xe4b88e,side*.36,.04,0,.08,.14,.09);M.ball(head,0xffffff,side*.13,.16,.315,.095,.12,.035);M.ball(head,0x543c29,side*.13,.16,.347,.052,.08,.017);M.ball(head,0xffffff,side*.115,.19,.364,.015);M.ball(head,0x4c352b,side*.13,.3,.26,.1,.025,.04);}M.ball(head,0xe2ae87,0,-.01,.36,.08,.09,.1);const mouth=M.ball(head,0x88594a,0,-.17,.3,.1,.022,.02);M.ball(head,0x51392b,0,.36,-.06,.36,.19,.32);for(let i=0;i<6;i++){const hair=M.ball(head,0x59412e,-.25+i*.09,.46+i*.015,-.03,.12,.18,.12);hair.rotation.z=-.5;}
+ ellipsoid(g,uniforms[0],0,1.57,0,.46,.59,.27);M.block(g,0xf5f1de,0,1.8,.23,.8,.35,.09);M.block(g,0x278bd5,0,1.55,.28,.78,.08,.03);M.line(g,new T.Vector3(0,1.2,.29),new T.Vector3(0,2,.29),.025,0xdfe5e9);M.badge(g,0,-.22,1.7,.31,.12);
+ const legs=[];for(const side of [-1,1]){const leg=new T.Group();leg.position.set(side*.23,1,0);g.add(leg);M.ball(leg,0x345b7c,0,-.43,0,.17,.5,.18);M.ball(leg,0xc43b3f,0,-.9,.1,.21,.14,.32);legs.push(leg);const arm=new T.Group();arm.position.set(side*.43,1.95,0);g.add(arm);M.ball(arm,0xf3e9d6,side*.08,-.24,0,.14,.28,.15);M.ball(arm,0xe2b58d,side*.1,-.57,0,.13,.2,.14);legs.push(arm);}
+ const tail=new T.Group(),backpack=new T.Group(),tool=new T.Group();g.add(tail,backpack,tool);tool.visible=false;g.userData={legs,tail,ears:[],head,mouth,backpack,tool};return g;}
+function optimize(g){g.traverse(node=>{if(!node.isGroup)return;const buckets=new Map();for(const m of node.children){if(!m.isMesh||m.isSkinnedMesh||m===g.userData.mouth||m.userData.paint||m.name==='flight-kit')continue;const key=m.material;if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(m);}for(const [material,meshes]of buckets){if(meshes.length<2)continue;const geometries=meshes.map(m=>{m.updateMatrix();return m.geometry.clone().applyMatrix4(m.matrix);});const merged=AdventureGLTF.mergeGeometries(geometries,false);geometries.forEach(g=>g.dispose());if(!merged)continue;const result=new T.Mesh(merged,material);result.castShadow=true;result.receiveShadow=true;node.add(result);meshes.forEach(m=>node.remove(m));}});return g;}
+function pup(index){if(index===0)return optimize(human());const g=new T.Group(),c=M.COLORS[index],fur=skinMaterials[index],uniform=uniforms[index];g.name='Patrulha '+Adventure3D.NAMES[index];
+ ellipsoid(g,fur,0,.96,-.08,.43,.43,.68);ellipsoid(g,uniform,0,1.02,-.06,.46,.44,.56);
+ const head=new T.Group();head.position.set(0,1.6,.46);g.add(head);ellipsoid(head,fur,0,.13,0,.53,.52,.49);
+ const muzzle=index===2?0xfcf9ed:index===4?0xd4d4c3:index===8?0xe6e8df:0xe9c79b;
+ if([1,7,8].includes(index))for(const side of [-1,1])M.ball(head,index===1?0x795238:0xe4e7d9,side*.28,.04,.3,.25,.3,.18);
+ if(index===3)for(const side of [-1,1])for(let i=0;i<5;i++)M.ball(head,0xd2ab79,side*(.43+Math.sin(i)*.03),.16-i*.09,.02,.11,.13,.12);
+ M.ball(head,muzzle,0,-.06,.41,index===5?.36:.3,.24,.3);M.ball(head,0x242b31,0,.04,.665,.14,.105,.115);M.ball(head,0x7b858d,-.035,.085,.757,.045,.015,.012);eyes(head,index===4?0x777e6d:0x76553c);
+ const mouth=M.ball(head,0x4a3540,0,-.217,.56,.135,.025,.06);M.ball(head,0xf9e8d7,0,-.23,.6,.1,.018,.018);
+ const ears=[];for(const side of [-1,1]){const e=new T.Group();e.position.set(side*.46,.46,-.02);head.add(e);if([1,4,7,8].includes(index)){const ear=ellipsoid(e,fur,0,.17,0,.16,.35,.1);ear.rotation.z=-side*.2;M.ball(e,0xcc9f96,0,.18,.08,.095,.23,.035);}else{ellipsoid(e,fur,side*.02,-.18,-.01,.17,.38,.16);M.ball(e,index===2?0x343b44:0x946d48,side*.035,-.2,.135,.085,.24,.025);}ears.push(e);}
+ // Capacetes/capacete policial: abas curvas, emblema e costuras.
+ const hat=new T.Group();hat.position.set(0,.57,0);head.add(hat);
+ if(index===3){M.ball(hat,0xdf77b3,0,-.01,0,.51,.17,.46);for(const side of [-1,1]){M.line(hat,new T.Vector3(side*.43,-.1,0),new T.Vector3(side*.2,-.12,.4),.04,0xf3b4d4);const rim=M.mesh(M.geo('hd-goggle',()=>new T.TorusGeometry(.155,.036,10,24)),0xf6c9dc,hat,side*.19,-.08,.37);ellipsoid(hat,new T.MeshPhysicalMaterial({color:0x75b9d0,roughness:.14,metalness:.3,transparent:true,opacity:.8}),side*.19,-.08,.38,.132,.12,.035);}}
+ else{ellipsoid(hat,uniform,0,0,0,.54,.19,.51);M.ball(hat,c,0,-.07,.29,.55,.045,.42);if(index===5){for(const side of [-1,0,1])M.block(hat,0xf2cd4e,side*.18,.14,.03,.06,.09,.65);}if(index===2)for(const side of [-1,1])M.block(hat,0xe7d283,side*.42,.01,0,.065,.1,.5);if(index===7){M.tube(hat,0xcaba86,0,.13,0,.34,.2);}}
+ M.badge(hat,index,0,-.02,.5,.14);M.badge(g,index,0,1.1,.51,.2);
+ for(const side of [-1,1]){M.line(g,new T.Vector3(side*.33,.82,.4),new T.Vector3(side*.33,1.25,.3),.025,0xe2cf90);M.block(g,c,side*.4,1.01,.13,.12,.22,.23);}M.line(g,new T.Vector3(0,.68,.48),new T.Vector3(0,1.23,.48),.018,0xd9e4e4);
+ const backpack=new T.Group();backpack.position.set(0,1.28,-.25);g.add(backpack);M.ball(backpack,c,0,.03,-.26,.4,.34,.4);M.block(backpack,0xbdcbd0,0,0,-.62,.36,.2,.07);for(const side of [-1,1]){M.tube(backpack,0xbac9cc,side*.39,-.02,-.25,.1,.46);M.ball(backpack,c,side*.4,.27,-.25,.13,.09,.13);}if(index===3)for(const side of [-1,1]){const wing=M.ball(backpack,0xeb99c6,side*.6,.05,-.2,.6,.045,.22);wing.rotation.z=side*.1;}
+ const legs=[];for(const x of [-.28,.28])for(const z of [-.44,.36]){const leg=new T.Group();leg.position.set(x,.78,z);g.add(leg);ellipsoid(leg,fur,0,-.25,0,.14,.3,.14);M.ball(leg,muzzle,0,-.56,.08,.17,.13,.24);for(const toe of [-1,0,1])M.ball(leg,muzzle,toe*.078,-.55,.23,.055,.06,.07);legs.push(leg);}
+ const tail=new T.Group();tail.position.set(0,1.02,-.7);g.add(tail);ellipsoid(tail,fur,0,.15,-.21,.1,.12,.32).rotation.x=.4;
+ const tool=new T.Group();tool.position.set(0,1.05,.7);tool.visible=false;g.add(tool);
+ if(index===2){M.line(tool,new T.Vector3(.5,0,0),new T.Vector3(.5,0,1.2),.12,0xc0d5dc);M.tube(tool,0x596f7c,.5,0,1.1,.17,.3).rotation.x=Math.PI/2;}
+ else if(index===1){const net=M.mesh(new T.TorusGeometry(.48,.045,10,24),0xc0e7e9,tool,.5,0,1.5);for(let i=-2;i<=2;i++){M.line(tool,new T.Vector3(.5+i*.16,-.35,1.5),new T.Vector3(.5+i*.16,.35,1.5),.012,0xccd9df);M.line(tool,new T.Vector3(.15,i*.16,1.5),new T.Vector3(.85,i*.16,1.5),.012,0xccd9df);}}
+ else if(index===4||index===5){M.line(tool,new T.Vector3(.5,0,0),new T.Vector3(.5,-.1,1.4),.09,0xb8c8ce);for(const side of [-1,1])M.line(tool,new T.Vector3(.5,-.1,1.4),new T.Vector3(.5+side*.4,-.3,1.7),.08,0xb8c8ce);}
+ else if(index===6)tool.add(M.mesh(M.geo('hd-ring',()=>new T.TorusGeometry(.48,.13,12,32)),0xffa33a));
+ else if(index===3)for(const side of [-1,1])M.ball(tool,0xe996c4,side*.7,0,.6,.8,.04,.25);
+ else M.block(tool,c,0,0,1.1,1.4,.3,.5);
+ g.userData={legs,tail,ears,head,mouth,backpack,tool};return optimize(g);}
+function vehicle(index){const g=oldVehicle(index);g.traverse(m=>{if(m.isMesh&&m.material.color.getHex()===M.COLORS[index]){m.material=uniforms[index];m.userData.paint=true;}});for(const side of [-1,1]){M.line(g,new T.Vector3(side*1.16,1.4,-1.5),new T.Vector3(side*1.16,1.4,1.3),.045,0xe3d5aa);M.ball(g,0xe6e6d0,side*.75,1.1,2.07,.19,.12,.035);M.block(g,0x293e51,side*1.25,2.1,1.4,.3,.15,.28);}
+ const wings=new T.Group();wings.visible=false;wings.name='flight-kit';g.add(wings);for(const side of [-1,1]){const wing=M.ball(wings,0xb9cfe0,side*2,1.5,-.1,1.9,.065,.6);wing.rotation.z=side*.08;M.ball(wings,M.COLORS[index],side*1.5,1.3,-1,.2,.2,.6);}
+ const magnet=M.mesh(new T.TorusGeometry(.3,.08,10,20,Math.PI),0xf65a72,g,0,1.5,-2.1);magnet.visible=false;
+ const aura=M.mesh(new T.TorusGeometry(2.1,.045,8,48),0xffd15c,g,0,.15,0);aura.rotation.x=Math.PI/2;aura.visible=false;g.userData.aura=aura;g.userData.flightKit=wings;g.userData.magnet=magnet;return g;}
+function paint(g,config){if(g.userData.paintKey===config.tier+config.skin)return;g.userData.paintKey=config.tier+config.skin;if(g.userData.aura){g.userData.aura.visible=config.tier>0;g.userData.aura.material=M.material([0xd8e5ec,0x52b8ff,0xb278ff,0xffc94f,0x78ffe2][config.tier],.3,.35);}const palette={Neon:0x38efc9,Camuflado:0x6e8462,Fogo:0xef6234,Ouro:0xe8bc55,'Galáxia':0x5b4c99};g.traverse(m=>{if(m.isMesh&&m.userData.paint){m.material=m.material.clone();if(config.skin==='Original')m.material.map=uniforms[config.pup||1].map;else{m.material.map=tex('skin-'+(config.skin==='Galáxia'?'galaxia':config.skin.toLowerCase()));m.material.color.setHex(0xffffff);}m.material.metalness=config.tier*.13;m.material.roughness=.6-config.tier*.08;if(config.skin==='Neon'||config.tier===4){m.material.emissive.setHex(palette[config.skin]||0xffd368);m.material.emissiveIntensity=.25;}else m.material.emissive.setHex(0);}});}
+M.optimize=optimize;M.pup=pup;M.vehicle=vehicle;M.paint=paint;M.hdTexture=tex;
+})();

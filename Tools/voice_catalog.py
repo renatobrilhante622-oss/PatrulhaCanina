@@ -71,7 +71,7 @@ def catalog():
  'biscuits':'Cantinho dos biscoitos! Dê carinho ao seu amigo e veja suas figurinhas.',
  'continue':'Vamos continuar nossa aventura!',
  'main':'Voltando ao menu principal. Seu progresso está guardado.',
- 'call':'O Pup-Pad está chamando! Nossos amigos precisam de uma ajudinha. Vamos ouvir a missão?',
+ 'call':'Atenda o comunicador para ouvir a missão do Ryder.',
  'reward':'Missão cumprida! Você ajudou com carinho. Ganhou três estrelas, biscoitos e uma figurinha!',
  'next':'Vamos conhecer a próxima missão!',
  'needCookie':'Vamos ajudar em uma missão para ganhar mais biscoitos. Você pode escolher qualquer cartão!',
@@ -82,4 +82,26 @@ def catalog():
   add(f'Mission{id}_choose','Ryder','Vamos chamar '+NAMES[mission['pup']]+' na garagem para ajudar nesta missão.')
   for index,step in enumerate(mission['steps']):add(f'Mission{id}_step{index}',NAMES[mission['pup']],step['text'])
  for area,text in [('cidade','Chegamos à cidade. Vamos ajudar com números, formas e trânsito seguro!'),('praia','Bem-vindo à praia e ao píer! Vamos cuidar dos materiais e dos animais marinhos.'),('fazenda','Chegamos à fazenda da Yumi. Há frutas, pedras e blocos para aprender!'),('petshop','A Katie está no Pet Shop. Vamos cuidar da higiene dos nossos amigos.'),('neve','Estamos na montanha nevada do Jake. Vamos ajudar os pinguins com a Everest!')]:add('Ryder_area_'+area,'Ryder',text)
+ # Chamados por evento, sem narrador de menus ou instruções em loop.
+ corrections={
+ 'Ryder_motto':'Nenhum trabalho é tão grande, nenhum filhote é tão pequeno! Patrulha Canina, para o Farol!',
+ 'Chase_motto':'O Chase está no caso!', 'Marshall_motto':'Estou pronto para um resgate pegando fogo!',
+ 'Skye_motto':'Essa filhote vai voar!', 'Rocky_motto':'Verde significa siga! Não perca, reutilize!',
+ 'Rubble_motto':'Rubble na escavadeira!', 'Zuma_motto':'Pronto, preparar, molhar!',
+ 'Tracker_motto':'Sou todo ouvidos!', 'Everest_motto':'Gelo ou neve, estou pronta!'}
+ for entry in entries:
+  if entry['id'] in corrections:entry['text']=corrections[entry['id']]
+ for id,speaker,text in [
+ ('Skye_ryder_call','Skye','O Ryder tá chamando!'),('Skye_sky','Skye','Vamos para o céu!'),
+ ('Chase_law','Chase','Essas patinhas vão cumprir a lei!'),('Marshall_ok','Marshall','Eu tô bem!'),('Rubble_build','Rubble','Vamos construir!'),
+ ('Tycoon_welcome','Ryder','Esta é sua base de construção e resgate! Corra na esteira para juntar moedas, plante comida e cuide dos seus animais.'),
+ ('Tycoon_pet','Skye','Um novo amigo chegou! Vamos cuidar dele com carinho.'),
+ ('Tycoon_plant','Rocky','Plante, espere crescer e colha! Depois coloque a comida no cocho.'),
+ ('Tycoon_build','Rubble','Escolha uma construção e toque em um quadrado livre da base. Podemos girar e melhorar depois.'),
+ ('Tycoon_upgrade','Rubble','Construção melhorada! Cada cuidado ajuda nossa base a crescer.'),
+ ('Tycoon_vehicle','Chase','Veículo melhorado! O helicóptero pode voar. Veículos lendários também ganham asas!'),
+ ('Tycoon_helpers','Ryder','Equipe de apoio a caminho! Rubble leva blocos, Chase organiza o caminho, Skye traz suprimentos e Marshall ajuda com a água.'),
+ ('Tycoon_chest','Ryder','Resgate concluído! Seu baú tem moedas, sementes raras e peças para os veículos.'),
+ ('Tycoon_food','Rocky','Comida no cocho! Nossos amigos podem comer e continuar ajudando a fazenda.'),
+ ('Tycoon_legendary','Skye','Um amigo especial chegou! Olha como ele brilha!')]:add(id,speaker,text)
  return entries

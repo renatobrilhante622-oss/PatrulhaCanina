@@ -9,7 +9,7 @@
     {
       "id": "Ryder_motto",
       "speaker": "Ryder",
-      "text": "Nenhum trabalho é tão grande, nenhum filhote é tão pequeno!",
+      "text": "Nenhum trabalho é tão grande, nenhum filhote é tão pequeno! Patrulha Canina, para o Farol!",
       "audio": "/audio/Ryder_motto.mp3"
     },
     {
@@ -105,7 +105,7 @@
     {
       "id": "Marshall_motto",
       "speaker": "Marshall",
-      "text": "Estou pronto para um resgate!",
+      "text": "Estou pronto para um resgate pegando fogo!",
       "audio": "/audio/Marshall_motto.mp3"
     },
     {
@@ -153,7 +153,7 @@
     {
       "id": "Skye_motto",
       "speaker": "Skye",
-      "text": "Esse filhote vai voar!",
+      "text": "Essa filhote vai voar!",
       "audio": "/audio/Skye_motto.mp3"
     },
     {
@@ -201,7 +201,7 @@
     {
       "id": "Rocky_motto",
       "speaker": "Rocky",
-      "text": "Não perca, reutilize!",
+      "text": "Verde significa siga! Não perca, reutilize!",
       "audio": "/audio/Rocky_motto.mp3"
     },
     {
@@ -249,7 +249,7 @@
     {
       "id": "Rubble_motto",
       "speaker": "Rubble",
-      "text": "Rubble a toda!",
+      "text": "Rubble na escavadeira!",
       "audio": "/audio/Rubble_motto.mp3"
     },
     {
@@ -297,7 +297,7 @@
     {
       "id": "Zuma_motto",
       "speaker": "Zuma",
-      "text": "Vamos mergulhar!",
+      "text": "Pronto, preparar, molhar!",
       "audio": "/audio/Zuma_motto.mp3"
     },
     {
@@ -345,7 +345,7 @@
     {
       "id": "Tracker_motto",
       "speaker": "Tracker",
-      "text": "Estou todo ouvidos!",
+      "text": "Sou todo ouvidos!",
       "audio": "/audio/Tracker_motto.mp3"
     },
     {
@@ -963,7 +963,7 @@
     {
       "id": "Menu_call",
       "speaker": "Ryder",
-      "text": "O Pup-Pad está chamando! Nossos amigos precisam de uma ajudinha. Vamos ouvir a missão?",
+      "text": "Atenda o comunicador para ouvir a missão do Ryder.",
       "audio": "/audio/Menu_call.mp3"
     },
     {
@@ -1745,6 +1745,96 @@
       "speaker": "Ryder",
       "text": "Estamos na montanha nevada do Jake. Vamos ajudar os pinguins com a Everest!",
       "audio": "/audio/Ryder_area_neve.mp3"
+    },
+    {
+      "id": "Skye_ryder_call",
+      "speaker": "Skye",
+      "text": "O Ryder tá chamando!",
+      "audio": "/audio/Skye_ryder_call.mp3"
+    },
+    {
+      "id": "Skye_sky",
+      "speaker": "Skye",
+      "text": "Vamos para o céu!",
+      "audio": "/audio/Skye_sky.mp3"
+    },
+    {
+      "id": "Chase_law",
+      "speaker": "Chase",
+      "text": "Essas patinhas vão cumprir a lei!",
+      "audio": "/audio/Chase_law.mp3"
+    },
+    {
+      "id": "Marshall_ok",
+      "speaker": "Marshall",
+      "text": "Eu tô bem!",
+      "audio": "/audio/Marshall_ok.mp3"
+    },
+    {
+      "id": "Rubble_build",
+      "speaker": "Rubble",
+      "text": "Vamos construir!",
+      "audio": "/audio/Rubble_build.mp3"
+    },
+    {
+      "id": "Tycoon_welcome",
+      "speaker": "Ryder",
+      "text": "Esta é sua base de construção e resgate! Corra na esteira para juntar moedas, plante comida e cuide dos seus animais.",
+      "audio": "/audio/Tycoon_welcome.mp3"
+    },
+    {
+      "id": "Tycoon_pet",
+      "speaker": "Skye",
+      "text": "Um novo amigo chegou! Vamos cuidar dele com carinho.",
+      "audio": "/audio/Tycoon_pet.mp3"
+    },
+    {
+      "id": "Tycoon_plant",
+      "speaker": "Rocky",
+      "text": "Plante, espere crescer e colha! Depois coloque a comida no cocho.",
+      "audio": "/audio/Tycoon_plant.mp3"
+    },
+    {
+      "id": "Tycoon_build",
+      "speaker": "Rubble",
+      "text": "Escolha uma construção e toque em um quadrado livre da base. Podemos girar e melhorar depois.",
+      "audio": "/audio/Tycoon_build.mp3"
+    },
+    {
+      "id": "Tycoon_upgrade",
+      "speaker": "Rubble",
+      "text": "Construção melhorada! Cada cuidado ajuda nossa base a crescer.",
+      "audio": "/audio/Tycoon_upgrade.mp3"
+    },
+    {
+      "id": "Tycoon_vehicle",
+      "speaker": "Chase",
+      "text": "Veículo melhorado! O helicóptero pode voar. Veículos lendários também ganham asas!",
+      "audio": "/audio/Tycoon_vehicle.mp3"
+    },
+    {
+      "id": "Tycoon_helpers",
+      "speaker": "Ryder",
+      "text": "Equipe de apoio a caminho! Rubble leva blocos, Chase organiza o caminho, Skye traz suprimentos e Marshall ajuda com a água.",
+      "audio": "/audio/Tycoon_helpers.mp3"
+    },
+    {
+      "id": "Tycoon_chest",
+      "speaker": "Ryder",
+      "text": "Resgate concluído! Seu baú tem moedas, sementes raras e peças para os veículos.",
+      "audio": "/audio/Tycoon_chest.mp3"
+    },
+    {
+      "id": "Tycoon_food",
+      "speaker": "Rocky",
+      "text": "Comida no cocho! Nossos amigos podem comer e continuar ajudando a fazenda.",
+      "audio": "/audio/Tycoon_food.mp3"
+    },
+    {
+      "id": "Tycoon_legendary",
+      "speaker": "Skye",
+      "text": "Um amigo especial chegou! Olha como ele brilha!",
+      "audio": "/audio/Tycoon_legendary.mp3"
     }
   ]
 }

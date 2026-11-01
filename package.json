@@ -1,11 +1,13 @@
 {
   "name": "patrulhacanina-offline",
   "private": true,
-  "version": "5.0.0",
+  "version": "6.0.0",
   "scripts": {
-    "test": "node Tools/test_world.cjs && node Tools/test_campaign.cjs && node Tools/test_game.cjs"
+    "test": "node Tools/test_world.cjs && node Tools/test_campaign.cjs && node Tools/test_tycoon.cjs && node Tools/test_game.cjs && node Tools/test_tycoon_ui.cjs",
+    "bundle:loaders": "node Tools/bundle_loaders.cjs"
   },
   "devDependencies": {
+    "esbuild": "0.25.12",
     "playwright": "1.56.1"
   },
   "dependencies": {

@@ -26,17 +26,17 @@ class Campaign{
  constructor(world,save){this.world=world;this.save=save;this.active=false;this.phase='idle';this.index=0;this.mission=null;this.carry=null;this.elapsed=0;this.hintAfter=0;}
  start(id,resume=false){const def=missions.find(m=>m.id===id);if(!def)return;this.stop();this.active=true;this.mission=def;this.index=0;this.carry=null;
  const checkpoint=this.save.data.active;if(resume&&checkpoint&&checkpoint.id===id){this.index=Math.min(def.steps.length-1,checkpoint.index);this.carry=checkpoint.carry;}
- this.phase='call';this.world.player.pup=def.pup;this.world.emit('voice',{id:'Menu_call'});this.world.objects=this.world.objects.filter(o=>!o.mission);
+ this.phase='call';this.world.player.onBelt=false;this.world.player.pup=def.pup;this.world.emit('sfx',{id:'phone'});this.world.objects=this.world.objects.filter(o=>!o.mission);
  def.steps.forEach((s,i)=>this.world.objects.push({...s,id:'campaign-'+id+'-'+i,type:'campaign',mission:id,stepIndex:i,done:i<this.index}));
  this.world.emit('campaignObjects');this.checkpoint();this.world.emit('campaignUI');}
  stop(){this.active=false;this.phase='idle';this.world.objects=this.world.objects.filter(o=>!o.mission);this.world.emit('campaignObjects');}
- advanceRitual(){if(!this.active)return;if(this.phase==='call'){this.phase='briefing';this.world.emit('voice',{id:'Mission'+this.mission.id+'_brief'});}
- else if(this.phase==='briefing'){this.phase='departure';this.elapsed=0;Object.assign(this.world.player,{x:0,z:15,y:0,vy:0,vx:0,vz:0,vehicle:true,angle:0});this.world.emit('sfx',{id:'siren'});}
+ advanceRitual(){if(!this.active)return;if(this.phase==='call'){this.phase='briefing';this.world.emit('briefing',{id:this.mission.id});}
+ else if(this.phase==='briefing'){this.phase='departure';this.elapsed=0;Object.assign(this.world.player,{x:0,z:15,y:0,vy:0,vx:0,vz:0,vehicle:true,flying:this.mission.pup===3,flightHeight:10,angle:0});this.world.emit('sfx',{id:'siren'});}
  this.world.emit('campaignUI');}
  target(){return this.active&&this.phase==='play'?this.world.objects.find(o=>o.mission===this.mission.id&&o.stepIndex===this.index):null;}
  instructionID(){return this.mission?'Mission'+this.mission.id+'_step'+this.index:'Menu_story';}
  checkpoint(){if(this.phase!=='reward'){this.save.data.active={id:this.mission.id,index:this.index,carry:this.carry};this.save.write();}}
- hint(){if(this.world.time<this.hintAfter)return;this.hintAfter=this.world.time+2;this.world.emit('voice',{id:this.target()&&!this.validPup(this.target())?'Mission'+this.mission.id+'_choose':this.instructionID()});}
+ hint(){if(this.world.time<this.hintAfter)return;this.hintAfter=this.world.time+14;this.world.emit('voice',{id:this.target()&&!this.validPup(this.target())?'Mission'+this.mission.id+'_choose':this.instructionID()});}
  validPup(s){return !!s.anyPup||this.world.player.pup===this.mission.pup;}
  interact(){if(!this.active||this.phase!=='play')return this.active;const target=this.target();if(!target)return true;
  if(target.mode==='goal')return false;

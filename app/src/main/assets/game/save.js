@@ -8,6 +8,7 @@ class Store{
  if(Array.isArray(raw.missions))d.missions=d.missions.map((_,i)=>integer(raw.missions[i],3));d.cookies=integer(raw.cookies);d.bones=integer(raw.bones);d.starTotal=integer(raw.starTotal);
  if(Array.isArray(raw.stickers))d.stickers=[...new Set(raw.stickers.filter(n=>Number.isInteger(n)&&n>=1&&n<=12))];
  if(raw.active&&Number.isInteger(raw.active.id)&&raw.active.id>=1&&raw.active.id<=12)d.active={id:raw.active.id,index:integer(raw.active.index,100),carry:typeof raw.active.carry==='string'?raw.active.carry:null};
+ if(raw.empire&&typeof raw.empire==='object')d.empire=raw.empire;
  if(raw.options){for(const k of ['voice','music','sfx'])if(Number.isFinite(raw.options[k]))d.options[k]=Math.max(0,Math.min(1,raw.options[k]));if(Number.isFinite(raw.options.joystick))d.options.joystick=Math.max(.8,Math.min(1.5,raw.options.joystick));if(['low','balanced','high'].includes(raw.options.quality))d.options.quality=raw.options.quality;if([30,60].includes(raw.options.fps))d.options.fps=raw.options.fps;}}
  write(){try{this.storage.setItem(KEY,JSON.stringify(this.data));this.persistent=true;}catch(e){this.persistent=false;}return this.persistent;}
  options(patch){Object.assign(this.data.options,patch);this.write();}

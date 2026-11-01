@@ -46,8 +46,10 @@ public final class MainActivity extends Activity {
                 String mime = path.endsWith(".js") ? "application/javascript" :
                         path.endsWith(".css") ? "text/css" :
                         path.endsWith(".json") ? "application/json" :
-                        path.endsWith(".mp3") ? "audio/mpeg" : "text/html";
-                try { return new WebResourceResponse(mime, "UTF-8", getAssets().open((path.startsWith("/audio/") || path.startsWith("/js/")) ? path.substring(1) : "game" + path)); }
+                        path.endsWith(".mp3") ? "audio/mpeg" :
+                        path.endsWith(".glb") ? "model/gltf-binary" :
+                        path.endsWith(".png") ? "image/png" : "text/html";
+                try { return new WebResourceResponse(mime, "UTF-8", getAssets().open((path.startsWith("/audio/") || path.startsWith("/js/") || path.startsWith("/models/") || path.startsWith("/textures/")) ? path.substring(1) : "game" + path)); }
                 catch (IOException ignored) { return empty(); }
             }
             private WebResourceResponse empty() {

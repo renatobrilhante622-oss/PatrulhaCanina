@@ -1,0 +1,84 @@
+/* Economia local determinística. Sem compras reais, sorte paga ou perda de animais.
+ * A simulação só avança durante a brincadeira: fechar o jogo não consome comida. */
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.PatrolTycoon=factory();})(globalThis,()=>{
+'use strict';
+const BASE={x:112,z:30,cell:7,cols:10,rows:8};
+const RARITIES=[{name:'Comum',color:'#d8e5ec',mult:1},{name:'Raro',color:'#52b8ff',mult:3},{name:'Épico',color:'#b278ff',mult:8},{name:'Lendário',color:'#ffc94f',mult:20},{name:'Mítico',color:'#78ffe2',mult:40}];
+const PETS=[
+ ['chicken','Galinha','Fazenda',0,40,1,'🐔'],['cow','Vaquinha','Fazenda',0,70,2,'🐄'],['sheep','Ovelha','Fazenda',0,60,2,'🐑'],['pig','Porquinho','Fazenda',0,55,2,'🐖'],
+ ['horse','Cavalo','Fazenda',1,220,5,'🐎'],['toucan','Tucano','Selva',1,260,6,'🦜'],['monkey','Macaquinho','Selva',1,240,6,'🐒'],['turtle','Tartaruga Marinha','Oceano',1,210,5,'🐢'],
+ ['panda','Panda','Selva',2,800,16,'🐼'],['penguin','Pinguim Real','Neve',2,850,18,'🐧'],['lion','Leãozinho','Deserto',2,900,20,'🦁'],['dolphin','Golfinho','Oceano',2,950,22,'🐬'],
+ ['tiger','Tigre Dourado','Selva',3,2600,50,'🐯'],['dragon','Dragãozinho Bebê','Deserto',4,6000,90,'🐉'],['wolf','Lobo da Neve Brilhante','Neve',3,2800,55,'🐺'],['dinosaur','Dinossauro da Selva','Selva',3,3000,60,'🦕']
+].map(([id,name,biome,rarity,cost,income,icon])=>({id,name,biome,rarity,cost,income,icon}));
+const CROPS=[{id:'wheat',name:'Trigo',icon:'🌾',cost:2,seconds:18,food:20},{id:'carrot',name:'Cenoura',icon:'🥕',cost:4,seconds:25,food:35},{id:'corn',name:'Milho',icon:'🌽',cost:6,seconds:32,food:55},{id:'golden',name:'Maçã Dourada',icon:'🍎',cost:12,seconds:40,food:110}];
+const BUILDINGS=[
+ {id:'barn',name:'Celeiro',icon:'🏠',cost:100,biome:'Fazenda'}, {id:'jungle',name:'Habitat da Selva',icon:'🌴',cost:160,biome:'Selva'},
+ {id:'igloo',name:'Iglu da Neve',icon:'❄️',cost:180,biome:'Neve'}, {id:'aquarium',name:'Aquário',icon:'🐟',cost:200,biome:'Oceano'},
+ {id:'desert',name:'Oásis do Deserto',icon:'🌵',cost:180,biome:'Deserto'}, {id:'fence',name:'Expandir cercado',icon:'🚧',cost:60},
+ {id:'garden',name:'Nova horta',icon:'🌱',cost:45}, {id:'water',name:'Canhão de água',icon:'💦',cost:140},
+ {id:'net',name:'Rede do Chase',icon:'🕸',cost:140}, {id:'mud',name:'Catapulta de lama',icon:'🟤',cost:140}, {id:'ramp',name:'Rampa de manobras',icon:'🛹',cost:100}
+];
+const SKINS=['Original','Neon','Camuflado','Fogo','Ouro','Galáxia'];
+const TIERS=['Comum','Raro','Épico','Lendário','Cyber/Dourado'];
+const UPGRADES={nitro:{name:'Nitro Turbo',cost:140},magnet:{name:'Ímã e colheita automática',cost:220},amphibious:{name:'Modo anfíbio',cost:260}};
+const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+const num=(v,def=0,max=1e12)=>Number.isFinite(v)?clamp(v,0,max):def;
+const defaults=()=>({version:1,coins:180,treadmill:1,food:90,pantry:0,elapsed:0,stepCredit:0,cookieCredit:0,animals:[],plots:[{id:1,x:3,z:4,crop:null,age:0}],buildings:[],vehicles:Array.from({length:9},()=>({tier:0,skin:'Original',skins:['Original'],nitro:false,magnet:false,amphibious:false})),seeds:{wheat:6,carrot:3,corn:2,golden:0},parts:0,helpers:false,missions:[],eggCursor:0,nextID:2});
+function restore(raw){const d=defaults();if(!raw||typeof raw!=='object')return d;
+ for(const k of ['coins','food','pantry','elapsed','stepCredit','cookieCredit','parts','eggCursor'])d[k]=num(raw[k],d[k]);d.treadmill=Math.floor(clamp(num(raw.treadmill,1),1,50));d.nextID=Math.max(2,Math.floor(num(raw.nextID,2,1000000)));
+ if(raw.seeds)for(const c of CROPS)d.seeds[c.id]=Math.floor(num(raw.seeds[c.id],d.seeds[c.id],999999));
+ if(Array.isArray(raw.animals))d.animals=raw.animals.filter(a=>PETS.some(p=>p.id===a.species)).slice(0,80).map((a,i)=>({id:Math.floor(num(a.id,i+10)),species:a.species,meal:num(a.meal,0,120),earned:num(a.earned)}));
+ const used=new Set();
+ if(Array.isArray(raw.buildings))d.buildings=raw.buildings.filter(b=>BUILDINGS.some(t=>t.id===b.type)&&Number.isInteger(b.x)&&b.x>=0&&b.x<BASE.cols&&Number.isInteger(b.z)&&b.z>=0&&b.z<BASE.rows&&!(b.x===3&&b.z===4)&&!(b.x===1&&b.z===1)&&!(b.x===1&&b.z===5)).filter(b=>{const key=b.x+':'+b.z;if(used.has(key))return false;used.add(key);return true;}).slice(0,78).map((b,i)=>({id:Math.floor(num(b.id,100+i)),type:b.type,x:b.x,z:b.z,rotation:[0,1,2,3].includes(b.rotation)?b.rotation:0,level:Math.floor(clamp(num(b.level,1),1,10))}));
+ if(Array.isArray(raw.plots)){d.plots=raw.plots.filter(p=>Number.isInteger(p.x)&&Number.isInteger(p.z)&&p.x>=0&&p.x<BASE.cols&&p.z>=0&&p.z<BASE.rows&&(p.x===3&&p.z===4||d.buildings.some(b=>b.type==='garden'&&b.x===p.x&&b.z===p.z))).slice(0,40).map((p,i)=>({id:Math.floor(num(p.id,i+1)),x:p.x,z:p.z,crop:CROPS.some(c=>c.id===p.crop)?p.crop:null,age:num(p.age,0,60)}));if(!d.plots.some(p=>p.x===3&&p.z===4))d.plots.unshift({id:1,x:3,z:4,crop:null,age:0});}
+ if(Array.isArray(raw.vehicles))for(let i=1;i<=8;i++){const v=raw.vehicles[i];if(!v)continue;const target=d.vehicles[i];target.tier=Math.floor(num(v.tier,0,4));target.skins=[...new Set(['Original',...(Array.isArray(v.skins)?v.skins.filter(s=>SKINS.includes(s)):[])])];target.skin=target.skins.includes(v.skin)?v.skin:'Original';for(const k of ['nitro','magnet','amphibious'])target[k]=v[k]===true;}
+ d.helpers=raw.helpers===true;d.missions=Array.isArray(raw.missions)?[...new Set(raw.missions.filter(n=>Number.isInteger(n)&&n>=1&&n<=12))]:[];
+ d.nextID=Math.max(d.nextID,...[...d.animals,...d.buildings,...d.plots].map(o=>o.id+1));return d;
+}
+class Empire{
+ constructor(store){this.store=store;this.data=restore(store.data.empire);store.data.empire=this.data;this.events=[];this.accumulator=0;this.saveTimer=0;this.assistTimer=0;this.assistIndex=-1;this.allies=[];this.effectTime=0;this.cleanupClock=0;}
+ emit(kind,data={}){this.events.push({kind,...data});}
+ persist(){this.store.data.empire=this.data;this.store.write();}
+ notify(text,voice=null){this.emit('message',{text,voice});return false;}
+ spend(cost){if(this.data.coins+1e-6<cost)return this.notify('Continue na esteira ou cuide dos bichos para juntar mais moedas.');this.data.coins=Math.max(0,this.data.coins-cost);return true;}
+ multiplier(){return Math.pow(1.12,this.data.treadmill-1);}
+ material(){return ['Madeira','Ferro','Ouro','Diamante','Neon'][Math.min(4,Math.floor((this.data.treadmill-1)/10))];}
+ treadmillCost(){return Math.round(35*Math.pow(1.14,this.data.treadmill-1));}
+ upgradeTreadmill(){if(this.data.treadmill>=50)return this.notify('Sua esteira já chegou ao nível 50!');if(!this.spend(this.treadmillCost()))return false;this.data.treadmill++;this.persist();this.emit('rebuild');return true;}
+ capacity(){return Math.max(this.data.animals.length,Math.min(80,4+this.data.buildings.filter(b=>['barn','jungle','igloo','aquarium','desert','fence'].includes(b.type)).reduce((s,b)=>s+4+b.level*2,0)));}
+ buyPet(species){const p=PETS.find(p=>p.id===species);if(!p)return false;if(this.data.animals.length>=this.capacity())return this.notify('Construa um abrigo ou expanda o cercado para receber mais amigos.');if(!this.spend(p.cost))return false;this.data.animals.push({id:this.data.nextID++,species:p.id,meal:0,earned:0});this.persist();this.emit('pet',{species:p.id});this.emit('rebuild');return true;}
+ // O ovo é uma surpresa de sequência pública: sem dinheiro real, sem perda e sem sorte oculta.
+ egg(biome){const choices=PETS.filter(p=>p.biome===biome&&p.rarity<=2);if(!choices.length)return false;const pet=choices[this.data.eggCursor%choices.length];const cost=120;if(this.data.animals.length>=this.capacity())return this.notify('Expanda o cercado antes de abrir outro ovo.');if(!this.spend(cost))return false;this.data.eggCursor++;this.data.animals.push({id:this.data.nextID++,species:pet.id,meal:0,earned:0});this.persist();this.emit('pet',{species:pet.id});this.emit('rebuild');return pet;}
+ plant(plotID,cropID){const plot=this.data.plots.find(p=>p.id===plotID),crop=CROPS.find(c=>c.id===cropID);if(!plot||!crop||plot.crop)return false;if(this.data.seeds[crop.id]>0)this.data.seeds[crop.id]--;else if(!this.spend(crop.cost))return false;plot.crop=crop.id;plot.age=0;this.persist();this.emit('rebuild');return true;}
+ harvest(plotID){const plot=this.data.plots.find(p=>p.id===plotID),crop=CROPS.find(c=>c.id===plot?.crop);if(!crop||plot.age<crop.seconds)return this.notify('A plantinha está crescendo. Você pode brincar enquanto espera.');const level=this.data.buildings.find(b=>b.id===plot.id)?.level||1;this.data.pantry+=Math.round(crop.food*(1+(level-1)*.15));this.data.seeds[crop.id]+=2;plot.crop=null;plot.age=0;this.persist();this.emit('rebuild');return true;}
+ fill(amount=this.data.pantry){amount=Math.floor(clamp(num(amount),0,this.data.pantry));if(!amount)return this.notify('Colha uma horta para encher o estoque de comida.');this.data.pantry-=amount;this.data.food+=amount;this.persist();return true;}
+ occupied(x,z){return x===1&&z===1||x===1&&z===5||x===3&&z===4||this.data.buildings.some(b=>b.x===x&&b.z===z);}
+ canBuild(type,x,z){return !!BUILDINGS.find(b=>b.id===type)&&Number.isInteger(x)&&x>=0&&x<BASE.cols&&Number.isInteger(z)&&z>=0&&z<BASE.rows&&!this.occupied(x,z);}
+ build(type,x,z,rotation=0){const def=BUILDINGS.find(b=>b.id===type);if(!this.canBuild(type,x,z))return this.notify('Escolha um quadrado livre na grade da base.');if(!this.spend(def.cost))return false;const b={id:this.data.nextID++,type,x,z,rotation:((Math.floor(rotation)%4)+4)%4,level:1};this.data.buildings.push(b);if(type==='garden')this.data.plots.push({id:b.id,x,z,crop:null,age:0});this.persist();this.emit('rebuild');return b;}
+ upgradeBuilding(id){const b=this.data.buildings.find(b=>b.id===id);if(!b||b.level>=10)return false;const def=BUILDINGS.find(d=>d.id===b.type);if(!this.spend(Math.round(def.cost*.6*b.level)))return false;b.level++;this.persist();this.emit('rebuild');return true;}
+ moveBuilding(id,x,z,rotation=0){const b=this.data.buildings.find(b=>b.id===id);if(!b||!this.canBuild(b.type,x,z))return false;b.x=x;b.z=z;b.rotation=((Math.floor(rotation)%4)+4)%4;const p=this.data.plots.find(p=>p.id===id);if(p){p.x=x;p.z=z;}this.persist();this.emit('rebuild');return true;}
+ removeBuilding(id){const b=this.data.buildings.find(b=>b.id===id);if(!b)return false;this.data.coins+=Math.floor(BUILDINGS.find(d=>d.id===b.type).cost*.7);this.data.buildings=this.data.buildings.filter(v=>v!==b);this.data.plots=this.data.plots.filter(p=>p.id!==id);this.persist();this.emit('rebuild');return true;}
+ vehicle(id){return this.data.vehicles[id]||this.data.vehicles[1];}
+ upgradeVehicle(id){if(id<1||id>8)return false;const v=this.vehicle(id);if(v.tier===4)return this.notify('Seu veículo já é Cyber/Dourado!');const cost=[140,420,1200,3000][v.tier];const discount=this.data.parts>=3?Math.round(cost*.4):0;if(!this.spend(cost-discount))return false;if(discount)this.data.parts-=3;v.tier++;this.persist();this.emit('rebuild');return true;}
+ skin(id,name){if(id<1||id>8||!SKINS.includes(name))return false;const v=this.vehicle(id);if(!v.skins.includes(name)){if(!this.spend(name==='Ouro'||name==='Galáxia'?220:90))return false;v.skins.push(name);}v.skin=name;this.persist();this.emit('rebuild');return true;}
+ unlock(id,key){const option=UPGRADES[key];if(id<1||id>8||!option||this.vehicle(id)[key])return false;if(!this.spend(option.cost))return false;this.vehicle(id)[key]=true;this.persist();this.emit('rebuild');return true;}
+ capabilities(id){const v=this.vehicle(id);return {speed:1+v.tier*.12,nitro:v.nitro,magnet:v.magnet,amphibious:v.amphibious||id===6,canFly:v.tier>=3||id===3};}
+ rewardMission(id){const first=!this.data.missions.includes(id);const reward=first?450+id*100:150;this.data.coins+=reward;this.data.parts+=first?3:1;this.data.seeds.golden+=first?2:1;let exclusive=null;if(first){this.data.missions.push(id);if([3,6,9,12].includes(id)){exclusive=['panda','penguin','tiger','dragon'][[3,6,9,12].indexOf(id)];this.data.animals.push({id:this.data.nextID++,species:exclusive,meal:0,earned:0});}}this.persist();this.emit('chest',{coins:reward,exclusive,parts:first?3:1});this.emit('rebuild');return reward;}
+ incomeRate(){return this.data.animals.reduce((sum,a)=>{if(a.meal<=0&&this.data.food<1)return sum;const p=PETS.find(p=>p.id===a.species);const boost=this.data.buildings.filter(b=>BUILDINGS.find(d=>d.id===b.type)?.biome===p.biome).reduce((s,b)=>s+b.level*.15,1);return sum+p.income*boost/6;},0);}
+ toggleHelpers(world){this.data.helpers=!this.data.helpers;if(this.data.helpers){this.allies=[5,1,3,2].filter(id=>id!==world.player.pup).map((pup,i)=>({pup,x:world.player.x+(i-1)*3,z:world.player.z+4,y:pup===3?7:0,state:'following',work:0}));}else this.allies=[];this.persist();return this.data.helpers;}
+ tick(dt,world,running=true){dt=clamp(num(dt),0,.1);if(!running)return;this.data.elapsed+=dt;this.saveTimer+=dt;const p=world.player;
+ const onBelt=Math.abs(p.x-(BASE.x-22))<2.6&&Math.abs(p.z-(BASE.z-19))<4;
+ if(onBelt&&Math.hypot(p.vx,p.vz)>.35){const gain=dt*4*this.multiplier();this.data.coins+=gain;this.data.stepCredit+=gain;this.data.cookieCredit+=dt;if(this.data.cookieCredit>=12){this.store.data.cookies++;this.data.cookieCredit-=12;}if(Math.floor(this.data.stepCredit)>0){this.emit('coin',{x:p.x,z:p.z});this.data.stepCredit%=1;}}
+ for(const plot of this.data.plots){if(plot.crop){const level=this.data.buildings.find(b=>b.id===plot.id)?.level||1;plot.age=Math.min(60,plot.age+dt*(1+(level-1)*.15));}if(p.vehicle&&this.capabilities(p.pup).magnet){const pos=this.cellWorld(plot.x,plot.z),crop=CROPS.find(c=>c.id===plot.crop);if(crop&&plot.age>=crop.seconds&&Math.hypot(p.x-pos.x,p.z-pos.z)<12)this.harvest(plot.id);}}
+ this.cleanupClock+=dt;if(this.cleanupClock>=12){this.cleanupClock-=12;const traps=this.data.buildings.filter(b=>['water','net','mud'].includes(b.type));for(const trap of traps){const pos=this.cellWorld(trap.x,trap.z);this.data.coins+=trap.level*8;this.emit('cleanup',{...pos,type:trap.type,level:trap.level});}}
+ this.accumulator+=dt;
+ while(this.accumulator+1e-8>=1){this.accumulator=Math.max(0,this.accumulator-1);for(const a of this.data.animals){const pet=PETS.find(s=>s.id===a.species);if(a.meal<=0&&this.data.food>=1){this.data.food--;a.meal=30;}if(a.meal>0){a.meal--;const bonus=this.data.buildings.filter(b=>BUILDINGS.find(d=>d.id===b.type)?.biome===pet.biome).reduce((n,b)=>n+b.level*.15,1);const gain=pet.income*bonus/6;this.data.coins+=gain;a.earned+=gain;}}}
+ if(this.data.helpers&&this.allies.length===0)this.allies=[5,1,3,2].filter(id=>id!==p.pup).map((pup,i)=>({pup,x:p.x+(i-1)*3,z:p.z+4,y:pup===3?7:0,state:'following',work:0}));
+ for(let i=0;i<this.allies.length;i++){const a=this.allies[i],target=world.campaign?.target(),wanted=target&&Math.hypot(target.x-p.x,target.z-p.z)<20?target:{x:p.x+Math.sin(i*2)*4,z:p.z+Math.cos(i*2)*4};const dx=wanted.x-a.x,dz=wanted.z-a.z,distance=Math.hypot(dx,dz);if(distance>40){a.x=p.x+Math.sin(i*2)*5;a.z=p.z+Math.cos(i*2)*5;}else if(distance>2){const step=Math.min(distance-1.8,dt*(a.pup===3?16:11));const nx=a.x+dx/distance*step,nz=a.z+dz/distance*step;const obstacle=world.obstacles.find(o=>Math.hypot(nx-o.x,nz-o.z)<o.r+1);if(obstacle&&a.pup!==3){a.x+=-dz/Math.max(distance,1)*dt*9;a.z+=dx/Math.max(distance,1)*dt*9;}else{a.x=nx;a.z=nz;}}a.state=target&&Math.hypot(target.x-a.x,target.z-a.z)<6?'helping':'following';a.work+=dt;}
+ const c=world.campaign,t=c?.target();if(t&&this.data.helpers){if(this.assistIndex!==c.index){this.assistIndex=c.index;this.assistTimer=0;}const eligible=t.kind==='fire'?2:['takeBlock','stack','rock','repair'].includes(t.kind)?5:['takeShape','placeShape','colorGate'].includes(t.kind)?1:['takeWaste','recycleBin','fruit','basket'].includes(t.kind)?3:0;const a=this.allies.find(a=>a.pup===eligible&&a.state==='helping');if(a&&Math.hypot(p.x-t.x,p.z-t.z)<18){this.assistTimer+=dt;if(this.assistTimer>=7){this.assistTimer=0;const taking={takeBlock:'token',takeShape:'shape',takeWaste:'material',fruit:'fruit'}[t.kind],placing={stack:'token',placeShape:'shape',recycleBin:'material',basket:'fruit'}[t.kind];if(taking&&!c.carry)c.carry=t[taking];else if(placing&&c.carry!==t[placing])return;else if(placing)c.carry=null;this.emit('assist',{pup:a.pup,x:t.x,z:t.z,taskKind:t.kind});if(t.kind==='fire')world.emit('water',{x:t.x,z:t.z});c.completeStep();}}else this.assistTimer=0;}
+ if(this.saveTimer>=4){this.saveTimer=0;this.persist();}}
+ cellWorld(x,z){return {x:BASE.x-BASE.cols*BASE.cell/2+(x+.5)*BASE.cell,z:BASE.z-BASE.rows*BASE.cell/2+(z+.5)*BASE.cell};}
+ inspect(){return {coins:Math.floor(this.data.coins),food:this.data.food,pantry:this.data.pantry,rate:this.incomeRate(),treadmill:this.data.treadmill,material:this.material(),animals:this.data.animals.length,buildings:this.data.buildings.length,allies:this.allies.map(a=>({...a})),data:JSON.parse(JSON.stringify(this.data))};}
+}
+return {Empire,BASE,PETS,CROPS,BUILDINGS,RARITIES,SKINS,TIERS,UPGRADES,restore,defaults};
+});
