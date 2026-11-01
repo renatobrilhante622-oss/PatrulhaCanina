@@ -1,0 +1,11 @@
+build/
+.gradle/
+.idea/
+*.iml
+local.properties
+*.apk
+
+# Gerados no CI (não versionar)
+app/src/main/assets/lib/
+app/src/main/assets/audio/
+app/src/main/assets/js/falas.js

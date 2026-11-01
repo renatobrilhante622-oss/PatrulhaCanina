@@ -1,0 +1,72 @@
+name: Build APK Patrulha Canina
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Baixar Three.js r128 (para uso offline dentro do APK)
+        run: |
+          mkdir -p app/src/main/assets/lib
+          curl -fsSL https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js \
+            -o app/src/main/assets/lib/three.min.js
+          test -s app/src/main/assets/lib/three.min.js
+
+      - name: Instalar ffmpeg e edge-tts
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ffmpeg
+          python3 -m pip install --upgrade pip
+          python3 -m pip install edge-tts
+
+      - name: Gerar áudios PT-BR (edge-tts)
+        run: python3 scripts/gerar_audios.py
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar plataforma Android 34
+        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Set up Gradle 8.7
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Compilar APK
+        run: gradle assembleDebug --no-daemon
+
+      - name: Preparar APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk PatrulhaCanina.apk
+
+      - name: Upload para Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: PatrulhaCanina-apk
+          path: PatrulhaCanina.apk
+
+      - name: Atualizar release latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest PatrulhaCanina.apk \
+            --title "Patrulha Canina (latest)" \
+            --notes "Build automático do commit ${GITHUB_SHA::7}" \
+            --target "$GITHUB_SHA"

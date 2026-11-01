@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Patrulha Canina - Aventura na Baía</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#9ad8ff;font-family:"Trebuchet MS",Verdana,Arial,sans-serif;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none}
+#cena{position:fixed;inset:0;width:100%;height:100%;display:block}
+.ui{position:fixed;inset:0;pointer-events:none}
+.painel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;color:#fff;background:radial-gradient(ellipse at center,rgba(10,30,60,.15),rgba(10,30,60,.6));pointer-events:auto;overflow-y:auto}
+.oculto{display:none!important}
+h1{margin:0 0 4px;font-size:clamp(30px,7vw,72px);color:#ffd21f;text-shadow:0 5px 0 #b3261e,0 0 18px rgba(0,0,0,.35)}
+.sub{font-size:clamp(14px,2.6vw,22px);margin-bottom:22px;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.btn{pointer-events:auto;cursor:pointer;font-family:inherit;font-weight:bold;font-size:clamp(17px,3vw,28px);color:#fff;background:#e53935;border:0;border-radius:24px;padding:14px 26px;margin:8px;min-width:min(82vw,460px);box-shadow:0 7px 0 #8e1b16;transition:transform .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 3px 0 #8e1b16}
+.btn.sec{background:#1e88e5;box-shadow:0 7px 0 #0d4f8b}
+.btn.sec:active{box-shadow:0 3px 0 #0d4f8b}
+.card{pointer-events:auto;background:#fff;color:#16324f;border-radius:22px;padding:16px 22px;max-width:min(92vw,680px);font-size:clamp(16px,2.6vw,22px);line-height:1.45;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card b{color:#c62828}
+.linha{display:flex;align-items:center;gap:12px;justify-content:center;margin:10px 0;font-size:clamp(16px,2.6vw,22px);flex-wrap:wrap}
+.linha input{width:min(55vw,320px);pointer-events:auto}
+.pill{pointer-events:auto;position:absolute;top:12px;background:rgba(10,30,60,.72);color:#fff;border-radius:18px;padding:8px 14px;font-size:clamp(13px,2.2vw,18px);font-weight:bold;box-shadow:0 3px 0 rgba(0,0,0,.3);border:0;cursor:pointer;font-family:inherit}
+#tituloMissao{left:12px}
+#contador{left:50%;transform:translateX(-50%)}
+#btnFarol{right:12px}
+#joyZona{position:absolute;left:0;top:0;width:55%;height:100%;pointer-events:auto}
+#joyBase{position:absolute;width:130px;height:130px;margin:-65px 0 0 -65px;border-radius:50%;background:rgba(255,255,255,.18);border:3px solid rgba(255,255,255,.55);pointer-events:none}
+#joyKnob{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;background:rgba(255,210,31,.9);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+#btnJato{position:absolute;right:20px;bottom:24px;width:118px;height:118px;border-radius:50%;background:rgba(30,136,229,.88);color:#fff;font-size:34px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid #fff;box-shadow:0 6px 0 rgba(0,0,0,.3);pointer-events:auto;font-weight:bold}
+#btnJato span{font-size:13px;line-height:1.1;margin-top:2px}
+#btnJato.ativo{background:#0d47a1;transform:scale(.95)}
+#dica{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);max-width:min(60vw,620px);background:rgba(255,255,255,.93);color:#16324f;border-radius:18px;padding:10px 18px;font-size:clamp(15px,2.4vw,21px);font-weight:bold;box-shadow:0 4px 12px rgba(0,0,0,.3);text-align:center}
+#confete{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+#confete span{position:absolute;top:-50px;font-size:30px;animation:cair linear forwards}
+@keyframes cair{to{transform:translateY(115vh) rotate(720deg)}}
+</style>
+</head>
+<body>
+
+<canvas id="cena"></canvas>
+
+<!-- HUD da missão -->
+<div id="hud" class="ui oculto">
+  <button id="tituloMissao" class="pill">🚒 Missão 1 · O Fogo na Praça</button>
+  <div id="contador" class="pill"></div>
+  <button id="btnFarol" class="pill">⌂ Farol</button>
+  <div id="joyZona"><div id="joyBase" class="oculto"><div id="joyKnob"></div></div></div>
+  <div id="btnJato">💧<span>Segure<br>o Jato</span></div>
+  <div id="dica" class="oculto"></div>
+</div>
+
+<!-- Título -->
+<div id="titulo" class="ui painel">
+  <h1>Patrulha Canina</h1>
+  <div class="sub">Aventura na Baía · Farol da Baía da Aventura</div>
+  <button class="btn" id="btnMissao1">▶️ MISSÃO 1: O FOGO NA PRAÇA</button>
+  <button class="btn sec" id="btnOpcoes">⚙️ OPÇÕES DOS PAIS</button>
+  <div class="sub" style="margin-top:18px;font-size:16px">🦴 Biscoitos: <span id="biscoitos">0</span></div>
+</div>
+
+<!-- Briefing -->
+<div id="briefing" class="ui painel oculto">
+  <div class="card"><b>🐶 Marshall:</b> Ei, equipe! Tem fogo na praça da Baía da Aventura! Vamos apagar os focos na ordem, do número 1 ao número 10. Com o jato d'água a gente consegue!</div>
+  <button class="btn" id="btnComecar">🚒 VAMOS LÁ!</button>
+  <button class="btn sec" id="btnVoltarBrief">⬅️ Voltar</button>
+</div>
+
+<!-- Opções dos pais -->
+<div id="opcoes" class="ui painel oculto">
+  <div class="card">
+    <b>⚙️ Opções dos pais</b>
+    <div class="linha">🗣️ Voz <input type="range" id="volVoz" min="0" max="1" step="0.05"></div>
+    <div class="linha">🎵 Música <input type="range" id="volMusica" min="0" max="1" step="0.05"></div>
+    <div class="linha">🔊 Efeitos <input type="range" id="volSfx" min="0" max="1" step="0.05"></div>
+    <div class="linha">🕹️ Sensibilidade <input type="range" id="sensi" min="0.6" max="1.4" step="0.05"></div>
+  </div>
+  <button class="btn sec" id="btnVoltarOpc">⬅️ Voltar</button>
+</div>
+
+<!-- Vitória -->
+<div id="vitoria" class="ui painel oculto">
+  <div class="card"><b>🏆 Missão cumprida!</b><br>Marshall apagou todos os focos. Vocês são heróis!<br><br>🦴 Você ganhou 1 Biscoito Canino!</div>
+  <button class="btn" id="btnVoltarVit">🏠 VOLTAR AO FAROL</button>
+</div>
+
+<div id="confete" class="oculto"></div>
+
+<script src="lib/three.min.js"></script>
+<script src="js/falas.js" onerror="console.warn('js/falas.js ausente: rode scripts/gerar_audios.py')"></script>
+
+<script>
+(function(){
+'use strict';
+
+/* ==================== UTILITÁRIOS ==================== */
+const T = window.FALAS || {};
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const rnd = (a,b) => a + Math.random()*(b-a);
+function lerpAng(a,b,k){ let d=b-a; while(d>Math.PI) d-=2*Math.PI; while(d<-Math.PI) d+=2*Math.PI; return a+d*k; }
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const cfg = Object.assign({ voz:1, musica:0.6, sfx:0.8, sens:1 }, store.get('pc_cfg', {}));
+let biscoitos = store.get('pc_biscoitos', 0);
+$('biscoitos').textContent = biscoitos;
+
+function texCanvas(w,h,desenhar,rep){
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  desenhar(c.getContext('2d'), w, h);
+  const t=new THREE.CanvasTexture(c);
+  t.wrapS=t.wrapT=THREE.RepeatWrapping;
+  if(rep) t.repeat.set(rep[0], rep[1]);
+  t.anisotropy=4;
+  return t;
+}
+
+/* ==================== RENDER E CENA ==================== */
+const canvas=$('cena');
+const renderer=new THREE.WebGLRenderer({canvas, antialias:true, powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+renderer.setSize(window.innerWidth, window.innerHeight, false);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.Fog(0xcdeeff, 70, 190);
+
+const camera=new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 400);
+camera.position.set(0,12,-2);
+
+// Luz hemisférica + solar com sombras suaves
+scene.add(new THREE.HemisphereLight(0xdff4ff, 0x3f7a34, 0.85));
+const sol=new THREE.DirectionalLight(0xfff0d0, 1.05);
+sol.position.set(35,55,25);
+sol.castShadow=true;
+sol.shadow.mapSize.set(2048,2048);
+Object.assign(sol.shadow.camera, {left:-60,right:60,top:60,bottom:-60,near:1,far:180});
+sol.shadow.camera.updateProjectionMatrix();
+sol.shadow.radius=4;
+sol.shadow.bias=-0.0008;
+scene.add(sol);
+
+// Skybox (cúpula com gradiente)
+const sky=new THREE.Mesh(
+  new THREE.SphereGeometry(200,24,16),
+  new THREE.MeshBasicMaterial({
+    side:THREE.BackSide, fog:false,
+    map:texCanvas(4,256,(g,w,h)=>{
+      const gr=g.createLinearGradient(0,0,0,h);
+      gr.addColorStop(0,'#2f8fe0'); gr.addColorStop(0.55,'#9fd9ff'); gr.addColorStop(1,'#e8f8ff');
+      g.fillStyle=gr; g.fillRect(0,0,w,h);
+    })
+  })
+);
+scene.add(sky);
+
+// Chão de grama
+const grama=texCanvas(256,256,(g,w,h)=>{
+  g.fillStyle='#5fb84a'; g.fillRect(0,0,w,h);
+  for(let i=0;i<900;i++){ g.fillStyle=Math.random()<.5?'#4ea83e':'#78c956'; g.fillRect(Math.random()*w,Math.random()*h,3,3); }
+}, [30,30]);
+const chao=new THREE.Mesh(new THREE.PlaneGeometry(200,200), new THREE.MeshStandardMaterial({map:grama, roughness:1}));
+chao.rotation.x=-Math.PI/2;
+chao.receiveShadow=true;
+scene.add(chao);
+
+// Praça de pedra
+const pedra=texCanvas(256,256,(g,w,h)=>{
+  g.fillStyle='#d9c7a0'; g.fillRect(0,0,w,h);
+  g.strokeStyle='#b7a27a'; g.lineWidth=4;
+  for(let y=0;y<h;y+=64) for(let x=0;x<w;x+=64) g.strokeRect(x,y,64,64);
+}, [3,3]);
+const praca=new THREE.Mesh(new THREE.CylinderGeometry(15,15,0.1,48), new THREE.MeshStandardMaterial({map:pedra, roughness:0.9}));
+praca.position.y=0.05;
+praca.receiveShadow=true;
+scene.add(praca);
+
+// Farol da Baía da Aventura
+const LX=0, LZ=-22;
+const farol=new THREE.Group();
+farol.position.set(LX,0,LZ);
+scene.add(farol);
+const listras=texCanvas(64,256,(g,w,h)=>{
+  for(let i=0;i<8;i++){ g.fillStyle=i%2?'#ffffff':'#e53935'; g.fillRect(0,i*32,w,32); }
+});
+const corpoFarol=new THREE.Mesh(new THREE.CylinderGeometry(1.8,2.6,16,28), new THREE.MeshStandardMaterial({map:listras}));
+corpoFarol.position.y=8; corpoFarol.castShadow=true; corpoFarol.receiveShadow=true;
+farol.add(corpoFarol);
+const base=new THREE.Mesh(new THREE.CylinderGeometry(3.2,3.4,1.2,28), new THREE.MeshStandardMaterial({color:0x90a4ae,roughness:0.9}));
+base.position.y=0.6; base.receiveShadow=true; farol.add(base);
+const varanda=new THREE.Mesh(new THREE.CylinderGeometry(2.4,2.4,0.4,28), new THREE.MeshStandardMaterial({color:0x607d8b,metalness:0.4,roughness:0.5}));
+varanda.position.y=16.2; farol.add(varanda);
+const lanterna=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,2.4,24), new THREE.MeshStandardMaterial({color:0xfff6b0,emissive:0xffe066,emissiveIntensity:1.2,transparent:true,opacity:0.9}));
+lanterna.position.y=17.6; farol.add(lanterna);
+const telhado=new THREE.Mesh(new THREE.ConeGeometry(2.1,2.4,24), new THREE.MeshStandardMaterial({color:0xc62828}));
+telhado.position.y=19.8; telhado.castShadow=true; farol.add(telhado);
+// Feixe de luz giratório
+const feixo=new THREE.Group();
+feixo.position.set(0,17.6,0);
+farol.add(feixo);
+const feixoCone=new THREE.Mesh(new THREE.ConeGeometry(1.6,26,16,1,true), new THREE.MeshBasicMaterial({color:0xfff3b0,transparent:true,opacity:0.16,depthWrite:false,side:THREE.DoubleSide}));
+feixoCone.rotation.z=Math.PI/2;
+feixoCone.position.x=13;
+feixo.add(feixoCone);
+
+// Colisores circulares (x, z, raio)
+const colisores=[{x:LX,z:LZ,r:3.2}];
+
+// Hidrante (decoração e colisor)
+const hidrante=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.45,1.1,12), new THREE.MeshStandardMaterial({color:0xd32f2f}));
+hidrante.position.set(-4,0.55,4);
+hidrante.castShadow=true;
+scene.add(hidrante);
+colisores.push({x:-4,z:4,r:0.6});
+
+// Prédios em volta da praça (ficam nas laterais e no fundo, longe do caminho do título)
+const janelas=texCanvas(128,128,(g,w,h)=>{
+  g.fillStyle='#fff4d6'; g.fillRect(0,0,w,h);
+  g.fillStyle='#5a7fa0';
+  for(let y=12;y<h;y+=40) for(let x=10;x<w;x+=34) g.fillRect(x,y,20,24);
+}, [2,3]);
+function predio(x,z,w,h,d,cor){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshStandardMaterial({color:cor,map:janelas}));
+  m.position.set(x,h/2,z);
+  m.castShadow=true; m.receiveShadow=true;
+  scene.add(m);
+  colisores.push({x,z,r:Math.max(w,d)/2+0.5});
+}
+predio(34,-8,8,14,10,0xff8a65);
+predio(34,8,9,20,10,0x4fc3f7);
+predio(-34,-6,8,12,9,0xffd54f);
+predio(-34,10,10,18,10,0x81c784);
+predio(-8,34,12,10,8,0xba68c8);
+predio(14,34,10,16,8,0xf06292);
+
+// Árvores
+function arvore(x,z,s){
+  const g=new THREE.Group();
+  const tronco=new THREE.Mesh(new THREE.CylinderGeometry(0.25*s,0.35*s,2*s,8), new THREE.MeshStandardMaterial({color:0x8d6e63}));
+  tronco.position.y=s; tronco.castShadow=true; g.add(tronco);
+  const copa=new THREE.Mesh(new THREE.SphereGeometry(1.6*s,16,12), new THREE.MeshStandardMaterial({color:0x2e8b3a,flatShading:true}));
+  copa.position.y=2.9*s; copa.castShadow=true; g.add(copa);
+  g.position.set(x,0,z);
+  scene.add(g);
+  colisores.push({x,z,r:0.8*s});
+}
+[[-20,14,1],[20,16,1.1],[-24,-4,1.2],[24,-18,1],[-14,-30,1.1],[-26,-14,1],[12,24,1],[-12,26,1.2],[30,28,1.1],[-30,30,1],[6,-36,1],[-10,-34,1.1]]
+  .forEach(([x,z,s])=>arvore(x,z,s));
+
+/* ==================== FOCOS DE FOGO (MISSÃO 1) ==================== */
+const fogos=[];
+function criarFogo(n,x,z){
+  const g=new THREE.Group();
+  g.position.set(x,0,z);
+  scene.add(g);
+  // lenha
+  const lenha=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.5,1.4,8), new THREE.MeshStandardMaterial({color:0x6d4c41}));
+  lenha.rotation.z=Math.PI/2; lenha.position.y=0.35; g.add(lenha);
+  // chamas (três cones)
+  const mats=[];
+  const chamas=[[0xff7a00,0.7,1.5,0],[0xffb300,0.5,1.1,0.4],[0xffee58,0.35,0.8,-0.3]];
+  for(const [cor,raio,alt,dx] of chamas){
+    const m=new THREE.MeshStandardMaterial({color:cor,emissive:0xff5a00,emissiveIntensity:1.2,transparent:true,opacity:0.95});
+    const c=new THREE.Mesh(new THREE.ConeGeometry(raio,alt,10), m);
+    c.position.set(dx,alt/2+0.4,dx*0.5);
+    g.add(c);
+    mats.push(m);
+  }
+  // rótulo numerado sempre virado para a câmera
+  const rotulo=new THREE.Sprite(new THREE.SpriteMaterial({
+    transparent:true,
+    map:texCanvas(128,128,(c,w,h)=>{
+      c.fillStyle='#ffffff'; c.beginPath(); c.arc(w/2,h/2,58,0,Math.PI*2); c.fill();
+      c.lineWidth=8; c.strokeStyle='#e53935'; c.stroke();
+      c.fillStyle='#000000'; c.font='bold 80px Arial'; c.textAlign='center'; c.textBaseline='middle';
+      c.fillText(String(n), w/2, h/2+6);
+    })
+  }));
+  rotulo.scale.set(1.3,1.3,1);
+  rotulo.position.y=3.6;
+  g.add(rotulo);
+  const f={n,x,z,grupo:g,mats,rotulo,apagado:false,progresso:0,apagandoT:0,fase:Math.random()*6};
+  fogos.push(f);
+  return f;
+}
+// 10 focos em anel ao redor da praça
+for(let i=0;i<10;i++){
+  const a=(i/10)*Math.PI*2+0.35;
+  const r=8+(i%3)*2.2;
+  criarFogo(i+1, Math.cos(a)*r, Math.sin(a)*r);
+}
+
+/* ==================== MARSHALL (filhote de dálmata, feito com formas 3D) ==================== */
+function criarMarshall(){
+  const grupo=new THREE.Group();
+  const branco=new THREE.MeshStandardMaterial({color:0xfafafa,roughness:0.6});
+  const preto=new THREE.MeshStandardMaterial({color:0x1b1b1b,roughness:0.5});
+  const vermelho=new THREE.MeshStandardMaterial({color:0xd32f2f,roughness:0.4});
+  const dourado=new THREE.MeshStandardMaterial({color:0xffc107,metalness:0.6,roughness:0.3});
+  const marrom=new THREE.MeshStandardMaterial({color:0x8d6e63});
+  function peca(geo,mat,x,y,z,pai){
+    const m=new THREE.Mesh(geo,mat);
+    m.position.set(x,y,z);
+    m.castShadow=true;
+    (pai||grupo).add(m);
+    return m;
+  }
+
+  // Corpo e manchas
+  const corpo=peca(new THREE.SphereGeometry(0.55,24,18),branco,0,0.95,0);
+  corpo.scale.set(1,0.8,1.4);
+  for(let i=0;i<16;i++){
+    const d=new THREE.Vector3(rnd(-1,1),rnd(-1,0.6),rnd(-1,1)).normalize();
+    const m=peca(new THREE.SphereGeometry(rnd(0.09,0.15),10,8),preto,d.x*0.56,0.95+d.y*0.45,d.z*0.8);
+    m.scale.set(1,0.5,1);
+  }
+
+  // Cabeça
+  const cabeca=new THREE.Group();
+  cabeca.position.set(0,1.55,0.75);
+  grupo.add(cabeca);
+  peca(new THREE.SphereGeometry(0.42,24,18),branco,0,0,0,cabeca);
+  peca(new THREE.SphereGeometry(0.2,16,12),branco,0,-0.12,0.32,cabeca).scale.set(1,0.85,1.15);
+  peca(new THREE.SphereGeometry(0.075,12,10),preto,0,-0.02,0.52,cabeca);       // focinho preto
+  peca(new THREE.SphereGeometry(0.07,12,10),preto,-0.17,0.1,0.36,cabeca);      // olho esquerdo
+  peca(new THREE.SphereGeometry(0.07,12,10),preto,0.17,0.1,0.36,cabeca);       // olho direito
+  const orelhaE=peca(new THREE.SphereGeometry(0.2,16,12),preto,-0.36,-0.08,-0.02,cabeca);
+  orelhaE.scale.set(0.6,1.25,0.45); orelhaE.rotation.z=0.3;
+  const orelhaD=peca(new THREE.SphereGeometry(0.2,16,12),preto,0.36,-0.08,-0.02,cabeca);
+  orelhaD.scale.set(0.6,1.25,0.45); orelhaD.rotation.z=-0.3;
+  // Capacete de bombeiro (identidade do Marshall)
+  peca(new THREE.SphereGeometry(0.46,24,12,0,Math.PI*2,0,Math.PI/2),vermelho,0,0.1,0,cabeca);
+  peca(new THREE.CylinderGeometry(0.48,0.48,0.08,24),vermelho,0,0.08,0,cabeca);
+  peca(new THREE.SphereGeometry(0.1,12,10),dourado,0,0.45,0.3,cabeca);
+
+  // Coleira e plaquinha
+  const coleira=new THREE.Mesh(new THREE.TorusGeometry(0.38,0.07,10,24),vermelho);
+  coleira.rotation.x=Math.PI/2;
+  coleira.position.set(0,1.22,0.6);
+  coleira.castShadow=true;
+  grupo.add(coleira);
+  peca(new THREE.CylinderGeometry(0.12,0.12,0.04,16),dourado,0,1.0,0.98).rotation.x=Math.PI/2;
+
+  // Patas (pivôs para animar a caminhada)
+  const patas=[];
+  const posPatas=[[-0.3,0.72,0.55],[0.3,0.72,0.55],[-0.3,0.72,-0.55],[0.3,0.72,-0.55]];
+  for(const [x,y,z] of posPatas){
+    const p=new THREE.Group();
+    p.position.set(x,y,z);
+    grupo.add(p);
+    const perna=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.1,0.75,10),branco);
+    perna.position.y=-0.36; perna.castShadow=true; p.add(perna);
+    const pata=new THREE.Mesh(new THREE.SphereGeometry(0.14,12,10),preto);
+    pata.position.set(0,-0.75,0.04); pata.scale.set(1,0.5,1.3); p.add(pata);
+    patas.push(p);
+  }
+
+  // Rabo (balança quando está feliz)
+  const rabo=new THREE.Group();
+  rabo.position.set(0,1.1,-0.95);
+  rabo.rotation.x=-0.6;
+  grupo.add(rabo);
+  const rab=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.08,0.7,8),branco);
+  rab.position.y=0.35; rab.castShadow=true; rabo.add(rab);
+
+  return {grupo, patas, rabo, cabeca};
+}
+const M=criarMarshall();
+const dog=M.grupo;
+scene.add(dog);
+
+/* ==================== PARTÍCULAS (água e vapor) ==================== */
+class Particulas{
+  constructor(n,cor,tam,opac){
+    this.n=n; this.i=0;
+    this.p=new Float32Array(n*3);
+    this.v=new Float32Array(n*3);
+    this.vida=new Float32Array(n);
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(this.p,3));
+    this.mat=new THREE.PointsMaterial({color:cor,size:tam,transparent:true,opacity:opac,depthWrite:false});
+    this.pts=new THREE.Points(g,this.mat);
+    this.pts.frustumCulled=false;
+    scene.add(this.pts);
+    for(let k=0;k<n;k++) this.p[k*3+1]=-999;
+  }
+  emitir(pos,vel,vida){
+    const k=this.i; this.i=(this.i+1)%this.n;
+    this.p[k*3]=pos.x; this.p[k*3+1]=pos.y; this.p[k*3+2]=pos.z;
+    this.v[k*3]=vel.x; this.v[k*3+1]=vel.y; this.v[k*3+2]=vel.z;
+    this.vida[k]=vida;
+  }
+  atualizar(dt,g){
+    for(let k=0;k<this.n;k++){
+      if(this.vida[k]<=0) continue;
+      this.vida[k]-=dt;
+      const j=k*3;
+      this.v[j+1]-=g*dt;
+      this.p[j]+=this.v[j]*dt;
+      this.p[j+1]+=this.v[j+1]*dt;
+      this.p[j+2]+=this.v[j+2]*dt;
+      if(this.vida[k]<=0) this.p[j+1]=-999;
+    }
+    this.pts.geometry.attributes.position.needsUpdate=true;
+  }
+}
+const agua=new Particulas(400,0x7fd8ff,0.32,0.95);
+const vapor=new Particulas(300,0xffffff,0.7,0.55);
+
+/* ==================== ÁUDIO (vozes, música e efeitos) ==================== */
+let actx=null, ganhoMusica=null, ganhoSfx=null, vozEl=null, musicaT=null;
+const NOTAS=[262,294,330,392,440,523,392,330];
+function iniciarAudio(){
+  if(actx){ if(actx.state==='suspended') actx.resume(); return; }
+  try{
+    actx=new (window.AudioContext||window.webkitAudioContext)();
+    ganhoMusica=actx.createGain(); ganhoMusica.gain.value=0.5*cfg.musica; ganhoMusica.connect(actx.destination);
+    ganhoSfx=actx.createGain(); ganhoSfx.gain.value=cfg.sfx; ganhoSfx.connect(actx.destination);
+    let i=0;
+    musicaT=setInterval(()=>{ soar(NOTAS[i++%NOTAS.length],0.42,0.2,'triangle',0,ganhoMusica); },450);
+  }catch(e){ actx=null; }
+}
+function soar(freq,dur,vol,tipo,atraso,destino){
+  if(!actx) return;
+  const t=actx.currentTime+(atraso||0);
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type=tipo||'sine'; o.frequency.value=freq;
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(vol,t+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g); g.connect(destino||ganhoSfx);
+  o.start(t); o.stop(t+dur+0.05);
+}
+function ruido(dur,vol){
+  if(!actx) return;
+  const n=Math.floor(actx.sampleRate*dur);
+  const buf=actx.createBuffer(1,n,actx.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*(1-i/n);
+  const src=actx.createBufferSource(); src.buffer=buf;
+  const f=actx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=1800;
+  const g=actx.createGain(); g.gain.value=vol;
+  src.connect(f); f.connect(g); g.connect(ganhoSfx);
+  src.start();
+}
+// Audio ducking: a música abaixa enquanto o personagem fala
+function ducar(on){
+  if(!actx) return;
+  ganhoMusica.gain.setTargetAtTime(on ? 0.12*cfg.musica : 0.5*cfg.musica, actx.currentTime, 0.12);
+}
+function falarSintese(id){
+  const texto=T[id];
+  if(!texto || !('speechSynthesis' in window)) return;
+  const u=new SpeechSynthesisUtterance(texto);
+  u.lang='pt-BR'; u.rate=1; u.pitch=1.15;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function falar(id){
+  if(!T[id]) return;
+  if(vozEl){ vozEl.onended=null; vozEl.onerror=null; vozEl.pause(); }
+  const el=new Audio('audio/'+id+'.mp3');
+  vozEl=el;
+  el.volume=clamp(cfg.voz,0,1);
+  let usou=false;
+  const fim=()=>{ if(vozEl===el) ducar(false); };
+  const fallback=()=>{ if(usou) return; usou=true; fim(); falarSintese(id); };
+  el.onplay=()=>ducar(true);
+  el.onended=fim;
+  el.onerror=fallback;
+  const p=el.play();
+  if(p && p.catch) p.catch(fallback);
+}
+
+/* ==================== LEGENDAS NA TELA ==================== */
+let dicaT=0;
+function mostrarDica(txt){
+  if(!txt) return;
+  const d=$('dica');
+  d.textContent=txt;
+  d.classList.remove('oculto');
+  clearTimeout(dicaT);
+  dicaT=setTimeout(()=>d.classList.add('oculto'),4500);
+}
+function falarEMostrar(id){ falar(id); mostrarDica(T[id]); }
+
+/* ==================== CONTROLES: JOYSTICK, JATO, TECLADO E GAMEPAD ==================== */
+const joy={x:0,y:0};
+let sprayManual=false;
+const teclas={};
+const JOY_R=70;
+const joyZona=$('joyZona'), joyBase=$('joyBase'), joyKnob=$('joyKnob');
+let joyId=null, joyOrigem={x:0,y:0};
+
+function moverJoy(e){
+  let dx=e.clientX-joyOrigem.x, dy=e.clientY-joyOrigem.y;
+  const d=Math.hypot(dx,dy);
+  const k=d>JOY_R ? JOY_R/d : 1;
+  dx*=k; dy*=k;
+  joyKnob.style.transform=`translate(${dx}px,${dy}px)`;
+  joy.x=dx/JOY_R;
+  joy.y=-dy/JOY_R;   // para cima = frente
+}
+joyZona.addEventListener('pointerdown',e=>{
+  if(joyId!==null) return;
+  joyId=e.pointerId;
+  joyZona.setPointerCapture(e.pointerId);
+  joyOrigem={x:e.clientX,y:e.clientY};
+  joyBase.style.left=e.clientX+'px';
+  joyBase.style.top=e.clientY+'px';
+  joyKnob.style.transform='translate(0px,0px)';
+  joyBase.classList.remove('oculto');
+  iniciarAudio();
+  moverJoy(e);
+  e.preventDefault();
+});
+joyZona.addEventListener('pointermove',e=>{ if(e.pointerId===joyId) moverJoy(e); });
+function soltarJoy(e){
+  if(e.pointerId!==joyId) return;
+  joyId=null; joy.x=0; joy.y=0;
+  joyBase.classList.add('oculto');
+}
+joyZona.addEventListener('pointerup',soltarJoy);
+joyZona.addEventListener('pointercancel',soltarJoy);
+
+const btnJato=$('btnJato');
+btnJato.addEventListener('pointerdown',e=>{
+  sprayManual=true;
+  btnJato.setPointerCapture(e.pointerId);
+  iniciarAudio();
+  e.preventDefault();
+});
+const soltarJato=()=>{ sprayManual=false; };
+btnJato.addEventListener('pointerup',soltarJato);
+btnJato.addEventListener('pointercancel',soltarJato);
+
+addEventListener('keydown',e=>{
+  teclas[e.code]=true;
+  if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+});
+addEventListener('keyup',e=>{ teclas[e.code]=false; });
+
+function lerEntrada(){
+  let x=joy.x, y=joy.y;
+  let jato=sprayManual || !!teclas.Space || !!teclas.KeyJ;
+  if(teclas.ArrowLeft||teclas.KeyA) x-=1;
+  if(teclas.ArrowRight||teclas.KeyD) x+=1;
+  if(teclas.ArrowUp||teclas.KeyW) y+=1;
+  if(teclas.ArrowDown||teclas.KeyS) y-=1;
+  const pads=navigator.getGamepads ? navigator.getGamepads() : [];
+  for(const g of pads){
+    if(!g) continue;
+    const ax=g.axes[0]||0, ay=g.axes[1]||0;
+    if(Math.abs(ax)>0.15) x+=ax;
+    if(Math.abs(ay)>0.15) y-=ay;
+    if((g.buttons[0]&&g.buttons[0].pressed)||(g.buttons[7]&&g.buttons[7].pressed)) jato=true;
+  }
+  let m=Math.hypot(x,y);
+  if(m>1){ x/=m; y/=m; m=1; }
+  if(m<0.12){ x=0; y=0; m=0; }
+  return {x:x*cfg.sens, y:y*cfg.sens, mag:m, jato:!!jato};
+}
+
+/* ==================== MOVIMENTO E COLISÃO ==================== */
+const VEL=7.5;
+let heading=0, walk=0;
+const ALCANCE=7.5;
+function empurrar(p,r){
+  for(const c of colisores){
+    const dx=p.x-c.x, dz=p.z-c.z;
+    const d=Math.hypot(dx,dz);
+    const min=c.r+r;
+    if(d<min && d>0.0001){ const k=min/d; p.x=c.x+dx*k; p.z=c.z+dz*k; }
+  }
+}
+function mover(dt,ent){
+  if(ent.mag>0){
+    // Para cima no controle = frente (+z quando heading = 0)
+    const alvo=Math.atan2(ent.x, ent.y);
+    heading=lerpAng(heading, alvo, 1-Math.exp(-dt*9));
+    const v=VEL*Math.min(1,ent.mag);
+    dog.position.x+=Math.sin(heading)*v*dt;
+    dog.position.z+=Math.cos(heading)*v*dt;
+    walk+=dt*v*0.9;
+  }
+  dog.position.x=clamp(dog.position.x,-46,46);
+  dog.position.z=clamp(dog.position.z,-46,46);
+  empurrar(dog.position,1.0);
+  dog.rotation.y=heading;
+  const andando=ent.mag>0.05;
+  dog.position.y = andando ? Math.abs(Math.sin(walk*2))*0.06 : dog.position.y*0.8;
+  const fases=[0,Math.PI,Math.PI,0];
+  M.patas.forEach((p,i)=>{ p.rotation.x = andando ? Math.sin(walk*2+fases[i])*0.55 : p.rotation.x*0.85; });
+}
+function parado(){
+  M.patas.forEach(p=>{ p.rotation.x*=0.85; });
+  dog.position.y*=0.8;
+}
+
+/* ==================== CÂMERA ==================== */
+function camTitulo(t){
+  const a=t*0.16;
+  camera.position.set(LX+Math.sin(a)*22, 9+Math.sin(t*0.4)*0.8, LZ+Math.cos(a)*22);
+  camera.lookAt(LX, 6, LZ);
+}
+function seguirCamera(dt){
+  const px=dog.position.x, pz=dog.position.z;
+  const dist=8.5, alt=4.4;
+  const cx=px-Math.sin(heading)*dist, cz=pz-Math.cos(heading)*dist;
+  const k=1-Math.exp(-dt*4);
+  camera.position.x+=(cx-camera.position.x)*k;
+  camera.position.y+=(alt-camera.position.y)*k;
+  camera.position.z+=(cz-camera.position.z)*k;
+  camera.lookAt(px,1.6,pz);
+}
+
+/* ==================== MISSÃO 1: O FOGO NA PRAÇA ==================== */
+let modo='titulo';   // 'titulo' | 'briefing' | 'jogando' | 'vitoria'
+let nextN=1, feitos=0;
+let atingido=null, sprayCD=0, semJatoT=0, semAcertoT=0, dicaCD=0, jaUsouJato=false, dicaSprayFalada=false;
+
+function atualizarHUD(){
+  $('contador').innerHTML=`🔥 Focos: ${feitos}/10 · Próximo: <b>${Math.min(nextN,10)}</b>`;
+}
+function resetarMissao(){
+  nextN=1; feitos=0;
+  for(const f of fogos){
+    f.apagado=false; f.progresso=0; f.apagandoT=0;
+    f.grupo.visible=true; f.grupo.scale.set(1,1,1);
+    f.rotulo.material.color.set(0xffffff);
+    f.mats.forEach(m=>{ m.emissiveIntensity=1.2; });
+  }
+  dog.position.set(0,0,2);
+  heading=0;
+  semJatoT=0; semAcertoT=0; dicaCD=0; jaUsouJato=false; dicaSprayFalada=false;
+  atualizarHUD();
+}
+function apagar(f){
+  f.apagado=true;
+  f.apagandoT=0.8;
+  f.rotulo.material.color.set(0x7cff7c);
+  feitos++;
+  nextN=feitos+1;
+  atualizarHUD();
+  for(let i=0;i<50;i++){
+    vapor.emitir(
+      new THREE.Vector3(f.x+rnd(-0.8,0.8), 1+Math.random()*1.5, f.z+rnd(-0.8,0.8)),
+      new THREE.Vector3(rnd(-0.6,0.6), rnd(1.2,2.8), rnd(-0.6,0.6)),
+      2.2+Math.random()*0.8
+    );
+  }
+  soar(880,0.25,0.25,'triangle',0,ganhoSfx);
+  soar(1320,0.35,0.22,'triangle',0.12,ganhoSfx);
+  if(feitos>=10){
+    setTimeout(vitoria,1800);
+  } else {
+    falar('apagado_'+f.n);
+    setTimeout(()=>{
+      if(modo==='jogando' && nextN<=10) falarEMostrar('dica_'+nextN);
+    },3600);
+  }
+}
+function emitirJato(dt){
+  sprayCD-=dt;
+  if(sprayCD<=0){ sprayCD=0.3; ruido(0.3,0.25*cfg.sfx); }
+  const bico=new THREE.Vector3(0,1.4,1.35);
+  dog.localToWorld(bico);
+  for(let i=0;i<7;i++){
+    agua.emitir(
+      bico,
+      new THREE.Vector3(Math.sin(heading)*16+rnd(-1.4,1.4), rnd(1,2.6), Math.cos(heading)*16+rnd(-1.4,1.4)),
+      0.55
+    );
+  }
+}
+function jogar(dt,t){
+  const ent=lerEntrada();
+  mover(dt,ent);
+  const alvo=fogos[nextN-1];
+
+  // Focos que não estão sendo atingidos esfriam aos poucos
+  for(const f of fogos){
+    if(!f.apagado && f!==atingido) f.progresso=Math.max(0,f.progresso-dt*0.6);
+  }
+  atingido=null;
+
+  $('btnJato').classList.toggle('ativo', ent.jato);
+
+  if(ent.jato){
+    jaUsouJato=true;
+    semJatoT=0;
+    emitirJato(dt);
+
+    if(alvo && !alvo.apagado){
+      const tx=alvo.x-dog.position.x, tz=alvo.z-dog.position.z;
+      const dist=Math.hypot(tx,tz);
+      // Mira assistida: com o joystick parado, o Marshall vira suavemente para o foco certo
+      if(ent.mag<0.2 && dist<12){
+        heading=lerpAng(heading, Math.atan2(tx,tz), 1-Math.exp(-dt*3));
+        dog.rotation.y=heading;
+      }
+      const fx=Math.sin(heading), fz=Math.cos(heading);
+      const cosA=(fx*tx+fz*tz)/(dist||1);
+      if(dist<ALCANCE && cosA>0.8){
+        atingido=alvo;
+        semAcertoT=0;
+        alvo.progresso=Math.min(1,alvo.progresso+dt/1.4);
+        if(Math.random()<0.35){
+          vapor.emitir(
+            new THREE.Vector3(alvo.x+rnd(-0.6,0.6), 1.6, alvo.z+rnd(-0.6,0.6)),
+            new THREE.Vector3(rnd(-0.3,0.3), 1.2, rnd(-0.3,0.3)),
+            1.6
+          );
+        }
+        if(alvo.progresso>=1) apagar(alvo);
+      } else {
+        semAcertoT+=dt;
+        if(semAcertoT>3 && dicaCD<=0){
+          dicaCD=8; semAcertoT=0;
+          falarEMostrar('dica_'+nextN);
+        }
+      }
+    }
+  } else {
+    semJatoT+=dt;
+    if(!jaUsouJato && !dicaSprayFalada && semJatoT>15){
+      dicaSprayFalada=true;
+      falarEMostrar('dica_spray');
+    }
+  }
+  dicaCD=Math.max(0,dicaCD-dt);
+}
+
+function animarFogo(f,dt,t){
+  if(f.apagado){
+    if(f.apagandoT>0){
+      f.apagandoT-=dt;
+      const s=Math.max(0.001,f.apagandoT/0.8);
+      f.grupo.scale.set(s,s,s);
+      if(f.apagandoT<=0) f.grupo.visible=false;
+    }
+    return;
+  }
+  f.grupo.scale.y=1+Math.sin(t*10+f.fase)*0.12;
+  f.mats.forEach(m=>{ m.emissiveIntensity=1.2*(1-f.progresso*0.85); });
+}
+
+/* ==================== FLUXO DAS TELAS ==================== */
+function mostrar(id){
+  ['titulo','briefing','opcoes','vitoria'].forEach(x=>{
+    $(x).classList.toggle('oculto', x!==id);
+  });
+}
+function mostrarHUD(on){ $('hud').classList.toggle('oculto', !on); }
+function confete(on){
+  const c=$('confete');
+  c.innerHTML='';
+  if(!on){ c.classList.add('oculto'); return; }
+  c.classList.remove('oculto');
+  const emo=['🎉','⭐','🦴','🐾','🔥','💧','🏆'];
+  for(let i=0;i<70;i++){
+    const s=document.createElement('span');
+    s.textContent=emo[i%emo.length];
+    s.style.left=(Math.random()*100)+'%';
+    s.style.animationDelay=(Math.random()*2)+'s';
+    s.style.animationDuration=(2.6+Math.random()*2.2)+'s';
+    c.appendChild(s);
+  }
+}
+function vitoria(){
+  if(modo!=='jogando') return;
+  modo='vitoria';
+  mostrarHUD(false);
+  mostrar('vitoria');
+  biscoitos++;
+  store.set('pc_biscoitos',biscoitos);
+  $('biscoitos').textContent=biscoitos;
+  soar(523,0.3,0.2,'triangle',0);
+  soar(659,0.3,0.2,'triangle',0.2);
+  soar(784,0.45,0.22,'triangle',0.4);
+  falar('vitoria');
+  confete(true);
+}
+function voltarTitulo(){
+  modo='titulo';
+  mostrarHUD(false);
+  mostrar('titulo');
+  confete(false);
+  if(vozEl) vozEl.pause();
+  ducar(false);
+  resetarMissao();
+}
+window.podeVoltar=()=>modo!=='titulo';
+window.voltarAoTitulo=voltarTitulo;
+
+/* ==================== BOTÕES ==================== */
+$('btnMissao1').onclick=()=>{
+  iniciarAudio();
+  resetarMissao();
+  modo='briefing';
+  mostrar('briefing');
+  mostrarHUD(false);
+  falarEMostrar('briefing');
+};
+$('btnComecar').onclick=()=>{
+  iniciarAudio();
+  modo='jogando';
+  mostrar(null);
+  mostrarHUD(true);
+  atualizarHUD();
+  falarEMostrar('dica_1');
+};
+$('btnVoltarBrief').onclick=voltarTitulo;
+$('btnFarol').onclick=voltarTitulo;
+$('btnVoltarVit').onclick=voltarTitulo;
+
+$('btnOpcoes').onclick=()=>{ mostrar('opcoes'); };
+$('btnVoltarOpc').onclick=()=>{ mostrar('titulo'); };
+
+// Opções dos pais
+const sliders=[
+  ['volVoz','voz'], ['volMusica','musica'], ['volSfx','sfx'], ['sensi','sens']
+];
+for(const [id,chave] of sliders){
+  const el=$(id);
+  el.value=cfg[chave];
+  el.addEventListener('input',()=>{
+    cfg[chave]=parseFloat(el.value);
+    store.set('pc_cfg',cfg);
+    if(chave==='musica' && ganhoMusica) ganhoMusica.gain.value=0.5*cfg.musica;
+    if(chave==='sfx' && ganhoSfx) ganhoSfx.gain.value=cfg.sfx;
+  });
+}
+
+/* ==================== LOOP PRINCIPAL ==================== */
+function atualizar(dt,t){
+  feixo.rotation.y+=dt*0.9;
+  for(const f of fogos) animarFogo(f,dt,t);
+  M.rabo.rotation.z=Math.sin(t*6)*0.3;
+
+  if(modo==='titulo'){
+    camTitulo(t);
+    parado();
+  } else if(modo==='briefing'){
+    parado();
+    seguirCamera(dt);
+  } else if(modo==='jogando'){
+    jogar(dt,t);
+    seguirCamera(dt);
+  } else if(modo==='vitoria'){
+    parado();
+    dog.position.y=Math.abs(Math.sin(t*5))*0.3;
+    seguirCamera(dt);
+  }
+  agua.atualizar(dt,14);
+  vapor.atualizar(dt,-1.2);
+}
+
+addEventListener('resize',()=>{
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+});
+
+let ultimo=performance.now(), tempo=0;
+function frame(now){
+  const dt=Math.min(0.05,(now-ultimo)/1000);
+  ultimo=now;
+  tempo+=dt;
+  atualizar(dt,tempo);
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+})();
+</script>
+</body>
+</html>
