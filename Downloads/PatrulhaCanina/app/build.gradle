@@ -13,7 +13,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode runNumber.toInteger()
-        versionName '1.0.0-fase1'
+        versionName '2.0.0-fase2'
     }
 
     buildTypes {
