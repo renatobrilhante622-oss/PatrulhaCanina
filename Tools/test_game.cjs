@@ -12,6 +12,8 @@ const server=http.createServer((req,res)=>{const file=path.join(base,decodeURICo
   const read=()=>page.evaluate(()=>game.inspect());let s=await read();assert.match(s.renderer,/WebGL/);assert.equal(s.characters,8);assert.equal(s.areas.length,10);assert.ok(s.triangles>10000);assert.equal(await page.locator('#webgl-error').isVisible(),false);
   if(process.env.SCREENSHOT_DIR){fs.mkdirSync(process.env.SCREENSHOT_DIR,{recursive:true});await page.screenshot({path:path.join(process.env.SCREENSHOT_DIR,'menu.png')});}
   assert.equal(s.console.page,'main');assert.equal(await page.getByRole('button',{name:/MODO HISTÓRIA/}).isVisible(),true);
+  // Primeiro toque após abrir o app deve liberar o comunicador e a dublagem, mesmo sem visitar a base.
+  await page.getByRole('button',{name:/MODO HISTÓRIA/}).click();assert.equal((await read()).audio.ready,true);await page.getByRole('button',{name:'Ouvir a missão',exact:true}).click();await page.waitForFunction(()=>game.inspect().audio.briefingReady,{},{timeout:45000});await page.getByRole('button',{name:'Voltar ao menu',exact:true}).click();
   await page.getByRole('button',{name:/OPÇÕES DOS PAIS/}).click();
   await page.getByRole('slider',{name:'Volume da voz',exact:true}).focus();await page.keyboard.press('Home');await page.keyboard.press('ArrowRight');
   await page.getByRole('combobox',{name:'Qualidade gráfica'}).selectOption('low');await page.getByRole('combobox',{name:'Limite de quadros'}).selectOption('30');

@@ -30,3 +30,5 @@ const magnetWorld=new World();magnetWorld.empire=beltEmpire;Object.assign(magnet
 console.log('Física Tycoon: permanência/saída da esteira, melhoria anfíbia e ímã de 12m aprovados.');
 
 assert.doesNotThrow(()=>E.restore({animals:[null,4,'invalid',{}],buildings:[null,'invalid',{}],plots:[null,{},3]}));
+
+const fullAnimals=Array.from({length:84},(_,i)=>({id:i+1,species:i<80?'cow':'dragon',meal:10,earned:1}));assert.equal(E.restore({animals:fullAnimals}).animals.length,84);
